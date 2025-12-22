@@ -1,0 +1,14 @@
+# Development dependencies
+# Install with: pip install -r requirements.txt -r requirements-dev.txt
+
+# Testing
+pytest>=9.0.2
+pytest-asyncio>=1.3.0
+
+# Code quality
+ruff>=0.14.10
+pyright>=1.1.407
+
+# Development tools
+ipykernel>=6.29.5
+

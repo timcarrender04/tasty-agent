@@ -1,0 +1,22 @@
+# Core dependencies for tasty_agent
+# Generated from pyproject.toml and runtime requirements
+
+# Model Context Protocol
+mcp[cli]>=1.14.0
+
+# TastyTrade API
+tastytrade>=11.0.0
+
+# Utilities
+humanize>=4.12.3
+tabulate>=0.9.0
+
+# Async utilities
+aiolimiter==1.2.1
+aiocache>=0.12.2
+
+# Runtime dependencies (used in agent.py, background.py, etc.)
+python-dotenv>=1.1.0
+pydantic-ai>=0.4.6
+typer
+

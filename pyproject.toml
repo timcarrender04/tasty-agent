@@ -11,6 +11,8 @@ dependencies = [
     "aiolimiter==1.2.1",
     "tabulate>=0.9.0",
     "aiocache>=0.12.2",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
 ]
 authors = [{ name = "Ferdous", email = "ferdous@hey.com" }]
 keywords = ["tastytrade", "trading", "mcp", "model context protocol", "broker", "robinhood", "wallstreetbets"]
@@ -24,6 +26,7 @@ classifiers = [
 
 [project.scripts]
 tasty-agent = "tasty_agent.server:mcp_app.run"
+tasty-agent-http = "tasty_agent.http_server:main"
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]

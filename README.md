@@ -56,6 +56,82 @@ A Model Context Protocol server for TastyTrade brokerage accounts. Enables LLMs 
 - Built-in rate limiting (2 requests/second) prevents API throttling
 - Comprehensive error handling and logging
 
+## HTTP Server Mode (For Multiple Kiosks)
+
+The HTTP server mode allows multiple kiosks/clients to connect to a single TastyTrade API server via REST endpoints. This is ideal for deploying a centralized server that multiple applications can access.
+
+### Starting the HTTP Server
+
+```bash
+# Set required environment variables
+export TASTYTRADE_CLIENT_SECRET=your_client_secret
+export TASTYTRADE_REFRESH_TOKEN=your_refresh_token
+export TASTYTRADE_ACCOUNT_ID=your_account_id  # optional, defaults to first account
+
+# Set API key for authentication (REQUIRED for production)
+export API_KEY=your-secure-api-key-here
+
+# Optional: Configure CORS origins (comma-separated, default: "*")
+export CORS_ORIGINS=http://localhost:3000,https://yourdomain.com
+
+# Optional: Configure host and port (default: 0.0.0.0:8000)
+export HOST=0.0.0.0
+export PORT=8000
+
+# Run the HTTP server
+uv run tasty-agent-http
+
+# Or with uvicorn directly
+uvicorn tasty_agent.http_server:app --host 0.0.0.0 --port 8000
+```
+
+### API Authentication
+
+All endpoints (except `/health`) require an API key in the `X-API-Key` header:
+
+```bash
+curl -H "X-API-Key: your-secure-api-key-here" http://localhost:8000/api/v1/balances
+```
+
+### API Endpoints
+
+All MCP tools are available as REST endpoints under `/api/v1/`:
+
+- **Account & Portfolio**: `GET /api/v1/balances`, `GET /api/v1/positions`, `GET /api/v1/net-liquidating-value-history`
+- **Market Data**: `POST /api/v1/quotes`, `POST /api/v1/greeks`, `POST /api/v1/market-metrics`, `GET /api/v1/market-status`, `GET /api/v1/search-symbols`
+- **History**: `GET /api/v1/transaction-history`, `GET /api/v1/order-history`
+- **Trading**: `GET /api/v1/live-orders`, `POST /api/v1/place-order`, `POST /api/v1/replace-order/{order_id}`, `DELETE /api/v1/orders/{order_id}`
+- **Watchlists**: `GET /api/v1/watchlists`, `POST /api/v1/watchlists/private/manage`, `DELETE /api/v1/watchlists/private/{name}`
+- **Utility**: `GET /api/v1/current-time`, `GET /health`
+
+### Example API Requests
+
+```bash
+# Get account balances
+curl -H "X-API-Key: your-api-key" http://localhost:8000/api/v1/balances
+
+# Get quotes for multiple instruments
+curl -X POST -H "X-API-Key: your-api-key" -H "Content-Type: application/json" \
+  -d '[{"symbol": "AAPL"}, {"symbol": "SPY", "option_type": "C", "strike_price": 450, "expiration_date": "2024-12-20"}]' \
+  http://localhost:8000/api/v1/quotes
+
+# Place an order
+curl -X POST -H "X-API-Key: your-api-key" -H "Content-Type: application/json" \
+  -d '{"legs": [{"symbol": "AAPL", "action": "Buy", "quantity": 100}], "dry_run": true}' \
+  http://localhost:8000/api/v1/place-order
+
+# Get market metrics
+curl -X POST -H "X-API-Key: your-api-key" -H "Content-Type: application/json" \
+  -d '["AAPL", "SPY", "TQQQ"]' \
+  http://localhost:8000/api/v1/market-metrics
+```
+
+### Interactive API Documentation
+
+Once the server is running, visit:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
 ### MCP Client Configuration
 
 Add to your MCP client configuration (e.g., `claude_desktop_config.json`):
