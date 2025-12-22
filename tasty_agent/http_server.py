@@ -2,6 +2,7 @@
 HTTP Server for TastyTrade API - Allows multiple kiosks to connect via REST API.
 """
 import asyncio
+import json
 import logging
 import os
 from collections.abc import AsyncIterator, Awaitable, Callable, Sequence
@@ -9,13 +10,14 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
+from pathlib import Path
 from typing import Any, Literal
 
 import humanize
 from aiocache import Cache, cached
 from aiocache.serializers import PickleSerializer
 from aiolimiter import AsyncLimiter
-from fastapi import FastAPI, HTTPException, Header, Depends, status
+from fastapi import FastAPI, HTTPException, Header, Depends, Query, status
 from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -29,6 +31,7 @@ from tastytrade.order import InstrumentType, NewOrder, OrderAction, OrderTimeInF
 from tastytrade.search import a_symbol_search
 from tastytrade.streamer import DXLinkStreamer
 from tastytrade.utils import now_in_new_york
+from tastytrade.watchlists import PrivateWatchlist, PublicWatchlist
 
 logger = logging.getLogger(__name__)
 
@@ -36,16 +39,79 @@ rate_limiter = AsyncLimiter(2, 1)  # 2 requests per second
 
 # API Key authentication
 API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
-API_KEY = os.getenv("API_KEY", "change-me-in-production")
+
+
+def load_credentials() -> dict[str, tuple[str, str]]:
+    """Load credentials from environment variables and/or JSON configuration."""
+    credentials: dict[str, tuple[str, str]] = {}
+    
+    # Load from JSON environment variable
+    credentials_json = os.getenv("TASTYTRADE_CREDENTIALS_JSON")
+    if credentials_json:
+        try:
+            creds_dict = json.loads(credentials_json)
+            for api_key, cred_data in creds_dict.items():
+                if isinstance(cred_data, dict):
+                    client_secret = cred_data.get("client_secret")
+                    refresh_token = cred_data.get("refresh_token")
+                    if client_secret and refresh_token:
+                        credentials[api_key] = (client_secret, refresh_token)
+                    else:
+                        logger.warning(f"Missing client_secret or refresh_token for API key: {api_key}")
+                else:
+                    logger.warning(f"Invalid credential format for API key: {api_key}")
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse TASTYTRADE_CREDENTIALS_JSON: {e}")
+    
+    # Load from JSON file if it exists
+    creds_file = Path("credentials.json")
+    if creds_file.exists():
+        try:
+            with open(creds_file, "r") as f:
+                creds_dict = json.load(f)
+            for api_key, cred_data in creds_dict.items():
+                if isinstance(cred_data, dict):
+                    client_secret = cred_data.get("client_secret")
+                    refresh_token = cred_data.get("refresh_token")
+                    if client_secret and refresh_token:
+                        credentials[api_key] = (client_secret, refresh_token)
+                    else:
+                        logger.warning(f"Missing client_secret or refresh_token for API key: {api_key}")
+        except Exception as e:
+            logger.error(f"Failed to load credentials.json: {e}")
+    
+    # Load from legacy environment variables (backward compatibility)
+    client_secret = os.getenv("TASTYTRADE_CLIENT_SECRET")
+    refresh_token = os.getenv("TASTYTRADE_REFRESH_TOKEN")
+    default_api_key = os.getenv("API_KEY", "default")
+    
+    if client_secret and refresh_token:
+        if default_api_key not in credentials:
+            credentials[default_api_key] = (client_secret, refresh_token)
+            logger.info(f"Loaded default credentials for API key: {default_api_key}")
+        else:
+            logger.warning(f"API key {default_api_key} already exists in credentials, skipping default env vars")
+    
+    if not credentials:
+        logger.warning("No credentials loaded. Server may not work correctly.")
+    
+    return credentials
 
 
 async def verify_api_key(api_key: str = Depends(API_KEY_HEADER)) -> str:
-    """Verify API key from header."""
-    if not api_key or api_key != API_KEY:
+    """Verify API key from header and ensure credentials exist."""
+    if not api_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or missing API key. Provide X-API-Key header."
+            detail="Missing API key. Provide X-API-Key header."
         )
+    
+    if api_key not in api_key_credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid API key. No credentials configured for this key."
+        )
+    
     return api_key
 
 
@@ -95,70 +161,163 @@ def to_table(data: Sequence[BaseModel]) -> str:
 @dataclass
 class ServerContext:
     session: Session
-    account: Account
+    accounts: list[Account]
 
 
-# Global server context (initialized at startup)
-server_context: ServerContext | None = None
+# Credential mapping: API key -> (client_secret, refresh_token)
+api_key_credentials: dict[str, tuple[str, str]] = {}
+
+# Session cache: API key -> ServerContext
+api_key_sessions: dict[str, ServerContext] = {}
 
 
-def get_valid_session() -> Session:
-    """Get a valid session, refreshing if expired or about to expire."""
-    global server_context
-    if not server_context:
-        raise HTTPException(status_code=500, detail="Server not initialized")
+def get_api_key_context(api_key: str) -> ServerContext:
+    """Get or create ServerContext for an API key with lazy initialization."""
+    global api_key_sessions
     
-    session = server_context.session
+    # Check if context already exists
+    if api_key in api_key_sessions:
+        context = api_key_sessions[api_key]
+        session = context.session
+        
+        # Refresh if expired or expiring within 5 seconds
+        time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
+        if time_until_expiry < 5:
+            logger.info(f"Session expiring in {time_until_expiry:.0f}s for API key {api_key[:8]}..., refreshing...")
+            session.refresh()
+            logger.info(f"Session refreshed, new expiration: {session.session_expiration}")
+        
+        return context
     
-    # Refresh if expired or expiring within 5 seconds
-    time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
-    if time_until_expiry < 5:
-        logger.info(f"Session expiring in {time_until_expiry:.0f}s, refreshing...")
-        session.refresh()
-        logger.info(f"Session refreshed, new expiration: {session.session_expiration}")
-    
-    return session
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Manages Tastytrade session lifecycle."""
-    global server_context
-    
-    client_secret = os.getenv("TASTYTRADE_CLIENT_SECRET")
-    refresh_token = os.getenv("TASTYTRADE_REFRESH_TOKEN")
-    account_id = os.getenv("TASTYTRADE_ACCOUNT_ID")
-    
-    if not client_secret or not refresh_token:
-        logger.error("Missing Tastytrade OAuth credentials. Set TASTYTRADE_CLIENT_SECRET and TASTYTRADE_REFRESH_TOKEN environment variables.")
-        raise ValueError(
-            "Missing Tastytrade OAuth credentials. Set TASTYTRADE_CLIENT_SECRET and "
-            "TASTYTRADE_REFRESH_TOKEN environment variables."
+    # Create new context if credentials exist
+    if api_key not in api_key_credentials:
+        raise HTTPException(
+            status_code=500,
+            detail=f"No credentials configured for API key {api_key[:8]}..."
         )
+    
+    client_secret, refresh_token = api_key_credentials[api_key]
     
     try:
         session = Session(client_secret, refresh_token)
         accounts = Account.get(session)
-        logger.info(f"Successfully authenticated with Tastytrade. Found {len(accounts)} account(s).")
+        logger.info(f"Successfully authenticated API key {api_key[:8]}... with Tastytrade. Found {len(accounts)} account(s).")
+        
+        context = ServerContext(session=session, accounts=accounts)
+        api_key_sessions[api_key] = context
+        return context
     except Exception as e:
-        logger.error(f"Failed to authenticate with Tastytrade: {e}")
-        raise
+        logger.error(f"Failed to authenticate API key {api_key[:8]}... with Tastytrade: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to authenticate with Tastytrade: {e}"
+        ) from e
+
+
+def get_account_context(api_key: str, account_id: str | None) -> tuple[Session, Account]:
+    """Get session and account for a given API key and account ID."""
+    if not account_id:
+        raise HTTPException(
+            status_code=400,
+            detail="account_id is required. Provide it as a query parameter."
+        )
     
-    if account_id:
-        account = next((acc for acc in accounts if acc.account_number == account_id), None)
-        if not account:
-            logger.error(f"Account '{account_id}' not found in available accounts: {[acc.account_number for acc in accounts]}")
-            raise ValueError(f"Account '{account_id}' not found.")
-        logger.info(f"Using specified account: {account.account_number}")
-    else:
-        account = accounts[0]
-        logger.info(f"Using default account: {account.account_number}")
+    context = get_api_key_context(api_key)
     
-    server_context = ServerContext(session=session, account=account)
+    # Find the specified account
+    account = next((acc for acc in context.accounts if acc.account_number == account_id), None)
+    if not account:
+        available_accounts = [acc.account_number for acc in context.accounts]
+        raise HTTPException(
+            status_code=404,
+            detail=f"Account '{account_id}' not found. Available accounts: {available_accounts}"
+        )
+    
+    return context.session, account
+
+
+def get_valid_session(api_key: str) -> Session:
+    """Get a valid session for an API key, refreshing if expired or about to expire."""
+    context = get_api_key_context(api_key)
+    return context.session
+
+
+async def keep_sessions_alive():
+    """Background task to periodically refresh sessions before they expire."""
+    # Check every 5 minutes (sessions expire after 15 minutes)
+    check_interval = 5 * 60  # 5 minutes in seconds
+    
+    while True:
+        try:
+            await asyncio.sleep(check_interval)
+            
+            # Check all active sessions
+            for api_key, context in list(api_key_sessions.items()):
+                try:
+                    session = context.session
+                    time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
+                    
+                    # Refresh if expiring within 10 minutes (buffer for network issues)
+                    if time_until_expiry < 10 * 60:
+                        logger.info(f"Refreshing session for API key {api_key[:8]}... (expires in {time_until_expiry/60:.1f} min)")
+                        session.refresh()
+                        logger.debug(f"Session refreshed, new expiration: {session.session_expiration}")
+                except Exception as e:
+                    logger.error(f"Failed to refresh session for API key {api_key[:8]}...: {e}")
+                    # Remove invalid session so it can be recreated on next request
+                    api_key_sessions.pop(api_key, None)
+        except asyncio.CancelledError:
+            logger.info("Session keep-alive task cancelled")
+            break
+        except Exception as e:
+            logger.error(f"Error in keep-alive task: {e}")
+            # Continue running even if there's an error
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """Manages Tastytrade credential loading and session lifecycle."""
+    global api_key_credentials, api_key_sessions
+    
+    # Load credentials at startup
+    api_key_credentials = load_credentials()
+    
+    if not api_key_credentials:
+        logger.warning(
+            "No credentials loaded. Set TASTYTRADE_CLIENT_SECRET and TASTYTRADE_REFRESH_TOKEN "
+            "environment variables, or configure TASTYTRADE_CREDENTIALS_JSON, or create credentials.json"
+        )
+    
+    logger.info(f"Loaded credentials for {len(api_key_credentials)} API key(s)")
+    
+    # Start background task to keep sessions alive
+    keep_alive_task = asyncio.create_task(keep_sessions_alive())
     
     yield
     
-    server_context = None
+    # Cleanup on shutdown
+    keep_alive_task.cancel()
+    try:
+        await keep_alive_task
+    except asyncio.CancelledError:
+        pass
+    api_key_sessions.clear()
+    api_key_credentials.clear()
+
+
+async def get_session_and_account(
+    api_key: str = Depends(verify_api_key),
+    account_id: str = Query(..., description="TastyTrade account ID")
+) -> tuple[Session, Account]:
+    """Dependency to get session and account for an API key and account ID."""
+    return get_account_context(api_key, account_id)
+
+
+async def get_session_only(
+    api_key: str = Depends(verify_api_key)
+) -> Session:
+    """Dependency to get session only (for endpoints that don't need account)."""
+    return get_valid_session(api_key)
 
 
 # FastAPI app
@@ -308,9 +467,8 @@ async def _fetch_quotes_raw(session: Session, instrument_details: list[Instrumen
     return await _stream_events(session, Quote, [d.streamer_symbol for d in instrument_details], timeout)
 
 
-async def calculate_net_price(instrument_details: list[InstrumentDetail], legs: list[OrderLeg]) -> float:
+async def calculate_net_price(session: Session, instrument_details: list[InstrumentDetail], legs: list[OrderLeg]) -> float:
     """Calculate net price from current market quotes."""
-    session = get_valid_session()
     quotes = await _fetch_quotes_raw(session, instrument_details)
     
     net_price = 0.0
@@ -335,32 +493,37 @@ async def calculate_net_price(instrument_details: list[InstrumentDetail], legs: 
 # ACCOUNT & POSITION ENDPOINTS
 # =============================================================================
 
-@app.get("/api/v1/balances", dependencies=[Depends(verify_api_key)])
-async def get_balances() -> dict[str, Any]:
+@app.get("/api/v1/balances")
+async def get_balances(
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
+) -> dict[str, Any]:
     """Get account balances and buying power."""
-    session = get_valid_session()
-    balances = await server_context.account.a_get_balances(session)
+    session, account = session_and_account
+    balances = await account.a_get_balances(session)
     return {k: v for k, v in balances.model_dump().items() if v is not None and v != 0}
 
 
-@app.get("/api/v1/positions", dependencies=[Depends(verify_api_key)])
-async def get_positions() -> dict[str, Any]:
+@app.get("/api/v1/positions")
+async def get_positions(
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
+) -> dict[str, Any]:
     """Get all open positions with current values."""
-    session = get_valid_session()
-    positions = await server_context.account.a_get_positions(session, include_marks=True)
+    session, account = session_and_account
+    positions = await account.a_get_positions(session, include_marks=True)
     return {
         "positions": [pos.model_dump() for pos in positions],
         "table": to_table(positions)
     }
 
 
-@app.get("/api/v1/net-liquidating-value-history", dependencies=[Depends(verify_api_key)])
+@app.get("/api/v1/net-liquidating-value-history")
 async def get_net_liquidating_value_history(
-    time_back: Literal['1d', '1m', '3m', '6m', '1y', 'all'] = '1y'
+    time_back: Literal['1d', '1m', '3m', '6m', '1y', 'all'] = '1y',
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """Get portfolio value history over time."""
-    session = get_valid_session()
-    history = await server_context.account.a_get_net_liquidating_value_history(session, time_back=time_back)
+    session, account = session_and_account
+    history = await account.a_get_net_liquidating_value_history(session, time_back=time_back)
     return {
         "history": [h.model_dump() for h in history],
         "table": to_table(history)
@@ -371,16 +534,16 @@ async def get_net_liquidating_value_history(
 # MARKET DATA ENDPOINTS
 # =============================================================================
 
-@app.post("/api/v1/quotes", dependencies=[Depends(verify_api_key)])
+@app.post("/api/v1/quotes")
 async def get_quotes(
     instruments: list[InstrumentSpec],
-    timeout: float = 10.0
+    timeout: float = 10.0,
+    session: Session = Depends(get_session_only)
 ) -> dict[str, Any]:
     """Get live quotes for multiple stocks and/or options."""
     if not instruments:
         raise HTTPException(status_code=400, detail="At least one instrument is required")
     
-    session = get_valid_session()
     instrument_details = await get_instrument_details(session, instruments)
     
     try:
@@ -397,16 +560,16 @@ async def get_quotes(
         raise HTTPException(status_code=500, detail=f"Error getting quotes: {e}") from e
 
 
-@app.post("/api/v1/greeks", dependencies=[Depends(verify_api_key)])
+@app.post("/api/v1/greeks")
 async def get_greeks(
     options: list[InstrumentSpec],
-    timeout: float = 10.0
+    timeout: float = 10.0,
+    session: Session = Depends(get_session_only)
 ) -> dict[str, Any]:
     """Get Greeks (delta, gamma, theta, vega, rho) for multiple options."""
     if not options:
         raise HTTPException(status_code=400, detail="At least one option is required")
     
-    session = get_valid_session()
     option_details = await get_instrument_details(session, options)
     
     try:
@@ -423,10 +586,12 @@ async def get_greeks(
         raise HTTPException(status_code=500, detail=f"Error getting Greeks: {e}") from e
 
 
-@app.post("/api/v1/market-metrics", dependencies=[Depends(verify_api_key)])
-async def get_market_metrics(symbols: list[str]) -> dict[str, Any]:
+@app.post("/api/v1/market-metrics")
+async def get_market_metrics(
+    symbols: list[str],
+    session: Session = Depends(get_session_only)
+) -> dict[str, Any]:
     """Get market metrics including IV rank, percentile, beta, liquidity for multiple symbols."""
-    session = get_valid_session()
     metrics = await a_get_market_metrics(session, symbols)
     return {
         "metrics": [m.model_dump() for m in metrics],
@@ -434,14 +599,14 @@ async def get_market_metrics(symbols: list[str]) -> dict[str, Any]:
     }
 
 
-@app.get("/api/v1/market-status", dependencies=[Depends(verify_api_key)])
+@app.get("/api/v1/market-status")
 async def market_status(
-    exchanges: list[Literal['Equity', 'CME', 'CFE', 'Smalls']] | None = None
+    exchanges: list[Literal['Equity', 'CME', 'CFE', 'Smalls']] | None = None,
+    session: Session = Depends(get_session_only)
 ) -> list[dict[str, Any]]:
     """Get market status for each exchange including current open/closed state."""
     if exchanges is None:
         exchanges = ['Equity']
-    session = get_valid_session()
     market_sessions = await a_get_market_sessions(session, [ExchangeType(exchange) for exchange in exchanges])
     
     if not market_sessions:
@@ -487,10 +652,12 @@ def _get_next_open_time(session, current_time: datetime) -> datetime | None:
     return None
 
 
-@app.get("/api/v1/search-symbols", dependencies=[Depends(verify_api_key)])
-async def search_symbols(symbol: str) -> dict[str, Any]:
+@app.get("/api/v1/search-symbols")
+async def search_symbols(
+    symbol: str,
+    session: Session = Depends(get_session_only)
+) -> dict[str, Any]:
     """Search for symbols similar to the given search phrase."""
-    session = get_valid_session()
     async with rate_limiter:
         results = await a_symbol_search(session, symbol)
     return {
@@ -503,18 +670,19 @@ async def search_symbols(symbol: str) -> dict[str, Any]:
 # HISTORY ENDPOINTS
 # =============================================================================
 
-@app.get("/api/v1/transaction-history", dependencies=[Depends(verify_api_key)])
+@app.get("/api/v1/transaction-history")
 async def get_transaction_history(
     days: int = 90,
     underlying_symbol: str | None = None,
-    transaction_type: Literal["Trade", "Money Movement"] | None = None
+    transaction_type: Literal["Trade", "Money Movement"] | None = None,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """Get account transaction history including trades and money movements."""
-    session = get_valid_session()
+    session, account = session_and_account
     start = date.today() - timedelta(days=days)
     
     trades = await _paginate(
-        lambda offset: server_context.account.a_get_history(
+        lambda offset: account.a_get_history(
             session, start_date=start, underlying_symbol=underlying_symbol,
             type=transaction_type, per_page=250, page_offset=offset
         ),
@@ -526,17 +694,18 @@ async def get_transaction_history(
     }
 
 
-@app.get("/api/v1/order-history", dependencies=[Depends(verify_api_key)])
+@app.get("/api/v1/order-history")
 async def get_order_history(
     days: int = 7,
-    underlying_symbol: str | None = None
+    underlying_symbol: str | None = None,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """Get all order history for the last N days."""
-    session = get_valid_session()
+    session, account = session_and_account
     start = date.today() - timedelta(days=days)
     
     orders = await _paginate(
-        lambda offset: server_context.account.a_get_order_history(
+        lambda offset: account.a_get_order_history(
             session, start_date=start, underlying_symbol=underlying_symbol,
             per_page=50, page_offset=offset
         ),
@@ -552,30 +721,33 @@ async def get_order_history(
 # TRADING ENDPOINTS
 # =============================================================================
 
-@app.get("/api/v1/live-orders", dependencies=[Depends(verify_api_key)])
-async def get_live_orders() -> dict[str, Any]:
+@app.get("/api/v1/live-orders")
+async def get_live_orders(
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
+) -> dict[str, Any]:
     """Get currently active orders."""
-    session = get_valid_session()
-    orders = await server_context.account.a_get_live_orders(session)
+    session, account = session_and_account
+    orders = await account.a_get_live_orders(session)
     return {
         "orders": [o.model_dump() for o in orders],
         "table": to_table(orders)
     }
 
 
-@app.post("/api/v1/place-order", dependencies=[Depends(verify_api_key)])
+@app.post("/api/v1/place-order")
 async def place_order(
     legs: list[OrderLeg],
     price: float | None = None,
     time_in_force: Literal['Day', 'GTC', 'IOC'] = 'Day',
-    dry_run: bool = False
+    dry_run: bool = False,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """Place multi-leg options/equity orders."""
     async with rate_limiter:
         if not legs:
             raise HTTPException(status_code=400, detail="At least one leg is required")
         
-        session = get_valid_session()
+        session, account = session_and_account
         # Convert OrderLeg to InstrumentSpec for instrument lookup
         instrument_specs = [
             InstrumentSpec(
@@ -591,7 +763,7 @@ async def place_order(
         # Calculate price if not provided
         if price is None:
             try:
-                price = await calculate_net_price(instrument_details, legs)
+                price = await calculate_net_price(session, instrument_details, legs)
                 logger.info(f"Auto-calculated price ${price:.2f} for {len(legs)}-leg order")
             except Exception as e:
                 logger.warning(f"Failed to auto-calculate price for order legs {[leg.symbol for leg in legs]}: {e!s}")
@@ -600,7 +772,7 @@ async def place_order(
                     detail=f"Could not fetch quotes for price calculation: {e!s}. Please provide a price."
                 ) from e
         
-        result = await server_context.account.a_place_order(
+        result = await account.a_place_order(
             session,
             NewOrder(
                 time_in_force=OrderTimeInForce(time_in_force),
@@ -613,17 +785,18 @@ async def place_order(
         return result.model_dump()
 
 
-@app.post("/api/v1/replace-order/{order_id}", dependencies=[Depends(verify_api_key)])
+@app.post("/api/v1/replace-order/{order_id}")
 async def replace_order(
     order_id: str,
-    price: float
+    price: float,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """Replace (modify) an existing order with a new price."""
     async with rate_limiter:
-        session = get_valid_session()
+        session, account = session_and_account
         
         # Get the existing order
-        live_orders = await server_context.account.a_get_live_orders(session)
+        live_orders = await account.a_get_live_orders(session)
         existing_order = next((order for order in live_orders if str(order.id) == order_id), None)
         
         if not existing_order:
@@ -634,7 +807,7 @@ async def replace_order(
             )
         
         # Replace order with modified price
-        result = await server_context.account.a_replace_order(
+        result = await account.a_replace_order(
             session,
             int(order_id),
             NewOrder(
@@ -647,11 +820,14 @@ async def replace_order(
         return result.model_dump()
 
 
-@app.delete("/api/v1/orders/{order_id}", dependencies=[Depends(verify_api_key)])
-async def delete_order(order_id: str) -> dict[str, Any]:
+@app.delete("/api/v1/orders/{order_id}")
+async def delete_order(
+    order_id: str,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
+) -> dict[str, Any]:
     """Cancel an existing order."""
-    session = get_valid_session()
-    await server_context.account.a_delete_order(session, int(order_id))
+    session, account = session_and_account
+    await account.a_delete_order(session, int(order_id))
     return {"success": True, "order_id": order_id}
 
 
@@ -659,13 +835,13 @@ async def delete_order(order_id: str) -> dict[str, Any]:
 # WATCHLIST ENDPOINTS
 # =============================================================================
 
-@app.get("/api/v1/watchlists", dependencies=[Depends(verify_api_key)])
+@app.get("/api/v1/watchlists")
 async def get_watchlists(
     watchlist_type: Literal['public', 'private'] = 'private',
-    name: str | None = None
+    name: str | None = None,
+    session: Session = Depends(get_session_only)
 ) -> list[dict[str, Any]]:
     """Get watchlists for market insights and tracking."""
-    session = get_valid_session()
     watchlist_class = PublicWatchlist if watchlist_type == 'public' else PrivateWatchlist
     
     if name:
@@ -673,14 +849,14 @@ async def get_watchlists(
     return [w.model_dump() for w in await watchlist_class.a_get(session)]
 
 
-@app.post("/api/v1/watchlists/private/manage", dependencies=[Depends(verify_api_key)])
+@app.post("/api/v1/watchlists/private/manage")
 async def manage_private_watchlist(
     action: Literal["add", "remove"],
     symbols: list[WatchlistSymbol],
-    name: str = "main"
+    name: str = "main",
+    session: Session = Depends(get_session_only)
 ) -> dict[str, Any]:
     """Add or remove multiple symbols from a private watchlist."""
-    session = get_valid_session()
     
     if not symbols:
         raise HTTPException(status_code=400, detail="At least one symbol is required")
@@ -721,10 +897,12 @@ async def manage_private_watchlist(
             raise HTTPException(status_code=500, detail=f"Failed to remove symbols: {e}") from e
 
 
-@app.delete("/api/v1/watchlists/private/{name}", dependencies=[Depends(verify_api_key)])
-async def delete_private_watchlist(name: str) -> dict[str, Any]:
+@app.delete("/api/v1/watchlists/private/{name}")
+async def delete_private_watchlist(
+    name: str,
+    session: Session = Depends(get_session_only)
+) -> dict[str, Any]:
     """Delete a private watchlist."""
-    session = get_valid_session()
     await PrivateWatchlist.a_remove(session, name)
     return {"success": True, "watchlist": name}
 
@@ -733,8 +911,10 @@ async def delete_private_watchlist(name: str) -> dict[str, Any]:
 # UTILITY ENDPOINTS
 # =============================================================================
 
-@app.get("/api/v1/current-time", dependencies=[Depends(verify_api_key)])
-async def get_current_time_nyc() -> dict[str, str]:
+@app.get("/api/v1/current-time")
+async def get_current_time_nyc(
+    session: Session = Depends(get_session_only)
+) -> dict[str, str]:
     """Get current time in New York timezone (market time)."""
     return {"current_time_nyc": now_in_new_york().isoformat()}
 

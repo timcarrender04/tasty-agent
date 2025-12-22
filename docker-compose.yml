@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  http-server:
+    build: .
+    container_name: tasty-agent-http
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      - TASTYTRADE_CLIENT_SECRET=${TASTYTRADE_CLIENT_SECRET}
+      - TASTYTRADE_REFRESH_TOKEN=${TASTYTRADE_REFRESH_TOKEN}
+      - TASTYTRADE_ACCOUNT_ID=${TASTYTRADE_ACCOUNT_ID:-}
+      - TASTYTRADE_CREDENTIALS_JSON=${TASTYTRADE_CREDENTIALS_JSON:-}
+      - API_KEY=${API_KEY}
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-8000}
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+      - RELOAD=${RELOAD:-false}
+    # Optional: Uncomment to mount credentials.json file
+    # volumes:
+    #   - ./credentials.json:/app/credentials.json:ro
+    command: python -c "from tasty_agent.http_server import main; main()"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  mcp-server:
+    build: .
+    container_name: tasty-agent-mcp
+    environment:
+      - TASTYTRADE_CLIENT_SECRET=${TASTYTRADE_CLIENT_SECRET}
+      - TASTYTRADE_REFRESH_TOKEN=${TASTYTRADE_REFRESH_TOKEN}
+      - TASTYTRADE_ACCOUNT_ID=${TASTYTRADE_ACCOUNT_ID:-}
+    # Optional: Uncomment to mount credentials.json file
+    # volumes:
+    #   - ./credentials.json:/app/credentials.json:ro
+    command: python -c "from tasty_agent.server import mcp_app; mcp_app.run()"
+    restart: unless-stopped
+    # MCP server communicates via stdio, so no ports needed
+    stdin_open: true
+    tty: true
+

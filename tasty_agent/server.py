@@ -102,6 +102,31 @@ def get_valid_session(ctx: Context) -> Session:
 
     return session
 
+
+async def keep_session_alive(session: Session):
+    """Background task to periodically refresh session before it expires."""
+    # Check every 5 minutes (sessions expire after 15 minutes)
+    check_interval = 5 * 60  # 5 minutes in seconds
+    
+    while True:
+        try:
+            await asyncio.sleep(check_interval)
+            
+            time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
+            
+            # Refresh if expiring within 10 minutes (buffer for network issues)
+            if time_until_expiry < 10 * 60:
+                logger.info(f"Refreshing session (expires in {time_until_expiry/60:.1f} min)")
+                session.refresh()
+                logger.debug(f"Session refreshed, new expiration: {session.session_expiration}")
+        except asyncio.CancelledError:
+            logger.info("Session keep-alive task cancelled")
+            break
+        except Exception as e:
+            logger.error(f"Error refreshing session in keep-alive task: {e}")
+            # Continue running even if there's an error
+
+
 @asynccontextmanager
 async def lifespan(_) -> AsyncIterator[ServerContext]:
     """Manages Tastytrade session lifecycle."""
@@ -135,10 +160,22 @@ async def lifespan(_) -> AsyncIterator[ServerContext]:
         account = accounts[0]
         logger.info(f"Using default account: {account.account_number}")
 
-    yield ServerContext(
+    context = ServerContext(
         session=session,
         account=account
     )
+    
+    # Start background task to keep session alive
+    keep_alive_task = asyncio.create_task(keep_session_alive(session))
+    
+    yield context
+    
+    # Cleanup on shutdown
+    keep_alive_task.cancel()
+    try:
+        await keep_alive_task
+    except asyncio.CancelledError:
+        pass
 
 mcp_app = FastMCP("TastyTrade", lifespan=lifespan)
 
