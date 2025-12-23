@@ -545,6 +545,113 @@ def build_order_legs(instrument_details: list[InstrumentDetail], legs: list[Orde
     return built_legs
 
 
+def build_new_order(
+    order_type: str,
+    legs: list,
+    time_in_force: str,
+    price: Decimal | None = None,
+    stop_price: Decimal | None = None,
+    trail_price: Decimal | None = None,
+    trail_percent: Decimal | None = None
+) -> NewOrder:
+    """
+    Build a NewOrder with proper parameters based on order type.
+    
+    Args:
+        order_type: 'Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'
+        legs: Built order legs
+        time_in_force: 'Day', 'GTC', 'IOC', etc.
+        price: Limit price (required for Limit, StopLimit)
+        stop_price: Stop trigger price (required for Stop, StopLimit)
+        trail_price: Trailing stop amount in dollars (for TrailingStop)
+        trail_percent: Trailing stop percentage (for TrailingStop, alternative to trail_price)
+    
+    Returns:
+        Configured NewOrder object
+    """
+    # Convert string order_type to enum, handling different naming conventions
+    order_type_upper = order_type.upper().replace('_', '')
+    order_type_mapping = {
+        'MARKET': 'MARKET',
+        'LIMIT': 'LIMIT',
+        'STOP': 'STOP',
+        'STOPLIMIT': 'STOP_LIMIT',
+        'STOP_LIMIT': 'STOP_LIMIT',
+        'TRAILINGSTOP': 'TRAILING_STOP',
+        'TRAILING_STOP': 'TRAILING_STOP'
+    }
+    
+    enum_name = order_type_mapping.get(order_type_upper)
+    if enum_name is None:
+        # Try to use the order_type string directly as enum value name
+        try:
+            order_type_enum = OrderType[order_type_upper]
+        except (KeyError, AttributeError):
+            # Fall back to using the string directly and let OrderType constructor handle it
+            order_type_enum = OrderType(order_type)
+    else:
+        try:
+            order_type_enum = OrderType[enum_name]
+        except (KeyError, AttributeError):
+            # Fall back to using the string directly
+            order_type_enum = OrderType(order_type)
+    
+    time_in_force_enum = OrderTimeInForce(time_in_force)
+    
+    # Build base order kwargs
+    order_kwargs = {
+        "order_type": order_type_enum,
+        "time_in_force": time_in_force_enum,
+        "legs": legs
+    }
+    
+    # Add parameters based on order type (try enum comparison first, then string fallback)
+    order_type_str = str(order_type_enum).upper()
+    if hasattr(order_type_enum, 'value'):
+        order_type_str = str(order_type_enum.value).upper()
+    
+    # Determine order type category using string matching (works regardless of enum naming)
+    is_market = 'MARKET' in order_type_str
+    is_limit_only = 'LIMIT' in order_type_str and 'STOP' not in order_type_str
+    is_stop_limit = 'STOP' in order_type_str and 'LIMIT' in order_type_str
+    is_stop_only = 'STOP' in order_type_str and 'TRAILING' not in order_type_str and 'LIMIT' not in order_type_str
+    is_trailing_stop = 'TRAILING' in order_type_str or 'TRAIL' in order_type_str
+    
+    if is_market:
+        # Market orders don't need price
+        pass
+    elif is_limit_only:
+        if price is None:
+            raise ValueError("price is required for Limit orders")
+        order_kwargs["price"] = price
+    elif is_stop_limit:
+        if price is None:
+            raise ValueError("price is required for StopLimit orders")
+        if stop_price is None:
+            raise ValueError("stop_price is required for StopLimit orders")
+        order_kwargs["price"] = price
+        order_kwargs["stop_price"] = stop_price
+    elif is_stop_only:
+        if stop_price is None:
+            raise ValueError("stop_price is required for Stop orders")
+        order_kwargs["stop_price"] = stop_price
+    elif is_trailing_stop:
+        if trail_price is None and trail_percent is None:
+            raise ValueError("trail_price or trail_percent is required for TrailingStop orders")
+        if trail_price is not None:
+            order_kwargs["trail_price"] = trail_price
+        if trail_percent is not None:
+            order_kwargs["trail_percent"] = trail_percent
+    else:
+        # For unknown order types, try to use price if provided
+        if price is not None:
+            order_kwargs["price"] = price
+        if stop_price is not None:
+            order_kwargs["stop_price"] = stop_price
+    
+    return NewOrder(**order_kwargs)
+
+
 async def _fetch_quotes_raw(session: Session, instrument_details: list[InstrumentDetail], timeout: float = 10.0) -> list[Any]:
     """Fetch raw Quote objects for price calculations (internal use)."""
     return await _stream_events(session, Quote, [d.streamer_symbol for d in instrument_details], timeout)
@@ -585,12 +692,16 @@ async def get_live_orders(ctx: Context) -> str:
 async def place_order(
     ctx: Context,
     legs: list[OrderLeg],
+    order_type: Literal['Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'] = 'Limit',
     price: float | None = None,
+    stop_price: float | None = None,
+    trail_price: float | None = None,
+    trail_percent: float | None = None,
     time_in_force: Literal['Day', 'GTC', 'IOC'] = 'Day',
     dry_run: bool = False
 ) -> dict[str, Any]:
     """
-    Place multi-leg options/equity orders.
+    Place multi-leg options/equity orders with support for various order types.
 
     Args:
         legs: List of leg specifications. Each leg contains:
@@ -601,21 +712,23 @@ async def place_order(
             - option_type: 'C' or 'P' (optional, omit for stocks)
             - strike_price: float (required for options)
             - expiration_date: str - YYYY-MM-DD format (required for options)
-        price: If None, calculates net mid-price from quotes.
+        order_type: Order type - 'Market', 'Limit', 'Stop', 'StopLimit', or 'TrailingStop' (default: 'Limit')
+        price: Limit price (required for Limit, StopLimit orders). 
+               If None for Limit/StopLimit, calculates net mid-price from quotes.
                For debit orders (net buying), use negative values (e.g., -8.50).
                For credit orders (net selling), use positive values (e.g., 2.25).
-               NOTE: If Tastytrade returns a price granularity error, retry with price
-               rounded to nearest 5 cents.
+        stop_price: Stop trigger price (required for Stop, StopLimit orders)
+        trail_price: Trailing stop amount in dollars (for TrailingStop orders, alternative to trail_percent)
+        trail_percent: Trailing stop percentage (for TrailingStop orders, alternative to trail_price)
         time_in_force: 'Day', 'GTC', or 'IOC'
         dry_run: If True, validates order without placing it
 
     Examples:
-        Auto-priced stock: place_order([{"symbol": "AAPL", "action": "Buy", "quantity": 100}])
-        Manual-priced option: place_order([{"symbol": "TQQQ", "option_type": "C", "action": "Buy to Open", "quantity": 17, "strike_price": 100.0, "expiration_date": "2026-01-16"}], -8.50)
-        Auto-priced spread: place_order([
-            {"symbol": "AAPL", "option_type": "C", "action": "Buy to Open", "quantity": 1, "strike_price": 150.0, "expiration_date": "2024-12-20"},
-            {"symbol": "AAPL", "option_type": "C", "action": "Sell to Open", "quantity": 1, "strike_price": 155.0, "expiration_date": "2024-12-20"}
-        ])
+        Auto-priced limit stock: place_order([{"symbol": "AAPL", "action": "Buy", "quantity": 100}])
+        Manual-priced option: place_order([{"symbol": "TQQQ", "option_type": "C", "action": "Buy to Open", "quantity": 17, "strike_price": 100.0, "expiration_date": "2026-01-16"}], order_type='Limit', price=-8.50)
+        Stop loss order: place_order([{"symbol": "AAPL", "action": "Sell", "quantity": 100}], order_type='Stop', stop_price=150.0)
+        Stop-limit order: place_order([{"symbol": "AAPL", "action": "Sell", "quantity": 100}], order_type='StopLimit', stop_price=150.0, price=149.50)
+        Trailing stop: place_order([{"symbol": "AAPL", "action": "Sell", "quantity": 100}], order_type='TrailingStop', trail_percent=2.0)
     """
     async with rate_limiter:
         if not legs:
@@ -635,27 +748,40 @@ async def place_order(
             for leg in legs
         ]
         instrument_details = await get_instrument_details(session, instrument_specs)
-
-        # Calculate price if not provided
-        if price is None:
+        built_legs = build_order_legs(instrument_details, legs)
+        
+        # Convert prices to Decimal
+        price_decimal = Decimal(str(price)) if price is not None else None
+        stop_price_decimal = Decimal(str(stop_price)) if stop_price is not None else None
+        trail_price_decimal = Decimal(str(trail_price)) if trail_price is not None else None
+        trail_percent_decimal = Decimal(str(trail_percent)) if trail_percent is not None else None
+        
+        # For Limit and StopLimit orders, calculate price if not provided
+        if order_type in ['Limit', 'StopLimit'] and price_decimal is None:
             try:
-                price = await calculate_net_price(ctx, instrument_details, legs)
-                await ctx.info(f"💰 Auto-calculated net mid-price: ${price:.2f}")
-                logger.info(f"Auto-calculated price ${price:.2f} for {len(legs)}-leg order")
+                calculated_price = await calculate_net_price(ctx, instrument_details, legs)
+                price_decimal = Decimal(str(calculated_price))
+                await ctx.info(f"💰 Auto-calculated net mid-price: ${float(price_decimal):.2f}")
+                logger.info(f"Auto-calculated price ${float(price_decimal):.2f} for {len(legs)}-leg {order_type} order")
             except Exception as e:
                 logger.warning(f"Failed to auto-calculate price for order legs {[leg.symbol for leg in legs]}: {e!s}")
                 raise ValueError(f"Could not fetch quotes for price calculation: {e!s}. Please provide a price.") from e
+        
+        # Build and place the order
+        try:
+            new_order = build_new_order(
+                order_type=order_type,
+                legs=built_legs,
+                time_in_force=time_in_force,
+                price=price_decimal,
+                stop_price=stop_price_decimal,
+                trail_price=trail_price_decimal,
+                trail_percent=trail_percent_decimal
+            )
+        except ValueError as e:
+            raise ValueError(str(e)) from e
 
-        return (await context.account.a_place_order(
-            session,
-            NewOrder(
-                time_in_force=OrderTimeInForce(time_in_force),
-                order_type=OrderType.LIMIT,
-                legs=build_order_legs(instrument_details, legs),
-                price=Decimal(str(price))
-            ),
-            dry_run=dry_run
-        )).model_dump()
+        return (await context.account.a_place_order(session, new_order, dry_run=dry_run)).model_dump()
 
 
 @mcp_app.tool()

@@ -9,6 +9,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Install uv (fast Python package installer and resolver) system-wide
+# Download and install uv binary directly
+RUN curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz | \
+    tar -xz && \
+    mv uv-x86_64-unknown-linux-gnu/uv /usr/local/bin/uv && \
+    chmod +x /usr/local/bin/uv && \
+    rm -rf uv-x86_64-unknown-linux-gnu
+ENV PATH="/usr/local/bin:$PATH"
+
 # Copy requirements first for better caching
 COPY requirements.txt .
 
@@ -23,7 +32,7 @@ RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Expose default port for HTTP server
-EXPOSE 8000
+EXPOSE 8033
 
 # Default command (can be overridden in docker-compose)
 # Note: Use uvicorn directly or the main() function
