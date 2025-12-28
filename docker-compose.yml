@@ -17,9 +17,11 @@ services:
       - PORT=${PORT:-8033}
       - CORS_ORIGINS=${CORS_ORIGINS:-*}
       - RELOAD=${RELOAD:-false}
-    # Optional: Uncomment to mount credentials.json file
-    # volumes:
-    #   - ./credentials.json:/app/credentials.json:ro
+    volumes:
+      # Mount Logs directory to persist logs outside container
+      - ./Logs:/app/Logs
+      # Optional: Uncomment to mount credentials.json file
+      # - ./credentials.json:/app/credentials.json:ro
     command: python -c "from tasty_agent.http_server import main; main()"
     restart: unless-stopped
     healthcheck:
@@ -36,9 +38,11 @@ services:
       - TASTYTRADE_CLIENT_SECRET=${TASTYTRADE_CLIENT_SECRET}
       - TASTYTRADE_REFRESH_TOKEN=${TASTYTRADE_REFRESH_TOKEN}
       - TASTYTRADE_ACCOUNT_ID=${TASTYTRADE_ACCOUNT_ID:-}
-    # Optional: Uncomment to mount credentials.json file
-    # volumes:
-    #   - ./credentials.json:/app/credentials.json:ro
+    volumes:
+      # Mount Logs directory to persist logs outside container
+      - ./Logs:/app/Logs
+      # Optional: Uncomment to mount credentials.json file
+      # - ./credentials.json:/app/credentials.json:ro
     command: python -c "from tasty_agent.server import mcp_app; mcp_app.run()"
     restart: unless-stopped
     # MCP server communicates via stdio, so no ports needed

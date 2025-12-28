@@ -1,0 +1,4 @@
+2025-12-26 15:38:45 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-26.log
+2025-12-26 15:38:45 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-26 15:58:00 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-26.log
+2025-12-26 15:58:00 UTC | INFO     | database | Database initialized at /app/credentials.db

@@ -27,7 +27,9 @@ from tastytrade.streamer import DXLinkStreamer
 from tastytrade.utils import now_in_new_york
 from tastytrade.watchlists import PrivateWatchlist, PublicWatchlist
 
-logger = logging.getLogger(__name__)
+from tasty_agent.logging_config import get_server_logger
+
+logger = get_server_logger()
 
 rate_limiter = AsyncLimiter(2, 1) # 2 requests per second
 
@@ -779,9 +781,18 @@ async def place_order(
                 trail_percent=trail_percent_decimal
             )
         except ValueError as e:
-            raise ValueError(str(e)) from e
+            error_msg = f"Failed to build order: {str(e)}"
+            logger.error(f"place_order tool error: {error_msg}")
+            raise ValueError(error_msg) from e
 
-        return (await context.account.a_place_order(session, new_order, dry_run=dry_run)).model_dump()
+        try:
+            result = await context.account.a_place_order(session, new_order, dry_run=dry_run)
+            return result.model_dump()
+        except Exception as e:
+            error_msg = f"Failed to place order: {str(e)}"
+            logger.error(f"place_order tool execution error: {error_msg}", exc_info=True)
+            # Re-raise with more context for better error messages
+            raise ValueError(f"Order placement failed: {str(e)}. Please check order parameters and account status.") from e
 
 
 @mcp_app.tool()

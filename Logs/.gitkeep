@@ -1,0 +1,6 @@
+# This directory contains log files for tasty-agent services
+# Log files are created daily with format: service_name_YYYY-MM-DD.log
+# Log files are automatically rotated when they reach 10MB
+# Old log files are kept for 7 days
+
+

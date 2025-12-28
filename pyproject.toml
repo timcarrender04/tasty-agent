@@ -64,6 +64,11 @@ ignore = ["E501"]  # Line length handled by formatter
 [tool.pyright]
 pythonVersion = "3.12"
 typeCheckingMode = "basic"
+reportMissingImports = "warning"
+reportMissingModuleSource = "warning"
+pythonPlatform = "Linux"
+venvPath = "."
+venv = "venv"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

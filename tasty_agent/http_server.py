@@ -3,6 +3,8 @@ HTTP Server for TastyTrade API - Allows multiple kiosks to connect via REST API.
 - Account info endpoints: Direct HTTP (no Claude)
 - Analytics endpoints: Uses Claude via MCP tools
 """
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -10,7 +12,7 @@ import os
 from collections.abc import AsyncIterator, Awaitable, Callable, Sequence
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 from typing import Any, Literal
@@ -56,19 +58,36 @@ from tasty_agent.server import (
     InstrumentSpec as MCPInstrumentSpec
 )
 
-logger = logging.getLogger(__name__)
+# Import database module
+from tasty_agent.database import CredentialsDB, get_db_path
+from tasty_agent.logging_config import get_http_server_logger, LOGS_DIR
+
+logger = get_http_server_logger()
 
 rate_limiter = AsyncLimiter(2, 1)  # 2 requests per second
 
 # API Key authentication
 API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
 
+# Database instance (initialized in lifespan)
+credentials_db: CredentialsDB | None = None
+
 
 def load_credentials() -> dict[str, tuple[str, str]]:
-    """Load credentials from environment variables and/or JSON configuration."""
+    """Load credentials from SQLite database and environment variables."""
+    global credentials_db
     credentials: dict[str, tuple[str, str]] = {}
     
-    # Load from JSON environment variable
+    # Load from SQLite database
+    if credentials_db:
+        try:
+            db_creds = credentials_db.get_all_credentials()
+            credentials.update(db_creds)
+            logger.info(f"Loaded {len(db_creds)} credential(s) from database")
+        except Exception as e:
+            logger.error(f"Failed to load credentials from database: {e}")
+    
+    # Load from JSON environment variable (for initial setup)
     credentials_json = os.getenv("TASTYTRADE_CREDENTIALS_JSON")
     if credentials_json:
         try:
@@ -78,6 +97,12 @@ def load_credentials() -> dict[str, tuple[str, str]]:
                     client_secret = cred_data.get("client_secret")
                     refresh_token = cred_data.get("refresh_token")
                     if client_secret and refresh_token:
+                        # Save to database if not already present
+                        if api_key not in credentials and credentials_db:
+                            try:
+                                credentials_db.insert_or_update_credentials(api_key, client_secret, refresh_token)
+                            except Exception as e:
+                                logger.warning(f"Failed to save credential from env to database: {e}")
                         credentials[api_key] = (client_secret, refresh_token)
                     else:
                         logger.warning(f"Missing client_secret or refresh_token for API key: {api_key}")
@@ -86,25 +111,6 @@ def load_credentials() -> dict[str, tuple[str, str]]:
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse TASTYTRADE_CREDENTIALS_JSON: {e}")
     
-    # Load from JSON file if it exists
-    # Use absolute path to credentials.json in project root
-    project_root = Path(__file__).parent.parent
-    creds_file = project_root / "credentials.json"
-    if creds_file.exists():
-        try:
-            with open(creds_file, "r") as f:
-                creds_dict = json.load(f)
-            for api_key, cred_data in creds_dict.items():
-                if isinstance(cred_data, dict):
-                    client_secret = cred_data.get("client_secret")
-                    refresh_token = cred_data.get("refresh_token")
-                    if client_secret and refresh_token:
-                        credentials[api_key] = (client_secret, refresh_token)
-                    else:
-                        logger.warning(f"Missing client_secret or refresh_token for API key: {api_key}")
-        except Exception as e:
-            logger.error(f"Failed to load credentials.json: {e}")
-    
     # Load from legacy environment variables (backward compatibility)
     client_secret = os.getenv("TASTYTRADE_CLIENT_SECRET")
     refresh_token = os.getenv("TASTYTRADE_REFRESH_TOKEN")
@@ -112,6 +118,12 @@ def load_credentials() -> dict[str, tuple[str, str]]:
     
     if client_secret and refresh_token:
         if default_api_key not in credentials:
+            # Save to database if not already present
+            if credentials_db:
+                try:
+                    credentials_db.insert_or_update_credentials(default_api_key, client_secret, refresh_token)
+                except Exception as e:
+                    logger.warning(f"Failed to save default credential to database: {e}")
             credentials[default_api_key] = (client_secret, refresh_token)
             logger.info(f"Loaded default credentials for API key: {default_api_key}")
         else:
@@ -124,28 +136,135 @@ def load_credentials() -> dict[str, tuple[str, str]]:
 
 
 def save_credentials(credentials: dict[str, tuple[str, str]]) -> None:
-    """Save credentials to JSON file."""
-    project_root = Path(__file__).parent.parent
-    creds_file = project_root / "credentials.json"
+    """Save credentials to SQLite database."""
+    global credentials_db
     
-    # Convert tuple format to dict format for JSON
-    creds_dict = {}
-    for api_key, (client_secret, refresh_token) in credentials.items():
-        creds_dict[api_key] = {
-            "client_secret": client_secret,
-            "refresh_token": refresh_token
-        }
+    if not credentials_db:
+        raise HTTPException(
+            status_code=500,
+            detail="Database not initialized"
+        )
     
     try:
-        with open(creds_file, "w") as f:
-            json.dump(creds_dict, f, indent=2)
-        logger.info(f"Saved credentials to {creds_file}")
+        # Save each credential to database
+        for api_key, (client_secret, refresh_token) in credentials.items():
+            credentials_db.insert_or_update_credentials(api_key, client_secret, refresh_token)
+        logger.info(f"Saved {len(credentials)} credential(s) to database")
     except Exception as e:
-        logger.error(f"Failed to save credentials.json: {e}")
+        logger.error(f"Failed to save credentials to database: {e}")
         raise HTTPException(
             status_code=500,
             detail=f"Failed to save credentials: {e}"
         ) from e
+
+
+def load_settings() -> dict[str, UserSettings]:
+    """Load user settings from JSON file."""
+    project_root = Path(__file__).parent.parent
+    settings_file = project_root / "settings.json"
+    settings: dict[str, UserSettings] = {}
+    
+    if settings_file.exists():
+        try:
+            with open(settings_file, "r") as f:
+                settings_dict = json.load(f)
+            for api_key, settings_data in settings_dict.items():
+                try:
+                    settings[api_key] = UserSettings(**settings_data)
+                except Exception as e:
+                    logger.warning(f"Failed to load settings for API key {api_key[:8]}...: {e}")
+        except Exception as e:
+            logger.error(f"Failed to load settings.json: {e}")
+    
+    return settings
+
+
+def save_settings(settings: dict[str, UserSettings]) -> None:
+    """Save user settings to JSON file."""
+    project_root = Path(__file__).parent.parent
+    settings_file = project_root / "settings.json"
+    
+    # Convert UserSettings to dict format for JSON
+    settings_dict = {}
+    for api_key, user_settings in settings.items():
+        settings_dict[api_key] = user_settings.model_dump()
+    
+    try:
+        with open(settings_file, "w") as f:
+            json.dump(settings_dict, f, indent=2)
+        logger.info(f"Saved settings to {settings_file}")
+    except Exception as e:
+        logger.error(f"Failed to save settings.json: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save settings: {e}"
+        ) from e
+
+
+def get_user_settings(api_key: str) -> UserSettings:
+    """Get user settings for an API key, returning defaults if not found."""
+    if api_key in api_key_settings:
+        return api_key_settings[api_key]
+    # Return default settings
+    return UserSettings()
+
+
+def extract_symbol_from_tab_id(tab_id: str) -> str | None:
+    """Extract symbol from tabId format (SYMBOL-timestamp).
+    
+    Args:
+        tab_id: Tab ID in format "SYMBOL-timestamp" (e.g., "SPY-1735689600000")
+    
+    Returns:
+        Symbol string (e.g., "SPY") or None if format is invalid
+    """
+    if not tab_id:
+        return None
+    # Extract symbol from tabId format: "SYMBOL-timestamp"
+    match = tab_id.split("-")[0] if "-" in tab_id else None
+    if match and match.isalpha() and match.isupper():
+        return match
+    return None
+
+
+def get_conversation_history(api_key: str, tab_id: str | None) -> list[ChatMessage]:
+    """Get conversation history for a specific (api_key, tab_id) pair.
+    
+    Args:
+        api_key: API key identifier
+        tab_id: Tab ID (optional)
+    
+    Returns:
+        List of ChatMessage objects, empty list if no history exists
+    """
+    if not tab_id:
+        return []
+    
+    key = (api_key, tab_id)
+    return api_key_tab_conversations.get(key, []).copy()
+
+
+def save_conversation_message(api_key: str, tab_id: str | None, message: ChatMessage) -> None:
+    """Save a message to conversation history for a specific (api_key, tab_id) pair.
+    
+    Args:
+        api_key: API key identifier
+        tab_id: Tab ID (optional)
+        message: ChatMessage to save
+    """
+    if not tab_id:
+        return
+    
+    key = (api_key, tab_id)
+    if key not in api_key_tab_conversations:
+        api_key_tab_conversations[key] = []
+    api_key_tab_conversations[key].append(message)
+    
+    # Limit conversation history to prevent unbounded growth
+    # Keep last 100 messages (approximately 50 exchanges)
+    max_messages = 100
+    if len(api_key_tab_conversations[key]) > max_messages:
+        api_key_tab_conversations[key] = api_key_tab_conversations[key][-max_messages:]
 
 
 async def verify_api_key(api_key: str = Depends(API_KEY_HEADER)) -> str:
@@ -222,6 +341,13 @@ api_key_sessions: dict[str, ServerContext] = {}
 
 # Claude agent cache: API key -> Agent
 api_key_agents: dict[str, Agent] = {}
+
+# User settings cache: API key -> UserSettings
+api_key_settings: dict[str, UserSettings] = {}
+
+# Conversation history cache: (api_key, tab_id) -> list[ChatMessage]
+# This allows separate conversation contexts per tab
+api_key_tab_conversations: dict[tuple[str, str], list[ChatMessage]] = {}
 
 # Track current model identifier to invalidate cache when it changes
 # Initialize with current default to detect changes after restart
@@ -325,12 +451,55 @@ def get_valid_session(api_key: str) -> Session:
 
 # Cache for instruction file content
 _instruction_prompt_cache: str | None = None
+_core_rules_cache: str | None = None
 
 
-def load_instruction_prompt() -> str:
-    """Load the instruction prompt file. Cached after first load."""
+def load_core_rules() -> str:
+    """Load the core rules file. Cached after first load. Always loaded."""
+    global _core_rules_cache
+    
+    if _core_rules_cache is not None:
+        return _core_rules_cache
+    
+    # Get the path to core_rules.md
+    project_root = Path(__file__).parent
+    core_file = project_root / "core_rules.md"
+    
+    if not core_file.exists():
+        logger.warning(f"Core rules file not found at {core_file}. Agent will run without core rules.")
+        return ""
+    
+    try:
+        with open(core_file, "r", encoding="utf-8") as f:
+            _core_rules_cache = f.read()
+        logger.info(f"Loaded core rules from {core_file} ({len(_core_rules_cache):,} chars)")
+        return _core_rules_cache
+    except Exception as e:
+        logger.error(f"Failed to load core rules file {core_file}: {e}")
+        return ""
+
+
+def load_instruction_prompt(include_full: bool = True) -> str:
+    """
+    Load the instruction prompt files. Cached after first load.
+    
+    Args:
+        include_full: If True, loads core_rules.md + instruction_live_prompt.md.
+                     If False, loads only core_rules.md (faster, less context).
+    
+    Returns:
+        Combined prompt string with core rules always included.
+    """
     global _instruction_prompt_cache
     
+    # Always load core rules first
+    core_rules = load_core_rules()
+    
+    # If only core rules requested, return early
+    if not include_full:
+        return core_rules
+    
+    # Check cache for full prompt
     if _instruction_prompt_cache is not None:
         return _instruction_prompt_cache
     
@@ -339,17 +508,26 @@ def load_instruction_prompt() -> str:
     instruction_file = project_root / "instruction_live_prompt.md"
     
     if not instruction_file.exists():
-        logger.warning(f"Instruction file not found at {instruction_file}. Agent will run without custom instructions.")
-        return ""
+        logger.warning(f"Instruction file not found at {instruction_file}. Using core rules only.")
+        _instruction_prompt_cache = core_rules
+        return _instruction_prompt_cache
     
     try:
         with open(instruction_file, "r", encoding="utf-8") as f:
-            _instruction_prompt_cache = f.read()
-        logger.info(f"Loaded instruction prompt from {instruction_file} ({len(_instruction_prompt_cache):,} chars)")
+            full_instructions = f.read()
+        
+        # Combine: core rules first, then full instructions
+        # The full instructions file already references core_rules.md, so this provides both
+        combined = f"{core_rules}\n\n---\n\n# FULL INSTRUCTIONS (On-Demand Content)\n\n{full_instructions}"
+        
+        _instruction_prompt_cache = combined
+        logger.info(f"Loaded full instruction prompt: core ({len(core_rules):,} chars) + full ({len(full_instructions):,} chars) = {len(combined):,} total chars")
         return _instruction_prompt_cache
     except Exception as e:
         logger.error(f"Failed to load instruction file {instruction_file}: {e}")
-        return ""
+        # Fall back to core rules only
+        _instruction_prompt_cache = core_rules
+        return _instruction_prompt_cache
 
 
 def get_claude_agent(api_key: str) -> Agent:
@@ -509,7 +687,33 @@ async def keep_sessions_alive():
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Manages Tastytrade credential loading and session lifecycle."""
-    global api_key_credentials, api_key_sessions, api_key_agents, _current_model_identifier
+    global api_key_credentials, api_key_sessions, api_key_agents, api_key_settings, api_key_tab_conversations, _current_model_identifier, credentials_db
+    
+    # Initialize logging
+    from tasty_agent.logging_config import initialize_tasty_agent_loggers
+    initialize_tasty_agent_loggers()
+    logger.info("TastyAgent loggers initialized")
+    
+    # Initialize database
+    project_root = Path(__file__).parent.parent
+    db_path = get_db_path(project_root)
+    credentials_db = CredentialsDB(db_path)
+    
+    # Migrate from JSON if database is empty and JSON exists
+    json_file = project_root / "credentials.json"
+    if json_file.exists() and credentials_db.is_empty():
+        logger.info(f"Migrating credentials from {json_file} to database...")
+        migrated_count = credentials_db.migrate_from_json(json_file)
+        if migrated_count > 0:
+            logger.info(f"Successfully migrated {migrated_count} credential(s) from JSON to database")
+            # Optionally backup/rename the JSON file
+            backup_file = project_root / "credentials.json.backup"
+            try:
+                import shutil
+                shutil.copy2(json_file, backup_file)
+                logger.info(f"Backed up JSON file to {backup_file}")
+            except Exception as e:
+                logger.warning(f"Failed to backup JSON file: {e}")
     
     # Load credentials at startup
     api_key_credentials = load_credentials()
@@ -517,10 +721,14 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     if not api_key_credentials:
         logger.warning(
             "No credentials loaded. Set TASTYTRADE_CLIENT_SECRET and TASTYTRADE_REFRESH_TOKEN "
-            "environment variables, or configure TASTYTRADE_CREDENTIALS_JSON, or create credentials.json"
+            "environment variables, or configure TASTYTRADE_CREDENTIALS_JSON, or add via POST /api/v1/credentials"
         )
     
     logger.info(f"Loaded credentials for {len(api_key_credentials)} API key(s)")
+    
+    # Load user settings at startup
+    api_key_settings.update(load_settings())
+    logger.info(f"Loaded settings for {len(api_key_settings)} API key(s)")
     
     # Clear agent cache on startup to ensure fresh agents with current model
     model_identifier = os.getenv("MODEL_IDENTIFIER", "anthropic:claude-3-5-haiku-20241022")
@@ -544,6 +752,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     api_key_sessions.clear()
     api_key_credentials.clear()
     api_key_agents.clear()
+    api_key_settings.clear()
+    api_key_tab_conversations.clear()
 
 
 async def get_session_and_account(
@@ -629,6 +839,22 @@ class CredentialEntry(BaseModel):
     api_key: str = Field(..., description="API key identifier")
     client_secret: str = Field(..., description="TastyTrade client secret")
     refresh_token: str = Field(..., description="TastyTrade refresh token")
+
+
+class UserSettings(BaseModel):
+    """User-specific trading settings."""
+    auto_stop_loss_enabled: bool = Field(True, description="Enable automatic stop-loss orders")
+    max_loss_per_contract: float = Field(50.0, description="Maximum loss per contract in dollars", ge=1.0, le=1000.0)
+    default_order_type: Literal['Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'] = Field('Limit', description="Default order type")
+    default_time_in_force: Literal['Day', 'GTC', 'IOC'] = Field('Day', description="Default time in force")
+
+
+class UserSettingsUpdate(BaseModel):
+    """Partial update for user settings."""
+    auto_stop_loss_enabled: bool | None = None
+    max_loss_per_contract: float | None = Field(None, ge=1.0, le=1000.0)
+    default_order_type: Literal['Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'] | None = None
+    default_time_in_force: Literal['Day', 'GTC', 'IOC'] | None = None
 
 
 @dataclass
@@ -859,6 +1085,218 @@ async def calculate_net_price(session: Session, instrument_details: list[Instrum
             raise ValueError(f"Could not get bid/ask for {symbol_info}")
     
     return round(net_price * 100) / 100
+
+
+async def monitor_order_fill(session: Session, account: Account, order_id: int, timeout: int = 60) -> Any:
+    """
+    Poll order status using direct API calls until order fills or times out.
+    
+    Args:
+        session: TastyTrade session
+        account: Account object
+        order_id: Order ID to monitor
+        timeout: Maximum time to wait in seconds (default: 60)
+    
+    Returns:
+        Order object when filled
+    
+    Raises:
+        ValueError: If order is rejected or canceled
+        TimeoutError: If order doesn't fill within timeout
+    """
+    import time
+    start_time = time.time()
+    
+    while time.time() - start_time < timeout:
+        # Direct API call - no AI
+        live_orders = await account.a_get_live_orders(session)
+        order = next((o for o in live_orders if o.id == order_id), None)
+        
+        if order:
+            # Check order status
+            order_status = str(order.status).lower() if hasattr(order.status, 'value') else str(order.status).lower()
+            
+            if 'filled' in order_status or order_status == 'filled':
+                logger.info(f"Order {order_id} filled successfully")
+                return order
+            elif 'rejected' in order_status or order_status == 'rejected':
+                raise ValueError(f"Order {order_id} was rejected")
+            elif 'canceled' in order_status or order_status == 'canceled':
+                raise ValueError(f"Order {order_id} was canceled")
+        
+        await asyncio.sleep(1.5)  # Poll every 1.5 seconds
+    
+    raise TimeoutError(f"Order {order_id} did not fill within {timeout} seconds")
+
+
+def calculate_stop_loss_price(
+    entry_price: float,
+    quantity: int,
+    action: str,
+    is_option: bool = False,
+    max_loss_per_contract: float = 50.0
+) -> float:
+    """
+    Calculate stop-loss price based on entry price, quantity, and max loss per contract.
+    
+    Args:
+        entry_price: Fill price of the entry order
+        quantity: Number of contracts/shares
+        action: Order action ('Buy to Open', 'Sell to Open', 'Buy to Close', 'Sell to Close', 'Buy', 'Sell')
+        is_option: Whether this is an option (affects multiplier)
+        max_loss_per_contract: Maximum loss per contract in dollars (default: 50.0)
+    
+    Returns:
+        Stop-loss price
+    """
+    # Dynamic max loss: max_loss_per_contract × quantity
+    max_loss = max_loss_per_contract * quantity
+    
+    # Calculate price difference
+    # For options: max_loss / (quantity * 100) = price difference per contract
+    # For stocks: max_loss / quantity = price difference per share
+    multiplier = 100 if is_option else 1
+    price_diff = max_loss / (quantity * multiplier)
+    
+    # Determine direction based on action
+    action_lower = action.lower()
+    is_buy = 'buy' in action_lower
+    is_sell = 'sell' in action_lower
+    
+    # For buy orders (Buy to Open, Buy to Close, Buy), stop is below entry
+    # For sell orders (Sell to Open, Sell to Close, Sell), stop is above entry
+    if is_buy:
+        stop_price = entry_price - price_diff
+    elif is_sell:
+        stop_price = entry_price + price_diff
+    else:
+        # Default to buy behavior if action is unclear
+        logger.warning(f"Unclear action '{action}', defaulting to buy behavior for stop-loss")
+        stop_price = entry_price - price_diff
+    
+    return round(stop_price, 2)
+
+
+async def place_stop_loss_order(
+    session: Session,
+    account: Account,
+    leg: OrderLeg,
+    instrument_detail: InstrumentDetail,
+    entry_fill_price: float,
+    dry_run: bool = False,
+    max_loss_per_contract: float = 50.0
+) -> dict[str, Any] | None:
+    """
+    Place a stop-loss order for a single leg after entry order fills.
+    
+    Args:
+        session: TastyTrade session
+        account: Account object
+        leg: Original order leg specification
+        instrument_detail: Instrument details for the leg
+        entry_fill_price: Fill price of the entry order
+        dry_run: If True, validate order without placing it
+    
+    Returns:
+        Order result dict or None if placement fails
+    """
+    try:
+        instrument = instrument_detail.instrument
+        is_option = isinstance(instrument, Option)
+        
+        # Calculate stop-loss price
+        stop_price = calculate_stop_loss_price(
+            entry_price=entry_fill_price,
+            quantity=leg.quantity,
+            action=leg.action,
+            is_option=is_option,
+            max_loss_per_contract=max_loss_per_contract
+        )
+        
+        # Determine opposite action for stop-loss
+        # Note: Stop-loss is only valid for "to open" positions
+        # "to close" positions don't need stop-loss as they're already exiting
+        action_lower = leg.action.lower()
+        if 'buy' in action_lower:
+            # For buy orders, stop-loss is a sell order
+            if is_option:
+                # Only place stop-loss for "Buy to Open" (long positions)
+                # "Buy to Close" means closing a short, no stop-loss needed
+                if 'to open' in action_lower:
+                    stop_action = 'Sell to Close'
+                elif 'to close' in action_lower:
+                    logger.warning(f"Entry action '{leg.action}' is already a closing trade, skipping stop-loss")
+                    return None
+                else:
+                    # Fallback: assume "Buy to Open" if unclear
+                    stop_action = 'Sell to Close'
+            else:
+                stop_action = 'Sell'
+        elif 'sell' in action_lower:
+            # For sell orders, stop-loss is a buy order
+            if is_option:
+                # Only place stop-loss for "Sell to Open" (short positions)
+                # "Sell to Close" means closing a long, no stop-loss needed
+                if 'to open' in action_lower:
+                    stop_action = 'Buy to Close'
+                elif 'to close' in action_lower:
+                    logger.warning(f"Entry action '{leg.action}' is already a closing trade, skipping stop-loss")
+                    return None
+                else:
+                    # Fallback: assume "Sell to Open" if unclear
+                    stop_action = 'Buy to Close'
+            else:
+                stop_action = 'Buy'
+        else:
+            logger.error(f"Unknown action '{leg.action}' for stop-loss calculation")
+            return None
+        
+        # Build stop-loss leg
+        stop_leg_spec = OrderLeg(
+            symbol=leg.symbol,
+            action=stop_action,
+            quantity=leg.quantity,
+            option_type=leg.option_type,
+            strike_price=leg.strike_price,
+            expiration_date=leg.expiration_date
+        )
+        
+        # Build order leg
+        order_action = (
+            OrderAction(stop_action) if is_option
+            else OrderAction.BUY if stop_action == 'Buy' else OrderAction.SELL
+        )
+        stop_leg = instrument.build_leg(Decimal(str(leg.quantity)), order_action)
+        
+        # Build stop order
+        stop_order = NewOrder(
+            order_type=OrderType.STOP,
+            time_in_force=OrderTimeInForce.DAY,
+            legs=[stop_leg],
+            stop_price=Decimal(str(stop_price))
+        )
+        
+        # Place stop-loss order
+        logger.info(f"Placing stop-loss order for {leg.symbol}: {stop_action} {leg.quantity} @ stop ${stop_price:.2f} (entry was {leg.action} @ ${entry_fill_price:.2f})")
+        
+        # Validate stop price is reasonable (not negative, not zero for options)
+        if stop_price <= 0:
+            logger.error(f"Invalid stop price ${stop_price:.2f} calculated for {leg.symbol} (entry: ${entry_fill_price:.2f})")
+            return None
+        
+        result = await account.a_place_order(session, stop_order, dry_run=dry_run)
+        
+        # Check if order was rejected
+        if hasattr(result, 'status') and result.status in ['rejected', 'canceled']:
+            logger.error(f"Stop-loss order rejected for {leg.symbol}: {getattr(result, 'message', 'Unknown reason')}")
+            return None
+        
+        return result.model_dump()
+    except Exception as e:
+        logger.error(f"Failed to place stop-loss order for {leg.symbol}: {e}", exc_info=True)
+        import traceback
+        logger.debug(f"Stop-loss error traceback: {traceback.format_exc()}")
+        return None
 
 
 # =============================================================================
@@ -1267,6 +1705,175 @@ async def get_transaction_history(
     }
 
 
+@app.get("/api/v1/recent-trades")
+async def get_recent_trades(
+    days: int = 7,
+    underlying_symbol: str | None = None,
+    session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
+) -> dict[str, Any]:
+    """
+    Get recent trades with calculated P&L.
+    Returns trades formatted similar to TastyTrade UI with Date/Time, Symbol, Action, Quantity, Price, Fees, and P&L.
+    """
+    session, account = session_and_account
+    start = date.today() - timedelta(days=days)
+    
+    # Get only trade transactions
+    trades = await _paginate(
+        lambda offset: account.a_get_history(
+            session, start_date=start, underlying_symbol=underlying_symbol,
+            type="Trade", per_page=250, page_offset=offset
+        ),
+        page_size=250
+    )
+    
+    # Format trades with P&L calculation
+    formatted_trades = []
+    position_tracker: dict[str, list[dict[str, Any]]] = {}  # Track open positions by symbol
+    
+    for trade in trades:
+        trade_dict = trade.model_dump()
+        
+        # Extract key fields (field names may vary in tastytrade library)
+        symbol = trade_dict.get("symbol") or trade_dict.get("instrument_symbol") or trade_dict.get("underlying_symbol", "")
+        action = trade_dict.get("action") or trade_dict.get("transaction_sub_type") or ""
+        quantity = float(trade_dict.get("quantity", 0))
+        price = float(trade_dict.get("price") or trade_dict.get("fill_price") or trade_dict.get("value", 0))
+        fees = float(trade_dict.get("fees") or trade_dict.get("commission") or trade_dict.get("fee", 0))
+        
+        # Get transaction date/time
+        trans_date = trade_dict.get("transaction_date") or trade_dict.get("executed_at") or trade_dict.get("date")
+        if isinstance(trans_date, str):
+            try:
+                trans_date = datetime.fromisoformat(trans_date.replace("Z", "+00:00"))
+            except:
+                trans_date = datetime.now()
+        elif hasattr(trans_date, "isoformat"):
+            trans_date = trans_date
+        else:
+            trans_date = datetime.now()
+        
+        # Format date/time
+        if isinstance(trans_date, datetime):
+            date_str = trans_date.strftime("%b %d, %Y, %I:%M %p")
+        else:
+            date_str = str(trans_date)
+        
+        # Calculate P&L for closed positions
+        pnl = None
+        pnl_display = "—"
+        
+        # First, try to get P&L directly from transaction fields (most reliable)
+        # Check various possible field names for P&L
+        pnl_fields = ["realized_pnl", "pnl", "profit_loss", "net_amount", "value_effect", 
+                     "realized_profit_loss", "realized_pnl_dollars"]
+        for field in pnl_fields:
+            if field in trade_dict and trade_dict[field] is not None:
+                try:
+                    pnl = float(trade_dict[field])
+                    pnl_display = f"${pnl:.2f}"
+                    break
+                except (ValueError, TypeError):
+                    continue
+        
+        # If P&L not directly available, calculate from position matching
+        if pnl is None:
+            # Check if this is a closing transaction
+            if "Sell to Close" in action or "Buy to Close" in action:
+                # Try to find matching open position
+                if symbol in position_tracker and position_tracker[symbol]:
+                    # Use FIFO: match with first open position
+                    open_pos = position_tracker[symbol][0]
+                    open_price = open_pos["price"]
+                    open_quantity = open_pos["quantity"]
+                    
+                    # Determine if this is an option (has strike/expiration in symbol) or stock
+                    is_option = any(char.isdigit() for char in symbol) and len(symbol) > 5
+                    multiplier = 100 if is_option else 1  # Options are per 100 shares
+                    
+                    # Calculate P&L based on action
+                    if "Sell to Close" in action:
+                        # Sold to close long: profit = (sell_price - buy_price) * quantity
+                        pnl = (price - open_price) * min(quantity, open_quantity) * multiplier
+                    elif "Buy to Close" in action:
+                        # Bought to close short: profit = (sell_price - buy_price) * quantity
+                        pnl = (open_price - price) * min(quantity, open_quantity) * multiplier
+                    
+                    # Subtract fees
+                    pnl = pnl - fees - open_pos.get("fees", 0)
+                    
+                    # Update position tracker
+                    if quantity >= open_quantity:
+                        position_tracker[symbol].pop(0)
+                        if quantity > open_quantity:
+                            # Partial close, track remaining
+                            remaining_qty = quantity - open_quantity
+                            position_tracker[symbol].insert(0, {
+                                "price": open_price,
+                                "quantity": remaining_qty,
+                                "fees": 0
+                            })
+                    else:
+                        open_pos["quantity"] -= quantity
+                    
+                    if pnl is not None:
+                        pnl_display = f"${pnl:.2f}"
+        
+        # Track open positions for future P&L calculation
+        if "Buy to Open" in action or "Sell to Open" in action:
+            if symbol not in position_tracker:
+                position_tracker[symbol] = []
+            position_tracker[symbol].append({
+                "price": price,
+                "quantity": quantity,
+                "fees": fees
+            })
+        
+        formatted_trades.append({
+            "date_time": date_str,
+            "symbol": symbol,
+            "action": action,
+            "quantity": int(quantity),
+            "price": f"${price:.2f}",
+            "fees": f"${fees:.2f}",
+            "pnl": pnl_display,
+            "pnl_value": pnl,  # Raw numeric value for calculations
+            "raw_transaction": trade_dict  # Include full transaction data
+        })
+    
+    # Calculate summary statistics
+    total_pnl = sum(t["pnl_value"] for t in formatted_trades if t["pnl_value"] is not None)
+    winning_trades = sum(1 for t in formatted_trades if t["pnl_value"] is not None and t["pnl_value"] > 0)
+    losing_trades = sum(1 for t in formatted_trades if t["pnl_value"] is not None and t["pnl_value"] < 0)
+    total_trades = len(formatted_trades)
+    
+    # Build formatted table
+    table_lines = ["Recent Trades\n"]
+    table_lines.append(f"{'Date/Time':<25} {'Symbol':<30} {'Action':<20} {'Quantity':<10} {'Price':<10} {'Fees':<10} {'P&L':<10}")
+    table_lines.append("-" * 125)
+    
+    for trade in formatted_trades:
+        table_lines.append(
+            f"{trade['date_time']:<25} {trade['symbol']:<30} {trade['action']:<20} "
+            f"{trade['quantity']:<10} {trade['price']:<10} {trade['fees']:<10} {trade['pnl']:<10}"
+        )
+    
+    table_lines.append("-" * 125)
+    table_lines.append(f"\nSummary: {total_trades} trades | Wins: {winning_trades} | Losses: {losing_trades} | Total P&L: ${total_pnl:.2f}")
+    
+    return {
+        "trades": formatted_trades,
+        "summary": {
+            "total_trades": total_trades,
+            "winning_trades": winning_trades,
+            "losing_trades": losing_trades,
+            "total_pnl": round(total_pnl, 2),
+            "average_pnl": round(total_pnl / total_trades, 2) if total_trades > 0 else 0
+        },
+        "table": "\n".join(table_lines)
+    }
+
+
 @app.get("/api/v1/order-history")
 async def get_order_history(
     days: int = 7,
@@ -1310,13 +1917,14 @@ async def get_live_orders(
 @app.post("/api/v1/place-order")
 async def place_order(
     legs: list[OrderLeg],
-    order_type: Literal['Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'] = 'Limit',
+    order_type: Literal['Market', 'Limit', 'Stop', 'StopLimit', 'TrailingStop'] | None = None,
     price: float | None = None,
     stop_price: float | None = None,
     trail_price: float | None = None,
     trail_percent: float | None = None,
-    time_in_force: Literal['Day', 'GTC', 'IOC'] = 'Day',
+    time_in_force: Literal['Day', 'GTC', 'IOC'] | None = None,
     dry_run: bool = False,
+    api_key: str = Depends(verify_api_key),
     session_and_account: tuple[Session, Account] = Depends(get_session_and_account)
 ) -> dict[str, Any]:
     """
@@ -1332,6 +1940,15 @@ async def place_order(
     async with rate_limiter:
         if not legs:
             raise HTTPException(status_code=400, detail="At least one leg is required")
+        
+        # Get user settings and apply defaults if not provided
+        user_settings = get_user_settings(api_key)
+        if order_type is None:
+            # Always default to 'Limit' for safety (user can explicitly pass 'Market' if needed)
+            # User settings default_order_type is only used as a hint, not enforced
+            order_type = 'Limit'
+        if time_in_force is None:
+            time_in_force = user_settings.default_time_in_force
         
         session, account = session_and_account
         # Convert OrderLeg to InstrumentSpec for instrument lookup
@@ -1380,8 +1997,136 @@ async def place_order(
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e)) from e
         
-        result = await account.a_place_order(session, new_order, dry_run=dry_run)
-        return result.model_dump()
+        # Place entry order
+        entry_result = await account.a_place_order(session, new_order, dry_run=dry_run)
+        entry_order_data = entry_result.model_dump()
+        
+        # Initialize response with entry order
+        response = {
+            "entry_order": entry_order_data,
+            "stop_loss_orders": [],
+            "auto_stop_loss_enabled": user_settings.auto_stop_loss_enabled,
+            "max_loss_per_leg": [user_settings.max_loss_per_contract * leg.quantity for leg in legs]
+        }
+        
+        # If dry_run or auto_stop_loss disabled, skip stop-loss placement
+        if dry_run or not user_settings.auto_stop_loss_enabled:
+            response["stop_loss_orders"] = None
+            if not user_settings.auto_stop_loss_enabled:
+                response["stop_loss_skipped_reason"] = "Auto stop-loss is disabled in settings"
+            return response
+        
+        # Extract order ID from result
+        entry_order_id = None
+        if hasattr(entry_result, 'id'):
+            entry_order_id = entry_result.id
+        elif isinstance(entry_order_data, dict) and 'id' in entry_order_data:
+            entry_order_id = entry_order_data['id']
+        elif isinstance(entry_order_data, dict) and 'order_id' in entry_order_data:
+            entry_order_id = entry_order_data['order_id']
+        
+        if not entry_order_id:
+            logger.warning("Could not extract order ID from entry order result, skipping stop-loss placement")
+            response["stop_loss_orders"] = None
+            return response
+        
+        # Monitor entry order fill and place stop-loss orders
+        try:
+            # Monitor for fill (only for Market orders or if order might fill quickly)
+            # For Limit orders, we'll try to monitor but timeout quickly if it doesn't fill
+            timeout = 10 if order_type == 'Market' else 5  # Shorter timeout for limit orders
+            
+            try:
+                filled_order = await monitor_order_fill(session, account, int(entry_order_id), timeout=timeout)
+                
+                # Get fill prices for each leg
+                # For stop-loss calculation, we need individual leg prices
+                # Try to get from order result first, then fall back to current market quotes
+                fill_prices = []
+                
+                # First, try to get current market quotes (most reliable for stop-loss)
+                try:
+                    quotes = await _fetch_quotes_raw(session, instrument_details, timeout=5.0)
+                    for i, (quote, leg) in enumerate(zip(quotes, legs)):
+                        if quote.bid_price is not None and quote.ask_price is not None:
+                            # Use mid price as fill price estimate
+                            mid_price = float(quote.bid_price + quote.ask_price) / 2
+                            fill_prices.append(mid_price)
+                        else:
+                            fill_prices.append(0.0)
+                except Exception as e:
+                    logger.warning(f"Failed to fetch quotes for fill price: {e}")
+                    fill_prices = [0.0] * len(legs)
+                
+                # Try to override with actual fill prices from order if available
+                if hasattr(filled_order, 'legs') and filled_order.legs:
+                    for i, leg in enumerate(filled_order.legs):
+                        if i < len(fill_prices):
+                            # Try to get fill price from leg
+                            if hasattr(leg, 'fill_price') and leg.fill_price:
+                                fill_prices[i] = float(leg.fill_price)
+                            elif hasattr(leg, 'average_fill_price') and leg.average_fill_price:
+                                fill_prices[i] = float(leg.average_fill_price)
+                
+                # Also try to get from order data dict
+                if isinstance(entry_order_data, dict):
+                    if 'legs' in entry_order_data:
+                        for i, leg_data in enumerate(entry_order_data['legs']):
+                            if i < len(fill_prices) and isinstance(leg_data, dict):
+                                fill_price = leg_data.get('fill_price') or leg_data.get('average_fill_price')
+                                if fill_price:
+                                    fill_prices[i] = float(fill_price)
+                
+                # Final fallback: use limit price if available (for limit orders)
+                for i in range(len(fill_prices)):
+                    if fill_prices[i] <= 0 and price_decimal:
+                        fill_prices[i] = float(price_decimal)
+                
+                # Place stop-loss orders for each leg
+                stop_loss_results = []
+                for i, (leg, instrument_detail) in enumerate(zip(legs, instrument_details, strict=True)):
+                    fill_price = fill_prices[i] if i < len(fill_prices) else fill_prices[0] if fill_prices else 0.0
+                    
+                    if fill_price <= 0:
+                        logger.warning(f"Invalid fill price {fill_price} for leg {i}, skipping stop-loss")
+                        stop_loss_results.append({"leg_index": i, "order": None, "error": "Invalid fill price"})
+                        continue
+                    
+                    stop_result = await place_stop_loss_order(
+                        session=session,
+                        account=account,
+                        leg=leg,
+                        instrument_detail=instrument_detail,
+                        entry_fill_price=fill_price,
+                        dry_run=False,
+                        max_loss_per_contract=user_settings.max_loss_per_contract
+                    )
+                    
+                    if stop_result:
+                        stop_loss_results.append({"leg_index": i, "order": stop_result})
+                    else:
+                        stop_loss_results.append({"leg_index": i, "order": None, "error": "Failed to place stop-loss"})
+                
+                response["stop_loss_orders"] = stop_loss_results
+                
+            except TimeoutError:
+                # Order didn't fill within timeout - this is OK for limit orders
+                logger.info(f"Entry order {entry_order_id} did not fill within timeout, stop-loss will be placed when order fills")
+                response["stop_loss_orders"] = None
+                response["stop_loss_pending"] = True
+            except ValueError as e:
+                # Order was rejected or canceled
+                logger.warning(f"Entry order {entry_order_id} was rejected/canceled: {e}")
+                response["stop_loss_orders"] = None
+                response["stop_loss_error"] = str(e)
+        
+        except Exception as e:
+            # Log error but don't fail the entire request
+            logger.error(f"Error placing stop-loss orders: {e}")
+            response["stop_loss_orders"] = None
+            response["stop_loss_error"] = str(e)
+        
+        return response
 
 
 @app.post("/api/v1/replace-order/{order_id}")
@@ -1542,45 +2287,135 @@ async def get_current_time_nyc(
     return {"current_time_nyc": now_in_new_york().isoformat()}
 
 
+@app.get("/api/v1/quick-queries")
+async def get_quick_queries(
+    symbol: str | None = None,
+    session: Session = Depends(get_session_only)
+) -> dict[str, Any]:
+    """Get time-based templated queries for quick AI chat interactions.
+    
+    Returns queries based on current EST time:
+    - 0930-1000: Direction of market queries
+    - 1000-1015: Trend queries
+    - 1020-1130: Find positions for calls and puts queries
+    """
+    current_time_nyc = now_in_new_york()
+    current_hour = current_time_nyc.hour
+    current_minute = current_time_nyc.minute
+    time_minutes = current_hour * 60 + current_minute
+    
+    # Default symbol if not provided
+    symbol_placeholder = symbol or "{{SYMBOL}}"
+    
+    queries = []
+    active_window = None
+    
+    # 0930-1000 EST: Direction queries
+    if 9 * 60 + 30 <= time_minutes < 10 * 60:
+        active_window = "0930-1000"
+        queries = [
+            {
+                "title": "Market Direction",
+                "message": f"What is the current direction of {symbol_placeholder}?",
+                "timeWindow": "0930-1000",
+                "category": "direction"
+            },
+            {
+                "title": "Bullish or Bearish?",
+                "message": f"Is {symbol_placeholder} bullish or bearish right now?",
+                "timeWindow": "0930-1000",
+                "category": "direction"
+            },
+            {
+                "title": "Opening Direction",
+                "message": f"What's the opening direction for {symbol_placeholder}?",
+                "timeWindow": "0930-1000",
+                "category": "direction"
+            }
+        ]
+    # 1000-1015 EST: Trend queries
+    elif 10 * 60 <= time_minutes < 10 * 60 + 15:
+        active_window = "1000-1015"
+        queries = [
+            {
+                "title": "Current Trend",
+                "message": f"What is the current trend for {symbol_placeholder}?",
+                "timeWindow": "1000-1015",
+                "category": "trend"
+            },
+            {
+                "title": "Trend Direction",
+                "message": f"Is {symbol_placeholder} trending up or down?",
+                "timeWindow": "1000-1015",
+                "category": "trend"
+            },
+            {
+                "title": "Trend Strength",
+                "message": f"Analyze the trend strength for {symbol_placeholder}",
+                "timeWindow": "1000-1015",
+                "category": "trend"
+            }
+        ]
+    # 1020-1130 EST: Position finding queries
+    elif 10 * 60 + 20 <= time_minutes < 11 * 60 + 30:
+        active_window = "1020-1130"
+        queries = [
+            {
+                "title": "Best Call Options",
+                "message": f"Find the best call options for {symbol_placeholder}",
+                "timeWindow": "1020-1130",
+                "category": "positions"
+            },
+            {
+                "title": "Best Put Options",
+                "message": f"Find the best put options for {symbol_placeholder}",
+                "timeWindow": "1020-1130",
+                "category": "positions"
+            },
+            {
+                "title": "Call & Put Positions",
+                "message": f"What are good call and put positions for {symbol_placeholder} right now?",
+                "timeWindow": "1020-1130",
+                "category": "positions"
+            }
+        ]
+    
+    return {
+        "queries": queries,
+        "currentTime": current_time_nyc.isoformat(),
+        "activeWindow": active_window
+    }
+
+
 @app.post("/api/v1/credentials")
 async def add_or_update_credentials(
     credential: CredentialEntry
 ) -> dict[str, Any]:
-    """Add or update credentials for an API key. Saves to credentials.json file."""
-    global api_key_credentials
+    """Add or update credentials for an API key. Saves to SQLite database."""
+    global api_key_credentials, credentials_db
     
-    # Load existing credentials
-    project_root = Path(__file__).parent.parent
-    creds_file = project_root / "credentials.json"
-    existing_creds = {}
+    if not credentials_db:
+        raise HTTPException(
+            status_code=500,
+            detail="Database not initialized"
+        )
     
-    if creds_file.exists():
-        try:
-            with open(creds_file, "r") as f:
-                existing_creds = json.load(f)
-        except Exception as e:
-            logger.warning(f"Failed to read existing credentials: {e}")
-    
-    # Update with new credential
-    existing_creds[credential.api_key] = {
-        "client_secret": credential.client_secret,
-        "refresh_token": credential.refresh_token
-    }
-    
-    # Convert to tuple format for internal storage
-    updated_credentials = {}
-    for api_key, cred_data in existing_creds.items():
-        if isinstance(cred_data, dict):
-            client_secret = cred_data.get("client_secret")
-            refresh_token = cred_data.get("refresh_token")
-            if client_secret and refresh_token:
-                updated_credentials[api_key] = (client_secret, refresh_token)
-    
-    # Save to file
-    save_credentials(updated_credentials)
+    # Save to database
+    try:
+        credentials_db.insert_or_update_credentials(
+            credential.api_key,
+            credential.client_secret,
+            credential.refresh_token
+        )
+    except Exception as e:
+        logger.error(f"Failed to save credentials to database: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save credentials: {e}"
+        ) from e
     
     # Reload credentials in memory
-    api_key_credentials = updated_credentials
+    api_key_credentials = load_credentials()
     
     # Clear any existing session for this API key to force re-authentication
     if credential.api_key in api_key_sessions:
@@ -1602,63 +2437,64 @@ async def add_or_update_credentials(
 
 
 @app.get("/api/v1/credentials")
-async def list_credentials() -> dict[str, Any]:
-    """List all configured API keys (without sensitive data)."""
-    global api_key_credentials
+async def list_credentials(
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """List all configured API keys (without sensitive data). Requires authentication."""
+    global credentials_db
     
-    api_keys = []
-    for api_key in api_key_credentials.keys():
-        api_keys.append({
-            "api_key": api_key,
-            "configured": True
-        })
+    if not credentials_db:
+        raise HTTPException(
+            status_code=500,
+            detail="Database not initialized"
+        )
     
-    return {
-        "api_keys": api_keys,
-        "count": len(api_keys)
-    }
+    try:
+        api_key_list = credentials_db.list_api_keys()
+        api_keys = [{"api_key": key, "configured": True} for key in api_key_list]
+        
+        return {
+            "api_keys": api_keys,
+            "count": len(api_keys)
+        }
+    except Exception as e:
+        logger.error(f"Failed to list credentials: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to list credentials: {e}"
+        ) from e
 
 
 @app.delete("/api/v1/credentials/{api_key}")
 async def delete_credentials(api_key: str) -> dict[str, Any]:
     """Delete credentials for an API key."""
-    global api_key_credentials
+    global api_key_credentials, credentials_db
     
-    # Load existing credentials
-    project_root = Path(__file__).parent.parent
-    creds_file = project_root / "credentials.json"
-    existing_creds = {}
-    
-    if creds_file.exists():
-        try:
-            with open(creds_file, "r") as f:
-                existing_creds = json.load(f)
-        except Exception as e:
-            logger.warning(f"Failed to read existing credentials: {e}")
-    
-    # Remove the API key
-    if api_key not in existing_creds:
+    if not credentials_db:
         raise HTTPException(
-            status_code=404,
-            detail=f"API key '{api_key}' not found in credentials"
+            status_code=500,
+            detail="Database not initialized"
         )
     
-    del existing_creds[api_key]
-    
-    # Convert to tuple format for internal storage
-    updated_credentials = {}
-    for key, cred_data in existing_creds.items():
-        if isinstance(cred_data, dict):
-            client_secret = cred_data.get("client_secret")
-            refresh_token = cred_data.get("refresh_token")
-            if client_secret and refresh_token:
-                updated_credentials[key] = (client_secret, refresh_token)
-    
-    # Save to file
-    save_credentials(updated_credentials)
+    # Delete from database
+    try:
+        deleted = credentials_db.delete_credentials(api_key)
+        if not deleted:
+            raise HTTPException(
+                status_code=404,
+                detail=f"API key '{api_key}' not found in credentials"
+            )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete credentials: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to delete credentials: {e}"
+        ) from e
     
     # Reload credentials in memory
-    api_key_credentials = updated_credentials
+    api_key_credentials = load_credentials()
     
     # Clear any existing session for this API key
     if api_key in api_key_sessions:
@@ -1692,8 +2528,11 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     """Chat request model."""
     message: str = Field(..., description="User message to send to the agent")
-    message_history: list[ChatMessage] | None = Field(None, description="Optional conversation history")
+    message_history: list[ChatMessage] | None = Field(None, description="Optional conversation history (overrides tabId history if provided)")
     images: list[str] | None = Field(None, description="Optional list of base64-encoded images")
+    tab_id: str | None = Field(None, alias="tabId", description="Optional tab ID for maintaining separate conversation contexts per tab")
+    
+    model_config = {"populate_by_name": True}  # Allow both tab_id and tabId
 
 
 class ChatResponse(BaseModel):
@@ -1720,14 +2559,37 @@ async def chat_stream(
                 yield f"data: {json.dumps({'type': 'error', 'error': f'Failed to initialize AI agent: {str(agent_err)}'})}\n\n"
                 return
             
+            # Get conversation history - prefer message_history from request, otherwise use tabId history
+            conversation_history: list[ChatMessage] = []
+            if request.message_history:
+                # Explicit message_history takes precedence
+                conversation_history = request.message_history
+                logger.debug(f"Using explicit message_history with {len(conversation_history)} messages")
+            elif request.tab_id:
+                # Use stored conversation history for this tab
+                conversation_history = get_conversation_history(api_key, request.tab_id)
+                logger.debug(f"Using stored conversation history for tab_id={request.tab_id} with {len(conversation_history)} messages")
+            
+            # Extract symbol from tabId for context
+            current_symbol: str | None = None
+            if request.tab_id:
+                current_symbol = extract_symbol_from_tab_id(request.tab_id)
+                if current_symbol:
+                    logger.info(f"Extracted symbol '{current_symbol}' from tab_id: {request.tab_id}")
+            
             # Build user message with history context and images
             user_message = request.message
-            if request.message_history:
+            if conversation_history:
                 context_parts = []
-                for msg in request.message_history:
+                for msg in conversation_history:
                     context_parts.append(f"{'User' if msg.role == 'user' else 'Assistant'}: {msg.content}")
                 context = "\n".join(context_parts)
                 user_message = f"Previous conversation:\n{context}\n\nCurrent question: {request.message}"
+            
+            # Add symbol context at the beginning if available (highly visible)
+            if current_symbol:
+                symbol_context = f"Current symbol context: {current_symbol}\n\n"
+                user_message = symbol_context + user_message
             
             # Prepare message content with images if provided
             message_content = user_message
@@ -1780,6 +2642,25 @@ async def chat_stream(
                     if not response_text:
                         response_text = str(result) if result else "No response generated"
                     
+                    # Save conversation messages to history if tabId is provided
+                    if request.tab_id:
+                        try:
+                            # Save user message
+                            save_conversation_message(
+                                api_key, 
+                                request.tab_id, 
+                                ChatMessage(role="user", content=request.message)
+                            )
+                            # Save assistant response
+                            save_conversation_message(
+                                api_key,
+                                request.tab_id,
+                                ChatMessage(role="assistant", content=response_text)
+                            )
+                            logger.debug(f"Saved conversation messages for tab_id={request.tab_id}")
+                        except Exception as save_err:
+                            logger.warning(f"Failed to save conversation messages for tab_id={request.tab_id}: {save_err}")
+                    
                     # Stream the response in chunks for better UX
                     # Use larger chunks for faster transmission, no artificial delay
                     chunk_size = 100  # Larger chunks for faster streaming
@@ -1795,8 +2676,18 @@ async def chat_stream(
                 logger.error("Claude agent timed out")
                 yield f"data: {json.dumps({'type': 'error', 'error': 'Request timed out. The query may be too complex.'})}\n\n"
             except Exception as e:
-                logger.error(f"Error in streaming chat: {e}")
-                yield f"data: {json.dumps({'type': 'error', 'error': str(e)})}\n\n"
+                error_msg = str(e)
+                # Provide more helpful error messages for common issues
+                if "exceeded max retries" in error_msg:
+                    # Tool retry exceeded - provide context
+                    tool_name = "unknown tool"
+                    if "'" in error_msg:
+                        tool_name = error_msg.split("'")[1] if len(error_msg.split("'")) > 1 else "unknown tool"
+                    logger.error(f"Error in streaming chat: {e}", exc_info=True)
+                    yield f"data: {json.dumps({'type': 'error', 'error': f'The {tool_name} tool failed after retries. This may indicate a temporary issue with the trading system or invalid parameters. Please try again or check your request parameters.'})}\n\n"
+                else:
+                    logger.error(f"Error in streaming chat: {e}", exc_info=True)
+                    yield f"data: {json.dumps({'type': 'error', 'error': str(e)})}\n\n"
         except Exception as e:
             logger.error(f"Error in chat stream endpoint: {e}")
             yield f"data: {json.dumps({'type': 'error', 'error': f'Error processing chat message: {str(e)}'})}\n\n"
@@ -1832,18 +2723,38 @@ async def chat(
                 detail=f"Failed to initialize AI agent. Please check your TastyTrade credentials. Error: {str(agent_err)}"
             ) from agent_err
         
-        # Note: Message history conversion is complex in pydantic-ai
-        # For now, we'll skip it and users can include context in their messages
-        # The agent maintains state per API key, so context is preserved within a session
-        # If message_history is provided, we'll prepend it to the current message for context
-        user_message = request.message
+        # Get conversation history - prefer message_history from request, otherwise use tabId history
+        conversation_history: list[ChatMessage] = []
         if request.message_history:
+            # Explicit message_history takes precedence
+            conversation_history = request.message_history
+            logger.debug(f"Using explicit message_history with {len(conversation_history)} messages")
+        elif request.tab_id:
+            # Use stored conversation history for this tab
+            conversation_history = get_conversation_history(api_key, request.tab_id)
+            logger.debug(f"Using stored conversation history for tab_id={request.tab_id} with {len(conversation_history)} messages")
+        
+        # Extract symbol from tabId for context
+        current_symbol: str | None = None
+        if request.tab_id:
+            current_symbol = extract_symbol_from_tab_id(request.tab_id)
+            if current_symbol:
+                logger.info(f"Extracted symbol '{current_symbol}' from tab_id: {request.tab_id}")
+        
+        # Build user message with history context
+        user_message = request.message
+        if conversation_history:
             # Build context from history
             context_parts = []
-            for msg in request.message_history:
+            for msg in conversation_history:
                 context_parts.append(f"{'User' if msg.role == 'user' else 'Assistant'}: {msg.content}")
             context = "\n".join(context_parts)
             user_message = f"Previous conversation:\n{context}\n\nCurrent question: {request.message}"
+        
+        # Add symbol context at the beginning if available (highly visible)
+        if current_symbol:
+            symbol_context = f"Current symbol context: {current_symbol}\n\n"
+            user_message = symbol_context + user_message
         
         # Handle images if provided
         if request.images:
@@ -1898,8 +2809,27 @@ async def chat(
         # Get new messages from result
         new_messages = result.new_messages() if hasattr(result, 'new_messages') else []
         
-        # Convert to our format
-        updated_history = request.message_history.copy() if request.message_history else []
+        # Save conversation messages to history if tabId is provided
+        if request.tab_id:
+            try:
+                # Save user message
+                save_conversation_message(
+                    api_key,
+                    request.tab_id,
+                    ChatMessage(role="user", content=request.message)
+                )
+                # Save assistant response
+                save_conversation_message(
+                    api_key,
+                    request.tab_id,
+                    ChatMessage(role="assistant", content=response_text)
+                )
+                logger.debug(f"Saved conversation messages for tab_id={request.tab_id}")
+            except Exception as save_err:
+                logger.warning(f"Failed to save conversation messages for tab_id={request.tab_id}: {save_err}")
+        
+        # Build updated history for response
+        updated_history = conversation_history.copy()
         updated_history.append(ChatMessage(role="user", content=request.message))
         updated_history.append(ChatMessage(role="assistant", content=response_text))
         
@@ -1915,6 +2845,142 @@ async def chat(
             status_code=500,
             detail=f"Error processing chat message: {e}"
         ) from e
+
+
+# =============================================================================
+# SETTINGS ENDPOINTS
+# =============================================================================
+
+@app.get("/api/v1/settings")
+async def get_settings(
+    api_key: str = Depends(verify_api_key)
+) -> UserSettings:
+    """Get user settings for the authenticated API key."""
+    settings = get_user_settings(api_key)
+    return settings
+
+
+@app.post("/api/v1/settings")
+async def create_or_update_settings(
+    settings_update: UserSettingsUpdate,
+    api_key: str = Depends(verify_api_key)
+) -> UserSettings:
+    """Create or update user settings for the authenticated API key."""
+    global api_key_settings
+    
+    # Get current settings or defaults
+    current_settings = get_user_settings(api_key)
+    
+    # Update with provided values
+    updated_dict = current_settings.model_dump()
+    update_dict = settings_update.model_dump(exclude_unset=True)
+    updated_dict.update(update_dict)
+    
+    # Create new settings object
+    new_settings = UserSettings(**updated_dict)
+    
+    # Save to memory and file
+    api_key_settings[api_key] = new_settings
+    save_settings(api_key_settings)
+    
+    logger.info(f"Updated settings for API key {api_key[:8]}...")
+    return new_settings
+
+
+@app.patch("/api/v1/settings")
+async def patch_settings(
+    settings_update: UserSettingsUpdate,
+    api_key: str = Depends(verify_api_key)
+) -> UserSettings:
+    """Partially update user settings (same as POST, but semantically PATCH)."""
+    return await create_or_update_settings(settings_update, api_key)
+
+
+# =============================================================================
+# LOG ENDPOINTS
+# =============================================================================
+
+@app.get("/api/v1/logs")
+async def list_logs(
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """List all available log files"""
+    try:
+        log_files = []
+        if LOGS_DIR.exists():
+            for log_file in sorted(LOGS_DIR.glob("*.log"), key=lambda x: x.stat().st_mtime, reverse=True):
+                stat = log_file.stat()
+                # Extract service name and date from filename (e.g., "server_2025-12-25.log")
+                stem = log_file.stem
+                if "_" in stem:
+                    parts = stem.rsplit("_", 1)
+                    service = parts[0]
+                    date_str = parts[1] if len(parts) > 1 else None
+                else:
+                    service = stem
+                    date_str = None
+                
+                log_files.append({
+                    "filename": log_file.name,
+                    "size": stat.st_size,
+                    "modified": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
+                    "service": service,
+                    "date": date_str,
+                })
+        return {"logs": log_files}
+    except Exception as e:
+        logger.error(f"Error listing logs: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to list logs: {str(e)}"
+        )
+
+
+@app.get("/api/v1/logs/{filename:path}")
+async def get_log_content(
+    filename: str,
+    lines: int = Query(500, description="Number of lines to return (from end of file)"),
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """Get log file content"""
+    try:
+        # Security: Only allow reading .log files from LOGS_DIR
+        log_file = LOGS_DIR / filename
+        if not log_file.exists() or not str(log_file.resolve()).startswith(str(LOGS_DIR.resolve())):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Log file not found"
+            )
+        
+        if not log_file.name.endswith('.log'):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Only .log files can be accessed"
+            )
+        
+        # Read file content
+        with open(log_file, 'r', encoding='utf-8') as f:
+            all_lines = f.readlines()
+        
+        # Return last N lines
+        start_line = max(0, len(all_lines) - lines) if lines else 0
+        content_lines = all_lines[start_line:]
+        
+        return {
+            "filename": filename,
+            "content": "".join(content_lines),
+            "total_lines": len(all_lines),
+            "returned_lines": len(content_lines),
+            "start_line": start_line + 1,  # 1-indexed
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error reading log file {filename}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to read log file: {str(e)}"
+        )
 
 
 @app.get("/health", tags=["Health"])
@@ -1940,13 +3006,12 @@ def main():
     """Run the HTTP server."""
     import uvicorn
     
+    # Initialize logging before anything else
+    from tasty_agent.logging_config import initialize_tasty_agent_loggers
+    initialize_tasty_agent_loggers()
+    
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", "8000"))
-    
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
     
     logger.info(f"Starting TastyTrade HTTP server on {host}:{port}")
     logger.info("Set API_KEY environment variable to secure the server")

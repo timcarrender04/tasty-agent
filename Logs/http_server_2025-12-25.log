@@ -1,0 +1,275 @@
+2025-12-25 21:09:55 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-25.log
+2025-12-25 21:09:55 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-25 21:09:55 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-25 21:09:55 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-25 21:09:55 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-25 21:09:55 UTC | INFO     | http_server | Migrating credentials from /app/credentials.json to database...
+2025-12-25 21:09:55 UTC | INFO     | http_server | Successfully migrated 1 credential(s) from JSON to database
+2025-12-25 21:09:55 UTC | INFO     | http_server | Backed up JSON file to /app/credentials.json.backup
+2025-12-25 21:09:55 UTC | INFO     | http_server | Loaded 1 credential(s) from database
+2025-12-25 21:09:55 UTC | INFO     | http_server | Loaded default credentials for API key: 
+2025-12-25 21:09:55 UTC | INFO     | http_server | Loaded credentials for 2 API key(s)
+2025-12-25 21:09:55 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-25 21:09:55 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-26 11:55:54 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 1 account(s).
+2025-12-26 12:04:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 6.0 min)
+2025-12-26 12:09:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:14:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:19:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:23:09 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (15,850 chars)
+2025-12-26 12:23:09 UTC | INFO     | http_server | Loaded full instruction prompt: core (15,850 chars) + full (63,475 chars) = 79,373 total chars
+2025-12-26 12:23:09 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... Found 1 account(s)
+2025-12-26 12:23:10 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with model anthropic:claude-3-5-haiku-20241022 and custom instructions (79,373 chars)
+2025-12-26 12:23:10 UTC | INFO     | http_server | Starting streaming Claude agent run for message: what is the market doing so far for pre market? ...
+2025-12-26 12:23:38 UTC | INFO     | http_server | Agent completed in 25.68s
+2025-12-26 12:24:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:29:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:34:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:39:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:44:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:49:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:54:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 12:59:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:04:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:09:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:14:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:19:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:24:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:29:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:34:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:39:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:44:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:50:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 13:55:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:00:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:05:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:10:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:11:01 UTC | INFO     | http_server | Starting streaming Claude agent run for message: what is pre market looking like? ...
+2025-12-26 14:11:23 UTC | INFO     | http_server | Agent completed in 19.36s
+2025-12-26 14:12:06 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: what is pre market looking like? 
+Assistant: I apologize for the quotes...
+2025-12-26 14:12:33 UTC | INFO     | http_server | Agent completed in 24.49s
+2025-12-26 14:15:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:20:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:25:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:30:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:35:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:38:04 UTC | INFO     | http_server | Starting streaming Claude agent run for message: test...
+2025-12-26 14:38:29 UTC | INFO     | http_server | Agent completed in 23.03s
+2025-12-26 14:38:37 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test
+Assistant: What would you like to do today? I'm ready to help with...
+2025-12-26 14:39:19 UTC | INFO     | http_server | Agent completed in 38.83s
+2025-12-26 14:40:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:40:20 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test
+Assistant: What would you like to do today? I'm ready to help with...
+2025-12-26 14:40:59 UTC | INFO     | http_server | Agent completed in 36.69s
+2025-12-26 14:42:10 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test
+Assistant: What would you like to do today? I'm ready to help with...
+2025-12-26 14:42:51 UTC | INFO     | http_server | Agent completed in 38.96s
+2025-12-26 14:45:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:45:50 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test
+Assistant: What would you like to do today? I'm ready to help with...
+2025-12-26 14:46:18 UTC | INFO     | http_server | Agent completed in 26.10s
+2025-12-26 14:49:09 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Is SPY bullish or bearish right now?...
+2025-12-26 14:49:33 UTC | INFO     | http_server | Agent completed in 21.39s
+2025-12-26 14:50:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:51:08 UTC | INFO     | http_server | Starting streaming Claude agent run for message: What's the opening direction for SPY?...
+2025-12-26 14:51:45 UTC | INFO     | http_server | Agent completed in 34.44s
+2025-12-26 14:53:55 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Is SPY bullish or bearish right now?...
+2025-12-26 14:54:26 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+
+Current question: Is SPY bullish ...
+2025-12-26 14:54:53 UTC | INFO     | http_server | Agent completed in 24.60s
+2025-12-26 14:55:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 14:56:21 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 14:56:45 UTC | INFO     | http_server | Agent completed in 22.13s
+2025-12-26 14:57:26 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 14:57:52 UTC | INFO     | http_server | Agent completed in 24.52s
+2025-12-26 14:58:17 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 14:58:49 UTC | INFO     | http_server | Agent completed in 29.73s
+2025-12-26 14:59:27 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:00:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:00:20 UTC | INFO     | http_server | Agent completed in 49.98s
+2025-12-26 15:00:57 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:01:14 UTC | INFO     | http_server | Agent completed in 14.24s
+2025-12-26 15:01:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:02:31 UTC | INFO     | http_server | Agent completed in 29.88s
+2025-12-26 15:03:06 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:03:37 UTC | INFO     | http_server | Agent completed in 28.30s
+2025-12-26 15:03:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:04:13 UTC | INFO     | http_server | Agent completed in 12.53s
+2025-12-26 15:04:24 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:04:48 UTC | INFO     | http_server | Agent completed in 21.84s
+2025-12-26 15:05:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:05:14 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:05:44 UTC | INFO     | http_server | Agent completed in 28.30s
+2025-12-26 15:05:59 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:06:14 UTC | INFO     | http_server | Agent completed in 12.17s
+2025-12-26 15:07:14 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:07:27 UTC | INFO     | http_server | Agent completed in 10.56s
+2025-12-26 15:07:50 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:08:04 UTC | INFO     | http_server | Agent completed in 11.52s
+2025-12-26 15:08:20 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:08:32 UTC | INFO     | http_server | Agent completed in 9.18s
+2025-12-26 15:08:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:09:09 UTC | INFO     | http_server | Agent completed in 9.60s
+2025-12-26 15:09:33 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:09:48 UTC | INFO     | http_server | Agent completed in 12.83s
+2025-12-26 15:10:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:11:22 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:11:35 UTC | INFO     | http_server | Agent completed in 10.09s
+2025-12-26 15:11:53 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:12:11 UTC | INFO     | http_server | Agent completed in 15.84s
+2025-12-26 15:12:49 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:13:01 UTC | INFO     | http_server | Agent completed in 9.80s
+2025-12-26 15:13:22 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:13:37 UTC | INFO     | http_server | Agent completed in 12.55s
+2025-12-26 15:14:05 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:14:20 UTC | INFO     | http_server | Agent completed in 11.72s
+2025-12-26 15:14:33 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:14:46 UTC | INFO     | http_server | Agent completed in 10.99s
+2025-12-26 15:15:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:15:19 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:15:38 UTC | INFO     | http_server | Agent completed in 17.36s
+2025-12-26 15:15:56 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:16:10 UTC | INFO     | http_server | Agent completed in 10.90s
+2025-12-26 15:16:24 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:16:36 UTC | INFO     | http_server | Agent completed in 9.52s
+2025-12-26 15:17:33 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:17:46 UTC | INFO     | http_server | Agent completed in 10.90s
+2025-12-26 15:18:47 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:19:58 UTC | INFO     | http_server | Agent completed in 68.02s
+2025-12-26 15:20:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:21:12 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:22:23 UTC | INFO     | http_server | Agent completed in 68.35s
+2025-12-26 15:22:52 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+User: Is SPY bullish or bearish ri...
+2025-12-26 15:23:32 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:23:53 UTC | INFO     | http_server | Agent completed in 58.50s
+2025-12-26 15:24:00 UTC | INFO     | http_server | Agent completed in 28.81s
+2025-12-26 15:24:01 UTC | ERROR    | http_server | Error in streaming chat: Attempted to exit cancel scope in a different task than it was entered in
+2025-12-26 15:24:56 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:25:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:25:18 UTC | INFO     | http_server | Agent completed in 19.92s
+2025-12-26 15:26:30 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:26:56 UTC | INFO     | http_server | Agent completed in 23.58s
+2025-12-26 15:27:29 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:27:43 UTC | INFO     | http_server | Agent completed in 11.96s
+2025-12-26 15:28:11 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:28:25 UTC | INFO     | http_server | Agent completed in 11.81s
+2025-12-26 15:28:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:29:37 UTC | INFO     | http_server | Agent completed in 36.23s
+2025-12-26 15:30:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:30:12 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:30:24 UTC | INFO     | http_server | Agent completed in 9.84s
+2025-12-26 15:30:31 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:30:53 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:31:03 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:31:34 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:32:06 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:32:49 UTC | INFO     | http_server | Agent completed in 40.06s
+2025-12-26 15:33:00 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:33:23 UTC | INFO     | http_server | Agent completed in 20.97s
+2025-12-26 15:33:47 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:34:09 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:35:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:35:30 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:35:48 UTC | INFO     | http_server | Agent completed in 15.98s
+2025-12-26 15:36:27 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:36:44 UTC | INFO     | http_server | Agent completed in 14.92s
+2025-12-26 15:37:35 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:37:56 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:38:41 UTC | INFO     | http_server | Session keep-alive task cancelled

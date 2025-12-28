@@ -18,3 +18,5 @@ tasty_agent/_version.py
 .pytest_cache/
 .coverage
 htmlcov/
+credentials.db
+credentials.json.backup

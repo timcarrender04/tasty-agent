@@ -1,0 +1,732 @@
+2025-12-26 15:38:45 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-26.log
+2025-12-26 15:38:45 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-26 15:38:45 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-26 15:38:45 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-26 15:38:45 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-26 15:38:45 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-26 15:38:45 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-26 15:38:45 UTC | INFO     | http_server | Loaded credentials for 2 API key(s)
+2025-12-26 15:38:45 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-26 15:38:45 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-26 15:38:46 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 1 account(s).
+2025-12-26 15:43:15 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (15,850 chars)
+2025-12-26 15:43:15 UTC | INFO     | http_server | Loaded full instruction prompt: core (15,850 chars) + full (63,475 chars) = 79,373 total chars
+2025-12-26 15:43:15 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... Found 1 account(s)
+2025-12-26 15:43:15 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with model anthropic:claude-3-5-haiku-20241022 and custom instructions (79,373 chars)
+2025-12-26 15:43:15 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:43:39 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:44:13 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:44:28 UTC | INFO     | http_server | Agent completed in 12.45s
+2025-12-26 15:45:16 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:45:32 UTC | INFO     | http_server | Agent completed in 13.16s
+2025-12-26 15:45:49 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:46:19 UTC | INFO     | http_server | Agent completed in 27.18s
+2025-12-26 15:47:32 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:47:50 UTC | INFO     | http_server | Agent completed in 15.64s
+2025-12-26 15:48:31 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:48:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-26 15:49:11 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:50:03 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:50:20 UTC | INFO     | http_server | Agent completed in 14.49s
+2025-12-26 15:50:28 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Find the best put options for SPY...
+2025-12-26 15:51:21 UTC | INFO     | http_server | Agent completed in 51.45s
+2025-12-26 15:51:52 UTC | INFO     | http_server | Starting streaming Claude agent run for message: give me QQQ put 3DTE ITM and conviction ...
+2025-12-26 15:52:53 UTC | INFO     | http_server | Agent completed in 59.46s
+2025-12-26 15:52:56 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:53:11 UTC | INFO     | http_server | Agent completed in 12.46s
+2025-12-26 15:53:21 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:53:42 UTC | ERROR    | http_server | Error in streaming chat: Tool 'place_order' exceeded max retries count of 1
+2025-12-26 15:53:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 15:56:40 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:57:05 UTC | INFO     | http_server | Agent completed in 22.71s
+2025-12-26 15:57:56 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-26 15:58:00 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-26.log
+2025-12-26 15:58:00 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-26 15:58:00 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-26 15:58:00 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-26 15:58:00 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-26 15:58:00 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-26 15:58:00 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-26 15:58:00 UTC | INFO     | http_server | Loaded credentials for 2 API key(s)
+2025-12-26 15:58:00 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-26 15:58:00 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-26 15:58:00 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 1 account(s).
+2025-12-26 15:58:21 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (15,850 chars)
+2025-12-26 15:58:21 UTC | INFO     | http_server | Loaded full instruction prompt: core (15,850 chars) + full (63,475 chars) = 79,373 total chars
+2025-12-26 15:58:21 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... Found 1 account(s)
+2025-12-26 15:58:21 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with model anthropic:claude-3-5-haiku-20241022 and custom instructions (79,373 chars)
+2025-12-26 15:58:21 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:58:39 UTC | INFO     | http_server | Agent completed in 15.45s
+2025-12-26 15:59:17 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 15:59:34 UTC | INFO     | http_server | Agent completed in 14.49s
+2025-12-26 16:00:03 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:00:16 UTC | INFO     | http_server | Agent completed in 11.05s
+2025-12-26 16:00:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:01:13 UTC | INFO     | http_server | Agent completed in 12.30s
+2025-12-26 16:02:34 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:02:48 UTC | INFO     | http_server | Agent completed in 11.82s
+2025-12-26 16:04:10 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:04:25 UTC | INFO     | http_server | Agent completed in 12.48s
+2025-12-26 16:04:43 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:04:56 UTC | INFO     | http_server | Agent completed in 11.31s
+2025-12-26 16:05:27 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:05:50 UTC | INFO     | http_server | Agent completed in 20.45s
+2025-12-26 16:07:11 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:07:24 UTC | INFO     | http_server | Agent completed in 10.78s
+2025-12-26 16:08:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-26 16:12:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:13:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:13:13 UTC | INFO     | http_server | Agent completed in 13.25s
+2025-12-26 16:16:40 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:16:56 UTC | INFO     | http_server | Agent completed in 14.28s
+2025-12-26 16:18:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:18:11 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:18:37 UTC | INFO     | http_server | Agent completed in 23.46s
+2025-12-26 16:19:46 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:20:03 UTC | INFO     | http_server | Agent completed in 14.82s
+2025-12-26 16:20:42 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:20:56 UTC | INFO     | http_server | Agent completed in 10.97s
+2025-12-26 16:21:39 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:21:59 UTC | INFO     | http_server | Agent completed in 17.93s
+2025-12-26 16:23:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:24:37 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:25:05 UTC | INFO     | http_server | Agent completed in 25.66s
+2025-12-26 16:26:43 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:27:06 UTC | INFO     | http_server | Agent completed in 20.25s
+2025-12-26 16:28:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:28:33 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:29:04 UTC | INFO     | http_server | Agent completed in 28.56s
+2025-12-26 16:31:41 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:32:09 UTC | INFO     | http_server | Agent completed in 25.75s
+2025-12-26 16:32:59 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:33:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:33:27 UTC | INFO     | http_server | Agent completed in 25.31s
+2025-12-26 16:34:32 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:34:52 UTC | INFO     | http_server | Agent completed in 17.41s
+2025-12-26 16:35:31 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:36:14 UTC | INFO     | http_server | Agent completed in 40.57s
+2025-12-26 16:38:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:43:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:43:56 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:44:18 UTC | INFO     | http_server | Agent completed in 19.29s
+2025-12-26 16:44:40 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:44:56 UTC | INFO     | http_server | Agent completed in 13.30s
+2025-12-26 16:46:25 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:47:32 UTC | INFO     | http_server | Agent completed in 65.57s
+2025-12-26 16:48:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:53:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 16:55:30 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:56:10 UTC | INFO     | http_server | Agent completed in 37.80s
+2025-12-26 16:57:29 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 16:58:01 UTC | INFO     | http_server | Agent completed in 30.09s
+2025-12-26 16:58:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:03:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:08:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:13:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:18:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:23:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:24:41 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 17:25:13 UTC | INFO     | http_server | Agent completed in 29.24s
+2025-12-26 17:28:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:33:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:38:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:43:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:48:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:53:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 17:58:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:03:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:08:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:13:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:18:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:18:44 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:19:00 UTC | INFO     | http_server | Agent completed in 13.02s
+2025-12-26 18:19:25 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:20:03 UTC | INFO     | http_server | Agent completed in 35.37s
+2025-12-26 18:20:25 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:20:42 UTC | INFO     | http_server | Agent completed in 15.10s
+2025-12-26 18:23:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:28:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:29:32 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:29:51 UTC | INFO     | http_server | Agent completed in 16.54s
+2025-12-26 18:30:44 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:31:03 UTC | INFO     | http_server | Agent completed in 16.43s
+2025-12-26 18:33:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:34:30 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:34:46 UTC | INFO     | http_server | Agent completed in 13.80s
+2025-12-26 18:36:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:37:18 UTC | INFO     | http_server | Agent completed in 17.77s
+2025-12-26 18:37:50 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:38:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:38:13 UTC | INFO     | http_server | Agent completed in 20.78s
+2025-12-26 18:38:45 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:39:16 UTC | INFO     | http_server | Agent completed in 28.24s
+2025-12-26 18:39:44 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:39:58 UTC | INFO     | http_server | Agent completed in 12.28s
+2025-12-26 18:40:39 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:40:58 UTC | INFO     | http_server | Agent completed in 16.96s
+2025-12-26 18:42:03 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:43:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:44:05 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:44:20 UTC | INFO     | http_server | Agent completed in 12.98s
+2025-12-26 18:45:15 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:45:31 UTC | INFO     | http_server | Agent completed in 13.39s
+2025-12-26 18:45:59 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:46:14 UTC | INFO     | http_server | Agent completed in 12.02s
+2025-12-26 18:47:21 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:47:56 UTC | INFO     | http_server | Agent completed in 32.84s
+2025-12-26 18:48:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:48:24 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:48:40 UTC | INFO     | http_server | Agent completed in 13.54s
+2025-12-26 18:49:50 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:50:06 UTC | INFO     | http_server | Agent completed in 13.74s
+2025-12-26 18:50:40 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 18:51:03 UTC | INFO     | http_server | Agent completed in 20.16s
+2025-12-26 18:53:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 18:58:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:00:19 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 19:00:34 UTC | INFO     | http_server | Agent completed in 12.86s
+2025-12-26 19:01:41 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: Is SPY bullish or bearish right now?
+Assistant: ## SPY Market Analysis ...
+2025-12-26 19:01:58 UTC | INFO     | http_server | Agent completed in 15.11s
+2025-12-26 19:03:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:08:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:13:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:18:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:23:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:28:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:33:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:38:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:43:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:48:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:53:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 19:58:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:03:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:08:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:13:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:18:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:23:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:28:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:33:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:38:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:43:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:48:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:53:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 20:58:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:03:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:08:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:13:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:18:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:23:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:28:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:33:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:38:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:43:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:48:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:53:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 21:58:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:03:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:08:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:13:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:18:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:23:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:28:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:33:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:38:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:43:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:48:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:53:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 22:58:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:03:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:08:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:13:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:18:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:23:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:28:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:33:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:38:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:43:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:48:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:53:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-26 23:58:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:03:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:08:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:13:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:18:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:23:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:28:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:33:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:38:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:43:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:48:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:53:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 00:58:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:03:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:08:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:13:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:18:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:23:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:28:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:33:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:38:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:43:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:48:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:53:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 01:58:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:03:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:08:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:13:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:18:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:23:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:28:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:33:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:38:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:43:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:48:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:53:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 02:58:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:03:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:08:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:13:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:18:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:23:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:28:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:33:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:38:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:43:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:48:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:53:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 03:58:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:03:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:08:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:13:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:18:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:23:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:28:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:33:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:38:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:43:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:48:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:53:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 04:58:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:03:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:08:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:13:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:18:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:23:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:28:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:33:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:38:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:43:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:48:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:53:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 05:58:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:03:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:08:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:13:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:18:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:23:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:28:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:33:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:38:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:43:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:48:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:53:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 06:58:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:03:42 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:08:42 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:13:42 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:18:42 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:23:43 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:28:43 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:33:43 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:38:43 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:43:44 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:48:44 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:53:44 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 07:58:44 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:03:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:08:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:13:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:18:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:23:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:28:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:33:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:38:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:43:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:48:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:53:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 08:58:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:03:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:08:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:13:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:18:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:23:49 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:28:49 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:33:49 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:38:49 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:43:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:48:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:53:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 09:58:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:03:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:08:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:13:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:18:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:23:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:28:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:33:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:38:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:43:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:48:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:53:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 10:58:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:03:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:08:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:13:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:18:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:23:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:28:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:33:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:38:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:43:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:48:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:53:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 11:58:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:03:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:08:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:13:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:18:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:23:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:28:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:33:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:38:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:43:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:48:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:54:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 12:59:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:04:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:09:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:14:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:19:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:24:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:29:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:34:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:39:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:44:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:49:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:54:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 13:59:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:04:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:09:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:14:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:19:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:24:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:29:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:34:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:39:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:44:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:49:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:54:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 14:59:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:04:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:09:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:14:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:19:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:24:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:29:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:34:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:39:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:44:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:49:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:54:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 15:59:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:04:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:09:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:14:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:19:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:24:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:29:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:34:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:39:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:44:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:49:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:54:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 16:59:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:04:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:09:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:14:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:19:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:24:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:29:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:34:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:39:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:44:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:49:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:54:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 17:59:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:04:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:09:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:14:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:19:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:24:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:29:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:34:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:39:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:44:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:49:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:54:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 18:59:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:04:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:09:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:14:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:19:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:24:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:29:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:34:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:39:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:44:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:49:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:54:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 19:59:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:04:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:09:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:14:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:19:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:24:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:29:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:34:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:39:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:44:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:49:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:54:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 20:59:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:04:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:09:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:14:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:19:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:24:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:29:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:34:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:39:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:44:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:49:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:54:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 21:59:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:04:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:09:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:14:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:19:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:24:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:29:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:34:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:37:23 UTC | INFO     | http_server | Starting streaming Claude agent run for message: test this out ...
+2025-12-27 22:37:49 UTC | INFO     | http_server | Agent completed in 23.95s
+2025-12-27 22:38:24 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test this out 
+Assistant: Account Overview:
+- Cash Balance: $9,720.48
+-...
+2025-12-27 22:38:49 UTC | INFO     | http_server | Agent completed in 22.27s
+2025-12-27 22:39:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:43:00 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: test this out 
+Assistant: Account Overview:
+- Cash Balance: $9,720.48
+-...
+2025-12-27 22:43:27 UTC | INFO     | http_server | Agent completed in 24.49s
+2025-12-27 22:44:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:49:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:54:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 22:59:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:02:11 UTC | INFO     | http_server | Starting streaming Claude agent run for message: lets look over last week wins and losses ...
+2025-12-27 23:02:42 UTC | INFO     | http_server | Agent completed in 28.76s
+2025-12-27 23:03:12 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: lets look over last week wins and losses 
+Assistant: Let me analyze the...
+2025-12-27 23:03:56 UTC | INFO     | http_server | Agent completed in 41.46s
+2025-12-27 23:04:16 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: lets look over last week wins and losses 
+Assistant: Let me analyze the...
+2025-12-27 23:04:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:04:37 UTC | INFO     | http_server | Agent completed in 17.98s
+2025-12-27 23:04:59 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: lets look over last week wins and losses 
+Assistant: Let me analyze the...
+2025-12-27 23:05:28 UTC | INFO     | http_server | Agent completed in 26.14s
+2025-12-27 23:06:23 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: lets look over last week wins and losses 
+Assistant: Let me analyze the...
+2025-12-27 23:07:32 UTC | INFO     | http_server | Agent completed in 65.82s
+2025-12-27 23:09:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:14:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:16:36 UTC | INFO     | http_server | Starting streaming Claude agent run for message: test...
+2025-12-27 23:16:56 UTC | INFO     | http_server | Agent completed in 17.34s
+2025-12-27 23:19:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:24:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:29:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:34:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:39:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:44:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:45:33 UTC | INFO     | http_server | Starting streaming Claude agent run for message: give me the spy breakdown ...
+2025-12-27 23:46:02 UTC | INFO     | http_server | Agent completed in 26.30s
+2025-12-27 23:46:31 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Previous conversation:
+User: give me the spy breakdown 
+Assistant: Let me break down the SPY metrics...
+2025-12-27 23:47:14 UTC | INFO     | http_server | Agent completed in 39.91s
+2025-12-27 23:49:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:54:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-27 23:59:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:04:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:09:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:14:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:19:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:24:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:29:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:34:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:39:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:44:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:49:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:54:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 00:59:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:04:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:09:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:14:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:19:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:24:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:29:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:34:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:39:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:44:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:49:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:50:17 UTC | INFO     | http_server | Starting streaming Claude agent run for message: what is IWM doing this week?...
+2025-12-28 01:50:42 UTC | INFO     | http_server | Agent completed in 21.72s
+2025-12-28 01:54:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 01:56:13 UTC | INFO     | http_server | Starting streaming Claude agent run for message: what happened last week with options? ...
+2025-12-28 01:56:39 UTC | INFO     | http_server | Agent completed in 23.67s
+2025-12-28 01:59:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:04:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:09:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:14:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:19:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:24:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:29:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:34:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:39:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-28 02:44:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)

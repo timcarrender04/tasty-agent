@@ -49,3 +49,4 @@ echo "To check logs for model identifier:"
 echo "  docker-compose logs http-server | grep -i 'model\|haiku\|claude'"
 echo ""
 
+
