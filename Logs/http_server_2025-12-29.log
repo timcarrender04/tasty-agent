@@ -1,0 +1,479 @@
+2025-12-30 02:48:40 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-29.log
+2025-12-30 02:48:40 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 02:48:40 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 02:48:40 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 02:48:40 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 02:48:40 UTC | INFO     | http_server | Migrating credentials from /app/credentials.json to database...
+2025-12-30 02:48:40 UTC | INFO     | http_server | Successfully migrated 2 credential(s) from JSON to database
+2025-12-30 02:48:40 UTC | INFO     | http_server | Backed up JSON file to /app/credentials.json.backup
+2025-12-30 02:48:40 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 02:48:40 UTC | INFO     | http_server | Loaded default credentials for API key: 
+2025-12-30 02:48:40 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 02:48:40 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 02:48:40 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 02:48:42 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 2 account(s).
+2025-12-30 02:52:12 UTC | WARNING  | http_server | .env file not found at /app/.env. Creating new file.
+2025-12-30 02:52:12 UTC | INFO     | http_server | Created .env file with MODE=day
+2025-12-30 02:52:12 UTC | INFO     | http_server | Cleared agent cache after mode change to day
+2025-12-30 02:52:12 UTC | INFO     | http_server | Trading mode updated to day
+2025-12-30 02:52:49 UTC | INFO     | http_server | Updated MODE=scalp in .env file
+2025-12-30 02:52:49 UTC | INFO     | http_server | Cleared agent cache after mode change to scalp
+2025-12-30 02:52:49 UTC | INFO     | http_server | Trading mode updated to scalp
+2025-12-30 02:53:49 UTC | INFO     | http_server | Updated MODE=day in .env file
+2025-12-30 02:53:49 UTC | INFO     | http_server | Cleared agent cache after mode change to day
+2025-12-30 02:53:49 UTC | INFO     | http_server | Trading mode updated to day
+2025-12-30 02:57:14 UTC | INFO     | http_server | Updated MODE=scalp in .env file
+2025-12-30 02:57:14 UTC | INFO     | http_server | Cleared agent cache after mode change to scalp
+2025-12-30 02:57:14 UTC | INFO     | http_server | Trading mode updated to scalp
+2025-12-30 02:58:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-30 03:03:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:08:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:13:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:18:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:19:03 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 03:19:07 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-29.log
+2025-12-30 03:19:07 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 03:19:07 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 03:19:07 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 03:19:07 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 03:19:07 UTC | INFO     | http_server | Loaded 3 credential(s) from database
+2025-12-30 03:19:07 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 03:19:07 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 03:19:07 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 03:19:07 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 03:19:09 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 2 account(s).
+2025-12-30 03:20:48 UTC | INFO     | http_server | Updated MODE=day in .env file
+2025-12-30 03:20:48 UTC | INFO     | http_server | Cleared agent cache after mode change to day
+2025-12-30 03:20:48 UTC | INFO     | http_server | Trading mode updated to day
+2025-12-30 03:29:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-30 03:34:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:39:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:39:21 UTC | INFO     | http_server | Updated MODE=swing in .env file
+2025-12-30 03:39:21 UTC | INFO     | http_server | Cleared agent cache after mode change to swing
+2025-12-30 03:39:21 UTC | INFO     | http_server | Trading mode updated to swing
+2025-12-30 03:44:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 03:47:00 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 03:47:14 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-29.log
+2025-12-30 03:47:14 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 03:47:14 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 03:47:14 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 03:47:14 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 03:47:14 UTC | INFO     | http_server | Migrating credentials from /app/credentials.json to database...
+2025-12-30 03:47:14 UTC | INFO     | http_server | Successfully migrated 2 credential(s) from JSON to database
+2025-12-30 03:47:14 UTC | INFO     | http_server | Backed up JSON file to /app/credentials.json.backup
+2025-12-30 03:47:14 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 03:47:14 UTC | INFO     | http_server | Loaded default credentials for API key: 
+2025-12-30 03:47:14 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 03:47:14 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 03:47:14 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 03:47:15 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 2 account(s).
+2025-12-30 03:57:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-30 04:02:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:07:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:12:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:17:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:22:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:27:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:32:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:37:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:42:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:47:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:52:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 04:57:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:02:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:07:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:12:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:17:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:22:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:27:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:32:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:37:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:42:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:47:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:52:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 05:57:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:02:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:07:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:12:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:17:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:22:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:27:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:32:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:37:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:42:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:47:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:52:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 06:57:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:02:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:07:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:12:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:17:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:22:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:27:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:32:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:37:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:42:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:47:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:52:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 07:57:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:02:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:07:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:12:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:17:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:22:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:27:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:32:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:37:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:42:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:47:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:52:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 08:57:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:02:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:07:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:12:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:17:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:22:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:27:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:32:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:37:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:42:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:47:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:52:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 09:57:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:02:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:07:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:12:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:17:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:22:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:27:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:32:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:37:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:42:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:47:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:52:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 10:57:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:02:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:07:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:12:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:17:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:22:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:27:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:32:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:37:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:42:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:47:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:50:14 UTC | WARNING  | http_server | .env file not found at /app/.env. Creating new file.
+2025-12-30 11:50:14 UTC | INFO     | http_server | Created .env file with MODE=day
+2025-12-30 11:50:14 UTC | INFO     | http_server | Cleared agent cache after mode change to day
+2025-12-30 11:50:14 UTC | INFO     | http_server | Trading mode updated to day
+2025-12-30 11:50:14 UTC | INFO     | http_server | Loaded day mode instructions from /app/tasty_agent/day_trader.md (5,636 chars)
+2025-12-30 11:50:15 UTC | INFO     | http_server | Updated MODE=day in .env file
+2025-12-30 11:50:15 UTC | INFO     | http_server | Cleared agent cache after mode change to day
+2025-12-30 11:50:15 UTC | INFO     | http_server | Trading mode updated to day
+2025-12-30 11:50:15 UTC | INFO     | http_server | Loaded day mode instructions from /app/tasty_agent/day_trader.md (5,636 chars)
+2025-12-30 11:52:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 11:57:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:02:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:07:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:12:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:17:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:22:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:27:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:32:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:37:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:42:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:47:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:52:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 12:57:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:02:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:07:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:12:13 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:12:13 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:12:13 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:12:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:12:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:14:51 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:14:51 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:14:51 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:14:55 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Invalid JWT'}
+2025-12-30 13:14:56 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Invalid JWT'}
+2025-12-30 13:16:06 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:16:06 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:16:06 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:16:08 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:26 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:27 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:27 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:27 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:27 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:27 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:30 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:31 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:31 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:36 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:36 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:17:41 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:41 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:46 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:46 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:53 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:17:53 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:17:53 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:17:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:54 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:54 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:54 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:56 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:56 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:17:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:06 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:06 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:11 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:11 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:16 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:16 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:21 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:21 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:21 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:21 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:26 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:26 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:31 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:31 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:36 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:36 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:41 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:41 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:46 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:46 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:56 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:56 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:18:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:01 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:03 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:03 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:08 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:08 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:13 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:13 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:18 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:18 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:23 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:23 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:33 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:33 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:38 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:38 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:43 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:43 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:48 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:48 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:58 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:19:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:03 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:03 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:08 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:08 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:13 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:13 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:18 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:18 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:23 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:23 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:28 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:34 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:34 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:39 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:39 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:44 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:44 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:49 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:49 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:54 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:54 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:20:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:04 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:04 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:09 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:09 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:19 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:19 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:24 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:24 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:29 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:21:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:22:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:22:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:44 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:23:44 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:23:44 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:23:52 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:23:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:38 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:24:38 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:24:38 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:24:42 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:24:59 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:00 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:02 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:25:48 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:25:48 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:25:48 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:25:51 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:26:53 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:08 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:27:08 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:27:08 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:27:11 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:27:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:28:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:28:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:29:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:15 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:15 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:30:15 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:30:15 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:30:21 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:37 UTC | INFO     | http_server | Session keep-alive task cancelled

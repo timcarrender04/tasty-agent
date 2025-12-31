@@ -84,12 +84,42 @@ Tuesday:  $650 settles → Can trade with full amount again
 **With $14,000 cash available:**
 **Note**: Each trade = 1 STRADDLE (1 Call + 1 Put), so cost is ~2x single option
 
+**🚨 CRITICAL**: All costs shown are **per contract** (premium × 100). Premium prices from option chains are per share and must be multiplied by 100 to get contract cost.
+
 | Conviction | Position Size | Max Cost | Straddles (Call + Put) |
 |------------|---------------|----------|------------------------|
-| **90%+** | 5% | $700 | 1 straddle (~$350 call + $350 put) |
-| **85%** | 3.5% | $490 | 1 straddle (~$245 call + $245 put) |
-| **80%** | 2% | $280 | 1 straddle (~$140 call + $140 put) |
+| **90%+** | 5% | $700 | 1 straddle (~$350 call + $350 put per contract) |
+| **85%** | 3.5% | $490 | 1 straddle (~$245 call + $245 put per contract) |
+| **80%** | 2% | $280 | 1 straddle (~$140 call + $140 put per contract) |
 | **<80%** | 0% | - | **NO TRADE** |
+
+**See**: `docs/OPTION_CONTRACT_COST_CALCULATION.md` for detailed cost calculation examples
+
+### 📊 CRITICAL: Analysis Response Formatting Requirements
+
+**When presenting ANY option analysis, you MUST explicitly clarify:**
+
+1. **✅ Premium is PER SHARE, Contract Cost = Premium × 100**
+   - Always write: "Entry Premium: ~$3.50-$4.00 **PER SHARE**"
+   - Always write: "Contract Cost: $350-$400 **per contract** (each contract = 100 shares)"
+   - Never just say "$3.50-$4.00 per contract" without clarifying it's per share first
+
+2. **✅ Option values shown are AT EXPIRATION (intrinsic only)**
+   - Always write: "**At expiration**, option value ~$6.00"
+   - Always add: "With 3 DTE remaining, actual value includes ~$0.50-$1.50 time premium"
+   - Never show expiration values without clarifying they're at expiration
+
+3. **✅ IV Crush Warning (CRITICAL for 3 DTE)**
+   - Always include: "⚠️ IV CRUSH RISK: 3 DTE options are extremely sensitive to volatility changes"
+   - Warn: "You can lose money even if direction is correct if IV collapses"
+
+4. **✅ Bid/Ask Spread Mention**
+   - Always mention: "Actual fills may vary due to bid/ask spreads"
+   - Note: "3 DTE options can have wider spreads, use limit orders"
+
+5. **✅ Straddle Break-Even Math**
+   - Calculate: Break-Even = Entry Price ± Total Premium
+   - Show: Required Move % = (Total Premium / Entry Price) × 100
 
 ### 🎯 Conviction Cheat Sheet (Count the boxes EVERY time)
 

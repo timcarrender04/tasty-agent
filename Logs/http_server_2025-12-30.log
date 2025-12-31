@@ -1,0 +1,447 @@
+2025-12-30 13:30:40 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 13:30:41 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 13:30:41 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 13:30:41 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 13:30:41 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 13:30:41 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:30:41 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:30:41 UTC | INFO     | http_server | Loaded credentials for 4 API key(s)
+2025-12-30 13:30:41 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 13:30:41 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 13:30:42 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade. Found 2 account(s).
+2025-12-30 13:30:48 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:30:54 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 13:31:14 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 13:31:14 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 13:31:14 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 13:31:14 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 13:31:14 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 13:31:14 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 13:31:14 UTC | INFO     | http_server | Loaded default live credentials for API key: 
+2025-12-30 13:31:14 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 13:31:14 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 13:31:14 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 13:31:15 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-30 13:31:45 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:31:45 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:31:45 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:31:48 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:14 UTC | ERROR    | http_server | Failed to authenticate API key 5WZ82349... with Tastytrade: Session.__init__() got an unexpected keyword argument 'base_url'
+2025-12-30 13:32:29 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 13:32:32 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 13:32:32 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 13:32:32 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 13:32:32 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 13:32:32 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 13:32:32 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:32:32 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:32:32 UTC | INFO     | http_server | Loaded credentials for 4 API key(s)
+2025-12-30 13:32:32 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 13:32:32 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 13:32:36 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-30 13:32:40 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 13:32:45 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 13:32:45 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 13:32:45 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 13:32:45 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 13:32:45 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 13:32:45 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 13:32:45 UTC | INFO     | http_server | Loaded default live credentials for API key: 
+2025-12-30 13:32:45 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 13:32:45 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 13:32:45 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 13:32:46 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-30 13:33:05 UTC | INFO     | http_server | Loaded 4 credential(s) from database
+2025-12-30 13:33:05 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-30 13:33:05 UTC | INFO     | http_server | Added/updated credentials for API key 5WZ82349...
+2025-12-30 13:33:09 UTC | INFO     | http_server | Successfully authenticated API key 5WZ82349... with Tastytrade sandbox. Found 1 account(s).
+2025-12-30 13:42:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-30 13:42:45 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 5.4 min)
+2025-12-30 13:47:35 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (17,427 chars)
+2025-12-30 13:47:35 UTC | INFO     | http_server | Loaded full instruction prompt: core (17,427 chars) + full (68,689 chars) = 86,164 total chars
+2025-12-30 13:47:36 UTC | INFO     | http_server | Credentials validated for API key 5WZ82349... (sandbox). Found 1 account(s)
+2025-12-30 13:47:36 UTC | INFO     | http_server | Created Claude agent for API key 5WZ82349... with model anthropic:claude-3-5-haiku-20241022 and custom instructions (86,164 chars)
+2025-12-30 13:47:39 UTC | ERROR    | http_server | Error getting quotes via Claude: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:39 UTC | WARNING  | http_server | Falling back to direct quotes call: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:39 UTC | ERROR    | http_server | Fallback also failed: 'Session' object has no attribute 'dxlink_url'
+2025-12-30 13:47:42 UTC | ERROR    | http_server | Error getting quotes via Claude: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:42 UTC | WARNING  | http_server | Falling back to direct quotes call: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:42 UTC | ERROR    | http_server | Fallback also failed: 'Session' object has no attribute 'dxlink_url'
+2025-12-30 13:47:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:47:46 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 13:47:46 UTC | ERROR    | http_server | Error getting quotes via Claude: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:46 UTC | WARNING  | http_server | Falling back to direct quotes call: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:46 UTC | ERROR    | http_server | Fallback also failed: 'Session' object has no attribute 'dxlink_url'
+2025-12-30 13:47:49 UTC | ERROR    | http_server | Error getting quotes via Claude: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:49 UTC | WARNING  | http_server | Falling back to direct quotes call: unhandled errors in a TaskGroup (1 sub-exception)
+2025-12-30 13:47:49 UTC | ERROR    | http_server | Fallback also failed: 'Session' object has no attribute 'dxlink_url'
+2025-12-30 13:52:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:52:46 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 13:57:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 13:57:47 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:02:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:02:48 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:07:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:07:48 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:12:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:12:49 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:17:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:17:50 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:22:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:22:50 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:27:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:27:51 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:32:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:32:52 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:37:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:37:52 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:42:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:42:53 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:47:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:47:54 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:52:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:52:55 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 14:57:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 14:57:55 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:02:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:02:56 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:07:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:07:57 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:12:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:12:58 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:17:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:17:58 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:22:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:22:59 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:28:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:28:00 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:33:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:33:00 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:38:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:38:01 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:43:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:43:02 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:48:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:48:03 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:53:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:53:03 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 15:58:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 15:58:04 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:03:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:03:05 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:08:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:08:06 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:13:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:13:07 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:18:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:18:07 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:23:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:23:08 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:28:08 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:28:09 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:33:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:33:09 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:38:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:38:10 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:43:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:43:11 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:48:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:48:11 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:53:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:53:12 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 16:58:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 16:58:12 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:03:13 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:03:13 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:08:14 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:08:14 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:13:15 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:13:15 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:18:16 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:18:16 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:23:17 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:23:17 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:28:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:28:18 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:33:18 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:33:18 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:38:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:38:19 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:43:19 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:43:20 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:48:20 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:48:20 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:53:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:53:21 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 17:58:21 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 17:58:22 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:03:22 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:03:22 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:08:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:08:23 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:13:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:13:23 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:18:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:18:24 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:23:25 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:23:25 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:28:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:28:26 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:33:26 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:33:27 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:38:27 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:38:27 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:43:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:43:28 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:48:28 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:48:28 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:53:29 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:53:29 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 18:58:30 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 18:58:30 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:03:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:03:31 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:08:31 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:08:32 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:13:32 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:13:33 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:18:33 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:18:33 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:23:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:23:34 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:28:34 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:28:35 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:33:35 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:33:35 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:38:36 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:38:36 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:43:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:43:37 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:48:37 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:48:38 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:53:38 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:53:38 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 19:58:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 19:58:39 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:03:39 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:03:40 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:08:40 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:08:40 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:13:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:13:41 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:18:41 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:18:42 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:23:42 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:23:42 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:28:43 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:28:43 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:33:44 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:33:44 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:38:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:38:45 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:43:45 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:43:45 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:48:46 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:48:46 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:53:47 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:53:47 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 20:58:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 20:58:48 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:03:48 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:03:48 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:08:49 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:08:49 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:13:50 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:13:50 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:18:51 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:18:51 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:23:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:23:52 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:28:52 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:28:52 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:33:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:33:53 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:38:53 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:38:54 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:43:54 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:43:54 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:48:55 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:48:55 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:53:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:53:56 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 21:58:56 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 21:58:57 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:03:57 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:03:57 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:08:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:08:58 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:13:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:13:59 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:18:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:19:00 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:24:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:24:00 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:29:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:29:01 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:34:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:34:02 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:39:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:39:03 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:44:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:44:03 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:49:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:49:04 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:54:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:54:05 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 22:59:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 22:59:05 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:04:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:04:06 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:09:06 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:09:07 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:14:07 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:14:08 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:19:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:19:09 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:24:09 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:24:10 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:29:10 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:29:11 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:34:11 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-30 23:34:11 UTC | INFO     | http_server | Refreshing session for API key 5WZ82349... (expires in 10.0 min)
+2025-12-30 23:35:59 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 23:36:12 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 23:36:12 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 23:36:12 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 23:36:12 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 23:36:12 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 23:36:12 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 23:36:12 UTC | INFO     | http_server | Loaded default live credentials for API key: 
+2025-12-30 23:36:12 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 23:36:12 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 23:36:12 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 23:36:14 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-30 23:46:12 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-30 23:51:08 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-30 23:51:23 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-30 23:51:23 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-30 23:51:23 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-30 23:51:23 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-30 23:51:23 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-30 23:51:23 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-30 23:51:23 UTC | INFO     | http_server | Loaded default live credentials for API key: 
+2025-12-30 23:51:23 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-30 23:51:23 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-30 23:51:23 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-30 23:51:25 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-30 23:51:37 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (17,427 chars)
+2025-12-30 23:51:37 UTC | INFO     | http_server | Loaded full instruction prompt: core (17,427 chars) + full (68,689 chars) = 86,164 total chars
+2025-12-30 23:51:38 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... (live). Found 2 account(s)
+2025-12-30 23:51:38 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with model anthropic:claude-3-5-haiku-20241022 and custom instructions (86,164 chars)
+2025-12-30 23:51:38 UTC | INFO     | http_server | Starting Claude agent run for message: check my account balance...
+2025-12-30 23:51:58 UTC | INFO     | http_server | Claude agent completed in 19.97s
+2025-12-31 00:01:23 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-31 00:06:24 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:08:40 UTC | INFO     | http_server | Starting Claude agent run for message: check my account balance...
+2025-12-31 00:08:58 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-31 00:08:58 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-31 00:08:58 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-31 00:08:58 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-31 00:08:58 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-31 00:08:58 UTC | INFO     | http_server | Loaded 2 credential(s) from database
+2025-12-31 00:08:58 UTC | INFO     | http_server | Loaded default live credentials for API key: 
+2025-12-31 00:08:58 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-31 00:08:58 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-31 00:08:58 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-31 00:08:59 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-31 00:08:59 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (17,427 chars)
+2025-12-31 00:08:59 UTC | INFO     | http_server | Loaded full instruction prompt: core (17,427 chars) + full (68,689 chars) = 86,164 total chars
+2025-12-31 00:09:00 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... (live). Found 2 account(s)
+2025-12-31 00:09:00 UTC | INFO     | http_server | Using account_id 5WI12958 for MCP server
+2025-12-31 00:09:00 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with account 5WI12958, model anthropic:claude-3-5-haiku-20241022 and custom instructions (86,164 chars)
+2025-12-31 00:09:00 UTC | INFO     | http_server | Starting Claude agent run for message: check my account balance...
+2025-12-31 00:09:19 UTC | INFO     | http_server | Claude agent completed in 19.31s
+2025-12-31 00:18:58 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 5.0 min)
+2025-12-31 00:23:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:25:13 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... (live). Found 2 account(s)
+2025-12-31 00:25:13 UTC | INFO     | http_server | Using default account for MCP server
+2025-12-31 00:25:13 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with default account, model anthropic:claude-3-5-haiku-20241022 and custom instructions (86,164 chars)
+2025-12-31 00:28:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:33:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:38:59 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:44:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:49:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:54:00 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 00:59:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:04:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:09:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:14:01 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:19:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:24:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:29:02 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:34:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:39:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:44:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:48:17 UTC | INFO     | http_server | Starting Claude agent run for message: hello...
+2025-12-31 01:48:39 UTC | INFO     | http_server | Claude agent completed in 22.14s
+2025-12-31 01:49:03 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:54:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 01:54:17 UTC | INFO     | http_server | Starting Claude agent run for message: hello...
+2025-12-31 01:54:38 UTC | INFO     | http_server | Claude agent completed in 20.61s
+2025-12-31 01:59:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 02:04:04 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 02:04:49 UTC | INFO     | http_server | Starting Claude agent run for message: hello...
+2025-12-31 02:05:12 UTC | INFO     | http_server | Claude agent completed in 23.19s
+2025-12-31 02:05:41 UTC | INFO     | http_server | Starting streaming Claude agent run for message: hello...
+2025-12-31 02:09:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 02:11:20 UTC | INFO     | http_server | Extracted symbol 'QQQ' from tab_id: QQQ-1767063278049
+2025-12-31 02:11:20 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Current symbol context: QQQ
+
+Previous conversation:
+User: test
+Assistant: Error: 404 {"type":"error"...
+2025-12-31 02:11:45 UTC | INFO     | http_server | Agent completed in 22.42s
+2025-12-31 02:11:58 UTC | INFO     | http_server | Extracted symbol 'QQQ' from tab_id: QQQ-1767063278049
+2025-12-31 02:11:58 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Current symbol context: QQQ
+
+Previous conversation:
+User: test
+Assistant: Error: 404 {"type":"error"...
+2025-12-31 02:13:30 UTC | ERROR    | http_server | Claude agent timed out
+2025-12-31 02:14:05 UTC | INFO     | http_server | Refreshing session for API key 5WI12958... (expires in 10.0 min)
+2025-12-31 02:16:02 UTC | INFO     | http_server | Session keep-alive task cancelled
+2025-12-31 02:16:09 UTC | INFO     | http_server | Logger initialized for http_server - Logging to /app/Logs/http_server_2025-12-30.log
+2025-12-31 02:16:09 UTC | INFO     | http_server | Starting TastyTrade HTTP server on 0.0.0.0:8033
+2025-12-31 02:16:09 UTC | INFO     | http_server | Set API_KEY environment variable to secure the server
+2025-12-31 02:16:09 UTC | INFO     | http_server | Set CORS_ORIGINS environment variable to restrict CORS (comma-separated)
+2025-12-31 02:16:09 UTC | INFO     | http_server | TastyAgent loggers initialized
+2025-12-31 02:16:09 UTC | INFO     | http_server | Loaded 3 credential(s) from database
+2025-12-31 02:16:09 UTC | WARNING  | http_server | API key  already exists in credentials, skipping default env vars
+2025-12-31 02:16:09 UTC | INFO     | http_server | Loaded credentials for 3 API key(s)
+2025-12-31 02:16:09 UTC | INFO     | http_server | Loaded settings for 0 API key(s)
+2025-12-31 02:16:09 UTC | INFO     | http_server | Using Claude model: anthropic:claude-3-5-haiku-20241022
+2025-12-31 02:16:12 UTC | INFO     | http_server | Successfully authenticated API key 5WI12958... with Tastytrade live. Found 2 account(s).
+2025-12-31 02:16:27 UTC | INFO     | http_server | Loaded core rules from /app/tasty_agent/core_rules.md (17,427 chars)
+2025-12-31 02:16:27 UTC | INFO     | http_server | Loaded full instruction prompt: core (17,427 chars) + full (68,689 chars) = 86,164 total chars
+2025-12-31 02:16:27 UTC | INFO     | http_server | Credentials validated for API key 5WI12958... (live). Found 2 account(s)
+2025-12-31 02:16:27 UTC | INFO     | http_server | Using account_id 5WI12958 for MCP server
+2025-12-31 02:16:28 UTC | INFO     | http_server | Created Claude agent for API key 5WI12958... with account 5WI12958, model anthropic:claude-3-5-haiku-20241022 and custom instructions (86,164 chars)
+2025-12-31 02:16:28 UTC | INFO     | http_server | Extracted symbol 'QQQ' from tab_id: QQQ-1767063278049
+2025-12-31 02:16:28 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Current symbol context: QQQ
+
+Previous conversation:
+User: test
+Assistant: Error: 404 {"type":"error"...
+2025-12-31 02:17:11 UTC | INFO     | http_server | Agent completed in 40.84s
+2025-12-31 02:21:20 UTC | INFO     | http_server | Extracted symbol 'SPY' from tab_id: SPY-1767034375571
+2025-12-31 02:21:20 UTC | INFO     | http_server | Starting streaming Claude agent run for message: Current symbol context: SPY
+
+what is my positions ? ...
+2025-12-31 02:21:38 UTC | INFO     | http_server | Agent completed in 15.67s

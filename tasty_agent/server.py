@@ -148,15 +148,28 @@ async def lifespan(_) -> AsyncIterator[ServerContext]:
         session = Session(client_secret, refresh_token)
         accounts = Account.get(session)
         logger.info(f"Successfully authenticated with Tastytrade. Found {len(accounts)} account(s).")
+        if not accounts:
+            error_msg = "No accounts found for the provided TastyTrade credentials. Please verify your account access."
+            logger.error(error_msg)
+            raise ValueError(error_msg)
     except Exception as e:
-        logger.error(f"Failed to authenticate with Tastytrade: {e}")
-        raise
+        error_msg = f"Failed to authenticate with Tastytrade: {e}"
+        logger.error(error_msg, exc_info=True)
+        # Provide more helpful error messages
+        if "invalid_grant" in str(e).lower() or "revoked" in str(e).lower():
+            raise ValueError("TastyTrade credentials are invalid or have been revoked. Please update your refresh token.") from e
+        elif "401" in str(e) or "unauthorized" in str(e).lower():
+            raise ValueError("TastyTrade authentication failed. Please check your client secret and refresh token.") from e
+        else:
+            raise ValueError(f"TastyTrade connection error: {e}. Please verify your credentials and network connection.") from e
 
     if account_id:
         account = next((acc for acc in accounts if acc.account_number == account_id), None)
         if not account:
-            logger.error(f"Account '{account_id}' not found in available accounts: {[acc.account_number for acc in accounts]}")
-            raise ValueError(f"Account '{account_id}' not found.")
+            available_accounts = [acc.account_number for acc in accounts]
+            error_msg = f"Account '{account_id}' not found. Available accounts: {available_accounts}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
         logger.info(f"Using specified account: {account.account_number}")
     else:
         account = accounts[0]
@@ -187,9 +200,23 @@ mcp_app = FastMCP("TastyTrade", lifespan=lifespan)
 
 @mcp_app.tool()
 async def get_balances(ctx: Context) -> dict[str, Any]:
+    """Get account balances including cash, buying power, and net liquidating value."""
+    try:
     context = get_context(ctx)
+        if not context or not context.account:
+            raise ValueError("Account context not available. Please check TastyTrade credentials and account configuration.")
     session = get_valid_session(ctx)
-    return {k: v for k, v in (await context.account.a_get_balances(session)).model_dump().items() if v is not None and v != 0}
+        balances = await context.account.a_get_balances(session)
+        result = {k: v for k, v in balances.model_dump().items() if v is not None and v != 0}
+        if not result:
+            return {"message": "No balance data available", "account_number": context.account.account_number}
+        return result
+    except AttributeError as e:
+        logger.error(f"Error accessing account context: {e}")
+        raise ValueError(f"Account context error: {e}. Please verify TastyTrade credentials are properly configured.") from e
+    except Exception as e:
+        logger.error(f"Error getting balances: {e}", exc_info=True)
+        raise ValueError(f"Failed to retrieve account balances: {str(e)}. Please check your TastyTrade connection and account configuration.") from e
 
 
 @mcp_app.tool()

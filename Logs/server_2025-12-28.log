@@ -1,0 +1,487 @@
+2025-12-28 05:26:16 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 05:26:17 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 05:26:17 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 05:27:10 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 05:30:07 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 05:30:08 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 05:30:08 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 05:30:38 UTC | INFO     | server | Auto-calculated price $-17.47 for 2-leg Limit order
+2025-12-28 05:30:50 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 15:41:15 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 15:41:16 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 15:41:16 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 15:41:54 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 15:46:58 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 15:46:58 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 15:46:58 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 15:47:09 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 15:51:11 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 15:51:11 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 15:51:11 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 15:51:42 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 15:57:12 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 15:57:12 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 15:57:12 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 15:57:42 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 16:02:44 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 16:02:45 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 16:02:45 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 16:03:19 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 16:24:23 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 16:24:24 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 16:24:24 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 16:25:06 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 16:52:07 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 16:52:08 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 16:52:08 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 16:52:49 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 16:59:44 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 16:59:45 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 16:59:45 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:00:15 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:01:24 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:01:24 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:01:24 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:02:04 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:02:44 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:02:45 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:02:45 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:03:11 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:03:11 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:03:11 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:03:27 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:04:32 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:04:32 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:04:32 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:05:03 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:14:38 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:14:39 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:14:39 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:15:06 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:30:17 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:30:17 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:30:17 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:30:39 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:37:52 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:37:52 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:37:52 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:38:21 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:47:02 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:47:02 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:47:02 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:47:17 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 17:57:53 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 17:57:53 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 17:57:53 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 17:58:08 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 18:04:57 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 18:04:58 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 18:04:58 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 18:05:07 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 18:06:43 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 18:06:44 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 18:06:44 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 18:06:53 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 18:07:28 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 18:07:28 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 18:07:28 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 18:07:42 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 18:11:51 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 18:11:51 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 18:11:51 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 18:12:32 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-28 19:09:19 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 19:09:27 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-28 19:09:28 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-28 19:09:28 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-28 19:14:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:19:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:24:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:29:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:34:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:39:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:44:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:49:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:54:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 19:59:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:04:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:09:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:14:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:19:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:24:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:29:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:34:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:39:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:44:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:49:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:54:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 20:59:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:04:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:09:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:14:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:19:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:24:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:29:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:34:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:39:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:44:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:49:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:54:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 21:59:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:04:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:09:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:14:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:19:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:24:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:29:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:34:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:39:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:44:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:49:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:54:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 22:59:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:04:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:09:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:14:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:19:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:24:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:29:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:34:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:39:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:44:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:49:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:54:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-28 23:59:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:04:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:09:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:14:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:19:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:24:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:29:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:34:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:35:04 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-29 00:35:05 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-29 00:35:05 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-29 00:35:16 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-29 00:35:25 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-29 00:35:26 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-29 00:35:26 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-29 00:36:34 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-29 00:37:04 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-28.log
+2025-12-29 00:37:04 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 1 account(s).
+2025-12-29 00:37:04 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-29 00:37:48 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-29 00:39:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:44:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:49:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:54:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 00:59:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:04:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:09:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:14:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:19:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:24:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:29:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:34:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:39:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:44:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:49:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:54:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 01:59:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:04:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:09:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:14:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:19:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:24:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:29:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:34:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:39:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:44:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:49:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:54:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 02:59:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:04:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:09:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:14:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:19:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:24:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:29:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:34:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:39:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:44:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:49:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:54:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 03:59:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:04:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:09:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:14:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:19:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:24:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:30:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:35:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:40:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:45:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:50:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 04:55:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:00:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:05:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:10:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:15:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:20:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:25:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:30:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:35:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:40:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:45:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:50:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 05:55:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:00:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:05:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:10:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:15:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:20:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:25:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:30:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:35:07 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:40:07 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:45:07 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:50:07 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 06:55:08 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:00:08 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:05:08 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:10:08 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:15:09 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:20:09 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:25:09 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:30:10 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:35:10 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:40:10 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:45:10 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:50:11 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 07:55:11 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:00:11 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:05:11 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:10:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:15:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:20:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:25:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:30:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:35:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:40:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:45:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:50:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 08:55:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:00:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:05:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:10:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:15:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:20:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:25:16 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:30:16 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:35:16 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:40:16 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:45:17 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:50:17 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 09:55:17 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:00:18 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:05:18 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:10:18 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:15:18 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:20:19 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:25:19 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:30:19 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:35:20 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:40:20 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:45:20 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:50:20 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 10:55:21 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:00:21 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:05:21 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:10:22 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:15:22 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:20:22 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:25:22 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:30:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:35:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:40:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:45:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:50:24 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 11:55:24 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:00:24 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:05:24 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:10:25 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:15:25 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:20:25 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:25:26 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:30:26 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:35:26 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:40:27 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:45:27 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:50:27 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 12:55:27 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:00:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:05:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:10:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:15:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:20:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:25:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:30:29 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:35:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:40:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:45:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:50:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 13:55:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:00:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:05:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:10:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:15:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:20:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:25:32 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:30:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:35:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:40:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:45:33 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:50:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 14:55:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:00:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:05:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:10:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:15:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:20:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:25:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:30:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:35:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:40:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:45:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:50:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 15:55:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:00:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:05:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:10:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:15:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:20:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:25:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:30:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:35:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:40:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:45:40 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:50:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 16:55:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:00:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:05:41 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:10:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:15:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:20:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:25:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:30:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:35:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:40:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:45:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:50:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 17:55:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:00:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:05:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:10:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:15:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:20:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:25:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:30:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:35:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:40:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:45:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:50:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 18:55:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:00:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:05:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:10:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:15:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:20:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:25:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:30:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:35:49 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:40:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:45:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:50:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 19:55:50 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:00:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:05:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:10:51 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:15:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:20:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:25:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:30:52 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:35:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:40:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:45:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:50:53 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 20:55:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:00:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:05:54 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:10:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:15:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:20:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:25:55 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:30:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:35:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:40:56 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:45:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:50:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 21:55:57 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:00:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:05:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:10:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:15:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:20:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:25:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:31:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:36:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:41:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:46:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:51:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 22:56:07 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:01:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:06:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:11:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:16:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:21:14 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:26:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:31:16 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:36:17 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:41:20 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:46:21 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:51:22 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-29 23:56:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:01:25 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:06:25 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:11:26 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:16:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:21:28 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:26:30 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:31:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:36:31 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:41:34 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:46:35 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:51:36 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 00:56:37 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:01:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:06:38 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:11:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:16:39 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:21:42 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:26:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:31:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:36:43 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:41:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:46:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:51:44 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 01:56:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:01:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:06:45 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:11:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:16:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:21:46 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:26:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:31:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:36:47 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:41:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 02:46:48 UTC | INFO     | server | Refreshing session (expires in 10.0 min)

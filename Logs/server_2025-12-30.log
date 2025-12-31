@@ -1,0 +1,113 @@
+2025-12-30 13:30:40 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:31:14 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:32:32 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:32:45 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:47:38 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:47:38 UTC | ERROR    | server | Failed to authenticate with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:47:41 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:47:42 UTC | ERROR    | server | Failed to authenticate with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:47:45 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:47:45 UTC | ERROR    | server | Failed to authenticate with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 13:47:48 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 13:47:49 UTC | ERROR    | server | Failed to authenticate with Tastytrade: Couldn't parse response: {'error_code': 'invalid_grant', 'error_description': 'Grant revoked'}
+2025-12-30 23:36:11 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 23:36:12 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-30 23:36:12 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-30 23:36:12 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 23:41:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 23:46:12 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 23:51:13 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-30 23:51:22 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 23:51:23 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-30 23:51:23 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-30 23:51:23 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 23:51:40 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-30 23:51:41 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-30 23:51:41 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-30 23:51:58 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-30 23:56:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:01:23 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:06:24 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:08:42 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 00:08:42 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 00:08:42 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 00:08:57 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 00:08:58 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 00:08:58 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 00:08:58 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 00:09:02 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 00:09:03 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 00:09:03 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 00:09:19 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 00:13:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:18:58 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:23:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:25:15 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 00:25:15 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 00:25:15 UTC | INFO     | server | Using default account: 5WI20677
+2025-12-31 00:25:38 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 00:28:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:33:59 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:39:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:44:00 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:49:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:54:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 00:59:01 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:04:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:09:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:14:02 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:19:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:24:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:29:03 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:34:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:39:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:43:45 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 01:43:46 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 01:43:46 UTC | INFO     | server | Using default account: 5WI20677
+2025-12-31 01:44:04 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:44:09 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 01:45:25 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 01:45:26 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 01:45:26 UTC | INFO     | server | Using default account: 5WI20677
+2025-12-31 01:45:50 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 01:48:19 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 01:48:20 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 01:48:20 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 01:48:39 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 01:49:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:54:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 01:54:19 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 01:54:19 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 01:54:20 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 01:54:37 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 01:59:05 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 02:04:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 02:04:51 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:04:52 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:04:52 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:05:12 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 02:05:43 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:05:44 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:05:44 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:09:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 02:11:22 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:11:23 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:11:23 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:11:45 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 02:12:00 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:12:00 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:12:00 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:14:06 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 02:16:09 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:16:14 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:16:15 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:16:15 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:16:30 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:16:30 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:16:30 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:17:11 UTC | INFO     | server | Session keep-alive task cancelled
+2025-12-31 02:21:15 UTC | INFO     | server | Refreshing session (expires in 10.0 min)
+2025-12-31 02:21:22 UTC | INFO     | server | Logger initialized for server - Logging to /app/Logs/server_2025-12-30.log
+2025-12-31 02:21:22 UTC | INFO     | server | Successfully authenticated with Tastytrade. Found 2 account(s).
+2025-12-31 02:21:22 UTC | INFO     | server | Using specified account: 5WI12958
+2025-12-31 02:21:38 UTC | INFO     | server | Session keep-alive task cancelled

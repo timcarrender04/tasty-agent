@@ -9,6 +9,7 @@ import asyncio
 import json
 import logging
 import os
+import subprocess
 from collections.abc import AsyncIterator, Awaitable, Callable, Sequence
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
@@ -74,7 +75,11 @@ credentials_db: CredentialsDB | None = None
 
 
 def load_credentials() -> dict[str, tuple[str, str]]:
-    """Load credentials from SQLite database and environment variables."""
+    """Load credentials from SQLite database and environment variables.
+    
+    Returns:
+        Dictionary mapping api_key to (client_secret, refresh_token) tuple
+    """
     global credentials_db
     credentials: dict[str, tuple[str, str]] = {}
     
@@ -198,6 +203,88 @@ def save_settings(settings: dict[str, UserSettings]) -> None:
         raise HTTPException(
             status_code=500,
             detail=f"Failed to save settings: {e}"
+        ) from e
+
+
+def update_env_file(key: str, value: str) -> None:
+    """
+    Update an environment variable in the .env file while preserving formatting and comments.
+    
+    Args:
+        key: Environment variable name (e.g., "MODE")
+        value: New value to set
+    
+    Raises:
+        HTTPException: If .env file cannot be read or written
+    """
+    project_root = Path(__file__).parent.parent
+    env_file = project_root / ".env"
+    
+    if not env_file.exists():
+        logger.warning(f".env file not found at {env_file}. Creating new file.")
+        try:
+            with open(env_file, "w", encoding="utf-8") as f:
+                f.write(f"{key}={value}\n")
+            logger.info(f"Created .env file with {key}={value}")
+            return
+        except Exception as e:
+            logger.error(f"Failed to create .env file: {e}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to create .env file: {e}"
+            ) from e
+    
+    try:
+        # Read all lines from .env file
+        with open(env_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        
+        # Find the line with the key (may have comment after =)
+        key_found = False
+        updated_lines = []
+        
+        for line in lines:
+            stripped = line.strip()
+            # Check if line starts with key= (with optional whitespace before =)
+            # Handle cases like "MODE=  #comment" or "MODE = value #comment"
+            if stripped.startswith(f"{key}=") or (stripped.startswith(key) and "=" in stripped and stripped.split("=")[0].strip() == key):
+                # Found the key, update it
+                # Preserve comment if present
+                if "#" in line:
+                    # Extract comment (everything after first #)
+                    comment_part = line[line.index("#"):]
+                    # Preserve original indentation if any
+                    leading_spaces = len(line) - len(line.lstrip())
+                    indent = " " * leading_spaces
+                    updated_lines.append(f"{indent}{key}={value}  {comment_part}")
+                else:
+                    # Preserve original indentation if any
+                    leading_spaces = len(line) - len(line.lstrip())
+                    indent = " " * leading_spaces
+                    # Preserve newline if original had it
+                    newline = "\n" if line.endswith("\n") else ""
+                    updated_lines.append(f"{indent}{key}={value}{newline}")
+                key_found = True
+            else:
+                # Keep original line
+                updated_lines.append(line)
+        
+        # If key not found, add it at the end
+        if not key_found:
+            updated_lines.append(f"{key}={value}\n")
+            logger.info(f"Added new {key}={value} to .env file")
+        else:
+            logger.info(f"Updated {key}={value} in .env file")
+        
+        # Write back to file
+        with open(env_file, "w", encoding="utf-8") as f:
+            f.writelines(updated_lines)
+        
+    except Exception as e:
+        logger.error(f"Failed to update .env file: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to update .env file: {e}"
         ) from e
 
 
@@ -339,8 +426,9 @@ api_key_credentials: dict[str, tuple[str, str]] = {}
 # Session cache: API key -> ServerContext
 api_key_sessions: dict[str, ServerContext] = {}
 
-# Claude agent cache: API key -> Agent
-api_key_agents: dict[str, Agent] = {}
+# Claude agent cache: (api_key, account_id) -> Agent
+# account_id can be None for default account
+api_key_agents: dict[tuple[str, str | None], Agent] = {}
 
 # User settings cache: API key -> UserSettings
 api_key_settings: dict[str, UserSettings] = {}
@@ -452,6 +540,8 @@ def get_valid_session(api_key: str) -> Session:
 # Cache for instruction file content
 _instruction_prompt_cache: str | None = None
 _core_rules_cache: str | None = None
+_mode_instructions_cache: str | None = None
+_current_mode: str | None = None
 
 
 def load_core_rules() -> str:
@@ -479,18 +569,81 @@ def load_core_rules() -> str:
         return ""
 
 
+def load_mode_instructions() -> str:
+    """
+    Load mode-specific trading instructions based on MODE environment variable.
+    Cached after first load, invalidated when MODE changes.
+    
+    Returns:
+        Mode-specific instructions string, or empty string for 'custom' mode
+    """
+    global _mode_instructions_cache, _current_mode
+    
+    # Get current MODE from environment
+    current_mode = os.getenv("MODE", "custom").strip().lower()
+    
+    # If mode changed, clear cache
+    if _current_mode is not None and _current_mode != current_mode:
+        logger.info(f"Mode changed from {_current_mode} to {current_mode}. Clearing mode instructions cache.")
+        _mode_instructions_cache = None
+    
+    # If custom mode, return empty (no mode-specific instructions)
+    if current_mode == "custom":
+        _current_mode = current_mode
+        return ""
+    
+    # Check cache
+    if _mode_instructions_cache is not None and _current_mode == current_mode:
+        return _mode_instructions_cache
+    
+    # Map mode to filename
+    mode_file_map = {
+        "day": "day_trader.md",
+        "scalp": "scalpe_trader.md",
+        "swing": "swing_trader.md",
+    }
+    
+    filename = mode_file_map.get(current_mode)
+    if not filename:
+        logger.warning(f"Unknown MODE value: {current_mode}. Valid modes: custom, day, scalp, swing. Using custom mode.")
+        _current_mode = "custom"
+        return ""
+    
+    # Get the path to mode file
+    project_root = Path(__file__).parent
+    mode_file = project_root / filename
+    
+    if not mode_file.exists():
+        logger.warning(f"Mode file not found at {mode_file}. Agent will run without mode-specific instructions.")
+        _current_mode = current_mode
+        _mode_instructions_cache = ""
+        return ""
+    
+    try:
+        with open(mode_file, "r", encoding="utf-8") as f:
+            _mode_instructions_cache = f.read()
+        _current_mode = current_mode
+        logger.info(f"Loaded {current_mode} mode instructions from {mode_file} ({len(_mode_instructions_cache):,} chars)")
+        return _mode_instructions_cache
+    except Exception as e:
+        logger.error(f"Failed to load mode file {mode_file}: {e}")
+        _current_mode = current_mode
+        _mode_instructions_cache = ""
+        return ""
+
+
 def load_instruction_prompt(include_full: bool = True) -> str:
     """
     Load the instruction prompt files. Cached after first load.
     
     Args:
-        include_full: If True, loads core_rules.md + instruction_live_prompt.md.
+        include_full: If True, loads core_rules.md + mode_instructions + instruction_live_prompt.md.
                      If False, loads only core_rules.md (faster, less context).
     
     Returns:
-        Combined prompt string with core rules always included.
+        Combined prompt string with core rules always included, mode instructions if applicable, and live prompt.
     """
-    global _instruction_prompt_cache
+    global _instruction_prompt_cache, _current_mode
     
     # Always load core rules first
     core_rules = load_core_rules()
@@ -499,39 +652,94 @@ def load_instruction_prompt(include_full: bool = True) -> str:
     if not include_full:
         return core_rules
     
+    # Check if mode changed (invalidate cache if so)
+    current_mode = os.getenv("MODE", "custom").strip().lower()
+    if _current_mode is not None and _current_mode != current_mode:
+        logger.info(f"Mode changed, clearing instruction prompt cache")
+        _instruction_prompt_cache = None
+    
     # Check cache for full prompt
     if _instruction_prompt_cache is not None:
         return _instruction_prompt_cache
+    
+    # Load mode-specific instructions
+    mode_instructions = load_mode_instructions()
     
     # Get the path to instruction_live_prompt.md
     project_root = Path(__file__).parent
     instruction_file = project_root / "instruction_live_prompt.md"
     
     if not instruction_file.exists():
-        logger.warning(f"Instruction file not found at {instruction_file}. Using core rules only.")
-        _instruction_prompt_cache = core_rules
+        logger.warning(f"Instruction file not found at {instruction_file}. Using core rules and mode instructions only.")
+        # Combine core rules and mode instructions
+        if mode_instructions:
+            combined = f"{core_rules}\n\n---\n\n# MODE-SPECIFIC INSTRUCTIONS ({current_mode.upper()} MODE)\n\n{mode_instructions}"
+        else:
+            combined = core_rules
+        _instruction_prompt_cache = combined
         return _instruction_prompt_cache
     
     try:
         with open(instruction_file, "r", encoding="utf-8") as f:
             full_instructions = f.read()
         
-        # Combine: core rules first, then full instructions
-        # The full instructions file already references core_rules.md, so this provides both
-        combined = f"{core_rules}\n\n---\n\n# FULL INSTRUCTIONS (On-Demand Content)\n\n{full_instructions}"
+        # Combine: core rules first, then mode instructions (if any) PROMINENTLY, then full instructions
+        parts = [core_rules]
+        
+        if mode_instructions:
+            # Make mode instructions very prominent - this is your active trading mode
+            mode_header = f"""
+{'='*80}
+# ⚡ ACTIVE TRADING MODE: {current_mode.upper()} MODE ⚡
+{'='*80}
+
+**⚠️ CRITICAL: You are currently operating in {current_mode.upper()} MODE.**
+
+**When users ask about your trading rules, strategy, approach, or "what are your scalping/day/swing rules?", you MUST:**
+1. **Immediately reference your {current_mode.upper()} mode instructions below**
+2. **Explain your {current_mode.upper()} mode characteristics, entry criteria, position management, and risk rules**
+3. **Do NOT give generic trading advice - be specific to {current_mode.upper()} mode**
+
+**Available Tools:**
+- **TastyTrade MCP** - Order execution, account management, market data (quotes, greeks, metrics)
+- **ThetaData** - Real-time market data streaming (data only, no trading)
+- **Browser/TradingView** - Visual chart analysis
+
+**⚠️ IMPORTANT: You use TastyTrade MCP for all trading operations. There is NO Alpaca integration.**
+"""
+            parts.append(mode_header)
+            parts.append(f"\n{mode_instructions}\n")
+            parts.append(f"\n{'='*80}\n")
+        
+        parts.append(f"\n\n---\n\n# FULL INSTRUCTIONS (On-Demand Content)\n\n{full_instructions}")
+        
+        combined = "".join(parts)
         
         _instruction_prompt_cache = combined
-        logger.info(f"Loaded full instruction prompt: core ({len(core_rules):,} chars) + full ({len(full_instructions):,} chars) = {len(combined):,} total chars")
+        mode_info = f" + mode ({len(mode_instructions):,} chars)" if mode_instructions else ""
+        logger.info(f"Loaded full instruction prompt: core ({len(core_rules):,} chars){mode_info} + full ({len(full_instructions):,} chars) = {len(combined):,} total chars")
         return _instruction_prompt_cache
     except Exception as e:
         logger.error(f"Failed to load instruction file {instruction_file}: {e}")
-        # Fall back to core rules only
-        _instruction_prompt_cache = core_rules
+        # Fall back to core rules and mode instructions
+        if mode_instructions:
+            combined = f"{core_rules}\n\n---\n\n# MODE-SPECIFIC INSTRUCTIONS ({current_mode.upper()} MODE)\n\n{mode_instructions}"
+        else:
+            combined = core_rules
+        _instruction_prompt_cache = combined
         return _instruction_prompt_cache
 
 
-def get_claude_agent(api_key: str) -> Agent:
-    """Get or create Claude agent for an API key. Uses Claude API from environment variables."""
+def get_claude_agent(api_key: str, account_id: str | None = None) -> Agent:
+    """Get or create Claude agent for an API key and account ID. Uses Claude API from environment variables.
+    
+    Args:
+        api_key: API key identifier
+        account_id: Optional TastyTrade account ID. If None, uses default account.
+    
+    Returns:
+        Agent instance configured for the specified account
+    """
     global api_key_agents, _current_model_identifier
     
     # Get model identifier (default to Claude Haiku 3.5 - faster and cheaper)
@@ -547,8 +755,10 @@ def get_claude_agent(api_key: str) -> Agent:
         logger.info(f"Using model identifier: {model_identifier}")
         _current_model_identifier = model_identifier
     
-    if api_key in api_key_agents:
-        return api_key_agents[api_key]
+    # Use (api_key, account_id) as cache key
+    cache_key = (api_key, account_id)
+    if cache_key in api_key_agents:
+        return api_key_agents[cache_key]
     
     # Get Claude API key from environment (lines 6-10 in .env typically)
     claude_api_key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("CLAUDE_API_KEY")
@@ -590,20 +800,30 @@ def get_claude_agent(api_key: str) -> Agent:
         env["TASTYTRADE_REFRESH_TOKEN"] = refresh_token
         env["ANTHROPIC_API_KEY"] = claude_api_key
         
+        # Set account_id in environment if provided
+        if account_id:
+            env["TASTYTRADE_ACCOUNT_ID"] = account_id
+            logger.info(f"Using account_id {account_id} for MCP server")
+        else:
+            # Remove TASTYTRADE_ACCOUNT_ID from env to use default account
+            env.pop("TASTYTRADE_ACCOUNT_ID", None)
+            logger.info(f"Using default account for MCP server")
+        
         server = MCPServerStdio(
             'python', args=['run_mcp_stdio.py'], timeout=120, env=env
         )
         
         # Create agent with system prompt if available
+        account_info = f"account {account_id}" if account_id else "default account"
         if system_prompt:
             # pydantic-ai Agent accepts system_prompt parameter
             agent = Agent(model_identifier, toolsets=[server], system_prompt=system_prompt)
-            logger.info(f"Created Claude agent for API key {api_key[:8]}... with model {model_identifier} and custom instructions ({len(system_prompt):,} chars)")
+            logger.info(f"Created Claude agent for API key {api_key[:8]}... with {account_info}, model {model_identifier} and custom instructions ({len(system_prompt):,} chars)")
         else:
             agent = Agent(model_identifier, toolsets=[server])
-            logger.info(f"Created Claude agent for API key {api_key[:8]}... with model {model_identifier} without custom instructions")
+            logger.info(f"Created Claude agent for API key {api_key[:8]}... with {account_info}, model {model_identifier} without custom instructions")
         
-        api_key_agents[api_key] = agent
+        api_key_agents[cache_key] = agent
         return agent
     except HTTPException:
         # Re-raise HTTP exceptions as-is
@@ -665,10 +885,11 @@ async def keep_sessions_alive():
                                 logger.error(f"Refresh token revoked for API key {api_key[:8]}... - credentials need to be updated")
                                 # Remove invalid session so it can be recreated with new credentials
                                 api_key_sessions.pop(api_key, None)
-                                # Also clear agent cache
+                                # Also clear agent cache (delete all agents for this api_key)
                                 global api_key_agents
-                                if api_key in api_key_agents:
-                                    del api_key_agents[api_key]
+                                keys_to_delete = [key for key in api_key_agents.keys() if key[0] == api_key]
+                                for key in keys_to_delete:
+                                    del api_key_agents[key]
                             else:
                                 logger.error(f"Failed to refresh session for API key {api_key[:8]}...: {refresh_err}")
                                 # Remove invalid session so it can be recreated on next request
@@ -699,23 +920,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     db_path = get_db_path(project_root)
     credentials_db = CredentialsDB(db_path)
     
-    # Migrate from JSON if database is empty and JSON exists
-    json_file = project_root / "credentials.json"
-    if json_file.exists() and credentials_db.is_empty():
-        logger.info(f"Migrating credentials from {json_file} to database...")
-        migrated_count = credentials_db.migrate_from_json(json_file)
-        if migrated_count > 0:
-            logger.info(f"Successfully migrated {migrated_count} credential(s) from JSON to database")
-            # Optionally backup/rename the JSON file
-            backup_file = project_root / "credentials.json.backup"
-            try:
-                import shutil
-                shutil.copy2(json_file, backup_file)
-                logger.info(f"Backed up JSON file to {backup_file}")
-            except Exception as e:
-                logger.warning(f"Failed to backup JSON file: {e}")
-    
-    # Load credentials at startup
+    # Load credentials at startup (from database and environment variables)
     api_key_credentials = load_credentials()
     
     if not api_key_credentials:
@@ -758,9 +963,21 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 async def get_session_and_account(
     api_key: str = Depends(verify_api_key),
-    account_id: str = Query(..., description="TastyTrade account ID")
+    account_id: str | None = Query(None, description="TastyTrade account ID (optional, uses default if not provided)")
 ) -> tuple[Session, Account]:
     """Dependency to get session and account for an API key and account ID."""
+    # If account_id not provided, get default account
+    if not account_id:
+        context = get_api_key_context(api_key)
+        if context.accounts:
+            account = context.accounts[0]
+            logger.debug(f"No account_id provided, using default account: {account.account_number}")
+            return context.session, account
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="No accounts found for this API key"
+            )
     return get_account_context(api_key, account_id)
 
 
@@ -2422,11 +2639,13 @@ async def add_or_update_credentials(
         del api_key_sessions[credential.api_key]
         logger.info(f"Cleared existing session for API key {credential.api_key[:8]}...")
     
-    # Clear any existing agent for this API key to force recreation with new credentials
+    # Clear any existing agents for this API key to force recreation with new credentials
     global api_key_agents
-    if credential.api_key in api_key_agents:
-        del api_key_agents[credential.api_key]
-        logger.info(f"Cleared existing agent for API key {credential.api_key[:8]}... to use new credentials")
+    keys_to_delete = [key for key in api_key_agents.keys() if key[0] == credential.api_key]
+    for key in keys_to_delete:
+        del api_key_agents[key]
+    if keys_to_delete:
+        logger.info(f"Cleared {len(keys_to_delete)} agent(s) for API key {credential.api_key[:8]}... to use new credentials")
     
     logger.info(f"Added/updated credentials for API key {credential.api_key[:8]}...")
     return {
@@ -2501,11 +2720,13 @@ async def delete_credentials(api_key: str) -> dict[str, Any]:
         del api_key_sessions[api_key]
         logger.info(f"Cleared existing session for API key {api_key[:8]}...")
     
-    # Clear any existing agent for this API key
+    # Clear any existing agents for this API key
     global api_key_agents
-    if api_key in api_key_agents:
-        del api_key_agents[api_key]
-        logger.info(f"Cleared existing agent for API key {api_key[:8]}...")
+    keys_to_delete = [key for key in api_key_agents.keys() if key[0] == api_key]
+    for key in keys_to_delete:
+        del api_key_agents[key]
+    if keys_to_delete:
+        logger.info(f"Cleared {len(keys_to_delete)} agent(s) for API key {api_key[:8]}...")
     
     logger.info(f"Deleted credentials for API key {api_key[:8]}...")
     return {
@@ -2531,6 +2752,7 @@ class ChatRequest(BaseModel):
     message_history: list[ChatMessage] | None = Field(None, description="Optional conversation history (overrides tabId history if provided)")
     images: list[str] | None = Field(None, description="Optional list of base64-encoded images")
     tab_id: str | None = Field(None, alias="tabId", description="Optional tab ID for maintaining separate conversation contexts per tab")
+    account_id: str | None = Field(None, description="Optional TastyTrade account ID. If not provided, uses default account from credentials.")
     
     model_config = {"populate_by_name": True}  # Allow both tab_id and tabId
 
@@ -2539,6 +2761,27 @@ class ChatResponse(BaseModel):
     """Chat response model."""
     response: str = Field(..., description="Agent's response")
     message_history: list[ChatMessage] = Field(..., description="Updated conversation history")
+
+
+def _serialize_error(error: Exception) -> dict[str, Any]:
+    """Safely serialize an exception to a JSON-serializable dict."""
+    error_type = type(error).__name__
+    error_msg = str(error)
+    
+    # Build error response with consistent structure
+    error_response = {
+        "type": "error",
+        "error": error_msg,
+        "error_type": error_type,
+        "timestamp": datetime.now(UTC).isoformat(),
+    }
+    
+    # Add additional context for HTTP exceptions
+    if isinstance(error, HTTPException):
+        error_response["status_code"] = error.status_code
+        error_response["detail"] = str(error.detail)
+    
+    return error_response
 
 
 @app.post("/api/v1/chat/stream", include_in_schema=True)
@@ -2550,13 +2793,26 @@ async def chat_stream(
     async def generate_stream():
         try:
             try:
-                agent = get_claude_agent(api_key)
+                # Get account_id from request, if provided
+                account_id = request.account_id
+                agent = get_claude_agent(api_key, account_id=account_id)
             except HTTPException as http_err:
-                yield f"data: {json.dumps({'type': 'error', 'error': str(http_err.detail)})}\n\n"
+                error_data = _serialize_error(http_err)
+                try:
+                    yield f"data: {json.dumps(error_data)}\n\n"
+                except (TypeError, ValueError) as json_err:
+                    logger.error(f"Failed to serialize error: {json_err}")
+                    yield f"data: {json.dumps({'type': 'error', 'error': 'Failed to initialize AI agent', 'error_type': type(http_err).__name__})}\n\n"
                 return
             except Exception as agent_err:
-                logger.error(f"Failed to get/create agent for API key {api_key[:8]}...: {agent_err}")
-                yield f"data: {json.dumps({'type': 'error', 'error': f'Failed to initialize AI agent: {str(agent_err)}'})}\n\n"
+                logger.error(f"Failed to get/create agent for API key {api_key[:8]}...: {agent_err}", exc_info=True)
+                error_data = _serialize_error(agent_err)
+                error_data["error"] = f"Failed to initialize AI agent: {error_data['error']}"
+                try:
+                    yield f"data: {json.dumps(error_data)}\n\n"
+                except (TypeError, ValueError) as json_err:
+                    logger.error(f"Failed to serialize error: {json_err}")
+                    yield f"data: {json.dumps({'type': 'error', 'error': 'Failed to initialize AI agent', 'error_type': type(agent_err).__name__})}\n\n"
                 return
             
             # Get conversation history - prefer message_history from request, otherwise use tabId history
@@ -2674,7 +2930,17 @@ async def chat_stream(
                         
             except asyncio.TimeoutError:
                 logger.error("Claude agent timed out")
-                yield f"data: {json.dumps({'type': 'error', 'error': 'Request timed out. The query may be too complex.'})}\n\n"
+                timeout_error = {
+                    "type": "error",
+                    "error": "Request timed out. The query may be too complex.",
+                    "error_type": "TimeoutError",
+                    "timestamp": datetime.now(UTC).isoformat(),
+                }
+                try:
+                    yield f"data: {json.dumps(timeout_error)}\n\n"
+                except (TypeError, ValueError) as json_err:
+                    logger.error(f"Failed to serialize timeout error: {json_err}")
+                    yield f"data: {json.dumps({'type': 'error', 'error': 'Request timed out'})}\n\n"
             except Exception as e:
                 error_msg = str(e)
                 # Provide more helpful error messages for common issues
@@ -2684,13 +2950,27 @@ async def chat_stream(
                     if "'" in error_msg:
                         tool_name = error_msg.split("'")[1] if len(error_msg.split("'")) > 1 else "unknown tool"
                     logger.error(f"Error in streaming chat: {e}", exc_info=True)
-                    yield f"data: {json.dumps({'type': 'error', 'error': f'The {tool_name} tool failed after retries. This may indicate a temporary issue with the trading system or invalid parameters. Please try again or check your request parameters.'})}\n\n"
+                    error_data = _serialize_error(e)
+                    error_data["error"] = f"The {tool_name} tool failed after retries. This may indicate a temporary issue with the trading system or invalid parameters. Please try again or check your request parameters."
+                    error_data["tool_name"] = tool_name
                 else:
                     logger.error(f"Error in streaming chat: {e}", exc_info=True)
-                    yield f"data: {json.dumps({'type': 'error', 'error': str(e)})}\n\n"
+                    error_data = _serialize_error(e)
+                
+                try:
+                    yield f"data: {json.dumps(error_data)}\n\n"
+                except (TypeError, ValueError) as json_err:
+                    logger.error(f"Failed to serialize error: {json_err}")
+                    yield f"data: {json.dumps({'type': 'error', 'error': 'An error occurred while processing your request', 'error_type': type(e).__name__})}\n\n"
         except Exception as e:
-            logger.error(f"Error in chat stream endpoint: {e}")
-            yield f"data: {json.dumps({'type': 'error', 'error': f'Error processing chat message: {str(e)}'})}\n\n"
+            logger.error(f"Error in chat stream endpoint: {e}", exc_info=True)
+            error_data = _serialize_error(e)
+            error_data["error"] = f"Error processing chat message: {error_data['error']}"
+            try:
+                yield f"data: {json.dumps(error_data)}\n\n"
+            except (TypeError, ValueError) as json_err:
+                logger.error(f"Failed to serialize outer error: {json_err}")
+                yield f"data: {json.dumps({'type': 'error', 'error': 'Error processing chat message', 'error_type': type(e).__name__})}\n\n"
     
     return StreamingResponse(
         generate_stream(),
@@ -2711,7 +2991,9 @@ async def chat(
     """Chat with the Claude agent. Supports conversation history for context."""
     try:
         try:
-            agent = get_claude_agent(api_key)
+            # Get account_id from request, if provided
+            account_id = request.account_id
+            agent = get_claude_agent(api_key, account_id=account_id)
         except HTTPException as http_err:
             # Re-raise HTTP exceptions (like invalid credentials)
             raise http_err
@@ -2897,6 +3179,109 @@ async def patch_settings(
 
 
 # =============================================================================
+# TRADING MODE ENDPOINTS
+# =============================================================================
+
+class TradingModeRequest(BaseModel):
+    """Request model for updating trading mode."""
+    mode: Literal['custom', 'day', 'scalp', 'swing'] = Field(..., description="Trading mode: custom, day, scalp, or swing")
+
+
+@app.get("/api/v1/trading-mode")
+async def get_trading_mode(
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """Get current trading mode from environment variable, including full instructions."""
+    current_mode = os.getenv("MODE", "custom").strip().lower()
+    
+    # Validate mode
+    valid_modes = ['custom', 'day', 'scalp', 'swing']
+    if current_mode not in valid_modes:
+        logger.warning(f"Invalid MODE value in environment: {current_mode}. Defaulting to 'custom'.")
+        current_mode = "custom"
+    
+    mode_descriptions = {
+        "custom": "Custom trading strategy (uses backend custom prompt)",
+        "day": "Day Trader - Multiple trades per day, intraday positions only, end-of-day exits",
+        "scalp": "Scalper - Quick in-and-out trades, 1-5 minute timeframes, tight stops, high frequency",
+        "swing": "Swing Trader - Multi-day holds, trend following, support/resistance focus, larger targets"
+    }
+    
+    # Load full instructions for the current mode
+    full_instructions = load_mode_instructions()
+    
+    response = {
+        "mode": current_mode,
+        "description": mode_descriptions.get(current_mode, "Unknown mode"),
+        "valid_modes": valid_modes
+    }
+    
+    # Include full instructions if available
+    if full_instructions:
+        response["instructions"] = full_instructions
+        response["instructions_length"] = len(full_instructions)
+    
+    return response
+
+
+@app.post("/api/v1/trading-mode")
+async def update_trading_mode(
+    request: TradingModeRequest,
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """Update trading mode in .env file and clear instruction cache."""
+    global _instruction_prompt_cache, _mode_instructions_cache, _current_mode
+    
+    new_mode = request.mode.strip().lower()
+    valid_modes = ['custom', 'day', 'scalp', 'swing']
+    
+    if new_mode not in valid_modes:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid mode '{new_mode}'. Valid modes: {', '.join(valid_modes)}"
+        )
+    
+    try:
+        # Update .env file
+        update_env_file("MODE", new_mode)
+        
+        # Update environment variable in current process
+        os.environ["MODE"] = new_mode
+        
+        # Clear caches to force reload with new mode
+        _instruction_prompt_cache = None
+        _mode_instructions_cache = None
+        _current_mode = None
+        
+        # Clear all agent caches so they reload with new instructions
+        global api_key_agents
+        api_key_agents.clear()
+        logger.info(f"Cleared agent cache after mode change to {new_mode}")
+        
+        mode_descriptions = {
+            "custom": "Custom trading strategy (uses backend custom prompt)",
+            "day": "Day Trader - Multiple trades per day, intraday positions only, end-of-day exits",
+            "scalp": "Scalper - Quick in-and-out trades, 1-5 minute timeframes, tight stops, high frequency",
+            "swing": "Swing Trader - Multi-day holds, trend following, support/resistance focus, larger targets"
+        }
+        
+        logger.info(f"Trading mode updated to {new_mode}")
+        return {
+            "mode": new_mode,
+            "description": mode_descriptions.get(new_mode, "Unknown mode"),
+            "message": f"Trading mode updated to {new_mode}. Agent cache cleared. New agents will use {new_mode} mode instructions."
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to update trading mode: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to update trading mode: {e}"
+        ) from e
+
+
+# =============================================================================
 # LOG ENDPOINTS
 # =============================================================================
 
@@ -2980,6 +3365,68 @@ async def get_log_content(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to read log file: {str(e)}"
+        )
+
+
+@app.get("/api/v1/admin/logs/docker-compose")
+async def get_docker_compose_logs(
+    project_name: str = Query(..., description="Docker compose project name"),
+    compose_file: str = Query("docker-compose.yml", description="Docker compose file path"),
+    tail: int = Query(1000, description="Number of lines to tail"),
+    follow: bool = Query(False, description="Follow log output (not implemented for API)"),
+    api_key: str = Depends(verify_api_key)
+) -> dict[str, Any]:
+    """Get docker compose logs for a specific project"""
+    try:
+        # Build the docker compose command
+        cmd = [
+            "docker", "compose",
+            "--file", compose_file,
+            "--project-name", project_name,
+            "logs",
+            "--tail", str(tail)
+        ]
+        
+        # Note: --follow flag is not supported in this API endpoint as it would require streaming
+        # Auto-refresh on the frontend handles continuous updates instead
+        
+        # Execute the command
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=30,  # 30 second timeout
+            cwd=os.getcwd()  # Run from current working directory
+        )
+        
+        if result.returncode != 0:
+            error_msg = result.stderr or f"Docker compose command failed with return code {result.returncode}"
+            logger.error(f"Docker compose logs command failed: {error_msg}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to get docker compose logs: {error_msg}"
+            )
+        
+        return {
+            "content": result.stdout
+        }
+    except subprocess.TimeoutExpired:
+        logger.error(f"Docker compose logs command timed out after 30 seconds")
+        raise HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail="Docker compose logs command timed out"
+        )
+    except FileNotFoundError:
+        logger.error("Docker compose command not found")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Docker compose is not installed or not available"
+        )
+    except Exception as e:
+        logger.error(f"Error getting docker compose logs: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get docker compose logs: {str(e)}"
         )
 
 

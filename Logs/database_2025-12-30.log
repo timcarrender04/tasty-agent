@@ -1,0 +1,34 @@
+2025-12-30 12:20:20 UTC | INFO     | database | Logger initialized for database - Logging to /home/ert/projects/infrastructure/tasty-agent/Logs/database_2025-12-30.log
+2025-12-30 12:20:20 UTC | INFO     | database | Database initialized at credentials.db
+2025-12-30 12:20:20 UTC | INFO     | database | Inserted/updated credentials for API key 5WI12958...
+2025-12-30 12:20:20 UTC | INFO     | database | Inserted/updated credentials for API key 5WI20677...
+2025-12-30 12:20:20 UTC | INFO     | database | Migrated 2 credential(s) from credentials.json to database
+2025-12-30 13:30:40 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 13:30:41 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 13:31:14 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 13:31:14 UTC | INFO     | database | Added is_sandbox column to credentials table
+2025-12-30 13:31:14 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 13:31:14 UTC | INFO     | database | Inserted/updated live credentials for API key ...
+2025-12-30 13:31:45 UTC | INFO     | database | Inserted/updated sandbox credentials for API key 5WZ82349...
+2025-12-30 13:32:32 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 13:32:32 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 13:32:45 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 13:32:45 UTC | INFO     | database | Added is_sandbox column to credentials table
+2025-12-30 13:32:45 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 13:32:45 UTC | INFO     | database | Inserted/updated live credentials for API key ...
+2025-12-30 13:33:05 UTC | INFO     | database | Inserted/updated sandbox credentials for API key 5WZ82349...
+2025-12-30 23:36:12 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 23:36:12 UTC | INFO     | database | Added is_sandbox column to credentials table
+2025-12-30 23:36:12 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 23:36:12 UTC | INFO     | database | Inserted/updated live credentials for API key ...
+2025-12-30 23:49:58 UTC | INFO     | database | Logger initialized for database - Logging to /home/ert/projects/infrastructure/tasty-agent/Logs/database_2025-12-30.log
+2025-12-30 23:51:23 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-30 23:51:23 UTC | INFO     | database | Added is_sandbox column to credentials table
+2025-12-30 23:51:23 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-30 23:51:23 UTC | INFO     | database | Inserted/updated live credentials for API key ...
+2025-12-31 00:08:58 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-31 00:08:58 UTC | INFO     | database | Added is_sandbox column to credentials table
+2025-12-31 00:08:58 UTC | INFO     | database | Database initialized at /app/credentials.db
+2025-12-31 00:08:58 UTC | INFO     | database | Inserted/updated live credentials for API key ...
+2025-12-31 02:16:09 UTC | INFO     | database | Logger initialized for database - Logging to /app/Logs/database_2025-12-30.log
+2025-12-31 02:16:09 UTC | INFO     | database | Database initialized at /app/credentials.db
