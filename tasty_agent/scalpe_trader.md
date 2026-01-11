@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/tasty_agent/scalpe_trader.md
 # Scalper Mode Instructions
 
 **Trading Style:** Quick in-and-out trades with tight stops. Focus on short-term price movements, high-frequency opportunities, and rapid execution.
@@ -172,4 +173,5 @@ Scalping requires:
 - ✅ **Mental discipline** - Quick decisions, no hesitation
 
 **Remember:** Scalping is about consistency and frequency. Many small wins (0.25R-0.5R) add up to significant daily profits. Don't try to turn scalps into home runs - take profits quickly and move to the next setup.
+
 

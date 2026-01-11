@@ -221,3 +221,4 @@ class TestInstrumentDetail:
         mock_instrument.symbol = "AAPL"
         detail = InstrumentDetail("AAPL", mock_instrument)
         assert detail.instrument.symbol == "AAPL"
+

@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/Dockerfile
 FROM python:3.12-slim
 
 # Set working directory
@@ -37,4 +38,5 @@ EXPOSE 8033
 # Default command (can be overridden in docker-compose)
 # Note: Use uvicorn directly or the main() function
 CMD ["python", "-c", "from tasty_agent.http_server import main; main()"]
+
 

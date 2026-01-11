@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/docs/CREDENTIALS_MANAGEMENT.md
 # Credentials Management
 
 ## Overview
@@ -137,4 +138,5 @@ After migration, the JSON file can be safely removed or backed up.
 - Never commit `credentials.db` or `credentials.json` to version control
 - Use environment variables or API endpoints for credential management in production
 - API keys should be unique per user/account for multi-tenant scenarios
+
 

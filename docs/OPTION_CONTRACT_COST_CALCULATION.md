@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/docs/OPTION_CONTRACT_COST_CALCULATION.md
 # 🚨 CRITICAL: Option Contract Cost Calculation
 
 ## The 100x Multiplier Error
@@ -169,4 +170,5 @@ Before presenting any option analysis:
 This is not optional. This is not a suggestion. This is **fundamental to options trading**. Getting this wrong will destroy accounts.
 
 **Always multiply by 100. Always.**
+
 

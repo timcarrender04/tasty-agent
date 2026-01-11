@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/tasty_agent/day_trader.md
 # Day Trader Mode Instructions
 
 **Trading Style:** Multiple trades per day with clear entry/exit rules. Focus on intraday patterns, momentum, and end-of-day position management.
@@ -140,4 +141,5 @@ Day trading requires:
 - ✅ **Time management** - Know when to trade and when to avoid
 
 **Remember:** The goal is consistent daily profits, not home runs. Close positions, lock in gains, and start fresh each day.
+
 

@@ -6,6 +6,7 @@ HTTP Server for TastyTrade API - Allows multiple kiosks to connect via REST API.
 from __future__ import annotations
 
 import asyncio
+import base64
 import json
 import logging
 import os
@@ -31,7 +32,7 @@ from starlette.types import Message, ASGIApp
 from starlette.requests import Request as StarletteRequest
 from mcp.server.fastmcp import Context
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent
+from pydantic_ai import Agent, BinaryContent
 from pydantic_ai.mcp import MCPServerStdio
 from tabulate import tabulate
 from tastytrade import Account, Session
@@ -61,7 +62,11 @@ from tasty_agent.server import (
 
 # Import database module
 from tasty_agent.database import CredentialsDB, get_db_path
+from tasty_agent.supabase_client import SupabaseClient
 from tasty_agent.logging_config import get_http_server_logger, LOGS_DIR
+from tasty_agent.utils.session import create_session, is_sandbox_mode, select_account
+from tasty_agent.utils.credentials import unpack_credentials
+from tasty_agent.utils.errors import handle_tastytrade_auth_error
 
 logger = get_http_server_logger()
 
@@ -72,6 +77,14 @@ API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
 
 # Database instance (initialized in lifespan)
 credentials_db: CredentialsDB | None = None
+supabase_client: SupabaseClient | None = None
+
+# Cache for kiosk API key credentials (api_key -> credentials dict)
+# Type: api_key -> {device_id, user_id, account_id, client_secret, refresh_token, device_identifier}
+kiosk_api_key_cache: dict[str, dict] = {}
+
+
+# is_sandbox_mode is now imported from tasty_agent.utils.session
 
 
 def load_credentials() -> dict[str, tuple[str, str]]:
@@ -119,7 +132,9 @@ def load_credentials() -> dict[str, tuple[str, str]]:
     # Load from legacy environment variables (backward compatibility)
     client_secret = os.getenv("TASTYTRADE_CLIENT_SECRET")
     refresh_token = os.getenv("TASTYTRADE_REFRESH_TOKEN")
-    default_api_key = os.getenv("API_KEY", "default")
+    # Handle empty string as "default" for API key
+    api_key_env = os.getenv("API_KEY", "").strip()
+    default_api_key = api_key_env if api_key_env else "default"
     
     if client_secret and refresh_token:
         if default_api_key not in credentials:
@@ -293,7 +308,12 @@ def get_user_settings(api_key: str) -> UserSettings:
     if api_key in api_key_settings:
         return api_key_settings[api_key]
     # Return default settings
-    return UserSettings()
+    return UserSettings(
+        auto_stop_loss_enabled=True,
+        max_loss_per_contract=50.0,
+        default_order_type='Limit',
+        default_time_in_force='Day'
+    )
 
 
 def extract_symbol_from_tab_id(tab_id: str) -> str | None:
@@ -354,21 +374,222 @@ def save_conversation_message(api_key: str, tab_id: str | None, message: ChatMes
         api_key_tab_conversations[key] = api_key_tab_conversations[key][-max_messages:]
 
 
-async def verify_api_key(api_key: str = Depends(API_KEY_HEADER)) -> str:
-    """Verify API key from header and ensure credentials exist."""
+def get_client_ip(request: Request) -> str:
+    """Extract client IP address from request.
+    
+    When behind a reverse proxy, checks headers first (X-Tailscale-IP, X-Forwarded-For, X-Real-IP).
+    Falls back to request.client.host for direct connections.
+    """
+    # First, check for Tailscale-specific header (most reliable when behind proxy)
+    tailscale_ip_header = request.headers.get("X-Tailscale-IP")
+    if tailscale_ip_header:
+        ip = tailscale_ip_header.strip()
+        logger.debug(f"Extracted IP from X-Tailscale-IP header: {ip}")
+        return ip
+    
+    # Check X-Forwarded-For for Tailscale IPs (100.x.x.x) first
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        ips = [ip.strip() for ip in forwarded_for.split(",")]
+        # Prefer Tailscale IPs (100.x.x.x range) if present - these are trusted from Tailscale
+        for ip in ips:
+            if ip.startswith("100."):
+                logger.debug(f"Extracted Tailscale IP from X-Forwarded-For: {ip}")
+                return ip
+    
+    # Check X-Real-IP
+    real_ip = request.headers.get("X-Real-IP")
+    if real_ip:
+        ip = real_ip.strip()
+        # If it's a Tailscale IP, trust it
+        if ip.startswith("100."):
+            logger.debug(f"Extracted Tailscale IP from X-Real-IP: {ip}")
+            return ip
+    
+    # If we have request.client, check if it's an internal IP
+    # If so, we're likely behind a proxy, so trust headers if they exist
+    if request.client:
+        client_host = request.client.host
+        is_internal_ip = (
+            client_host.startswith("192.168.") or
+            client_host.startswith("10.") or
+            client_host.startswith("172.") or
+            client_host.startswith("127.") or
+            client_host == "localhost"
+        )
+        
+        # If we're behind a proxy (internal IP) and have headers, prefer headers
+        if is_internal_ip:
+            if forwarded_for:
+                # Parse X-Forwarded-For and take first IP (original client)
+                forwarded_ips = [ip.strip() for ip in forwarded_for.split(",")]
+                ip = forwarded_ips[0]
+                logger.debug(f"Behind proxy: Using IP from X-Forwarded-For header: {ip} (client.host: {client_host})")
+                return ip
+            if real_ip:
+                logger.debug(f"Behind proxy: Using IP from X-Real-IP header: {real_ip} (client.host: {client_host})")
+                return real_ip.strip()
+        
+        # Direct connection - use client host
+        logger.debug(f"Direct connection: Using request.client.host: {client_host}")
+        return client_host
+    
+    # Fallback: Use first IP from X-Forwarded-For if available
+    if forwarded_for:
+        ips = [ip.strip() for ip in forwarded_for.split(",")]
+        ip = ips[0]
+        logger.debug(f"Fallback: Extracted IP from X-Forwarded-For: {ip}")
+        return ip
+    
+    logger.warning("Could not extract client IP from request")
+    return "unknown"
+
+
+async def get_credentials_or_api_key(
+    request: Request,
+    api_key: str = Depends(API_KEY_HEADER)
+) -> dict[str, str]:
+    """
+    Get credentials from headers or API key.
+    For internal Docker network: accepts credentials directly without API key.
+    For external network: uses API key authentication (legacy).
+    
+    Returns dict with: {type: 'credentials'|'api_key', client_secret, refresh_token, account_id, api_key}
+    """
+    # Check if credentials are provided directly in headers (internal network)
+    client_secret = request.headers.get("X-TastyTrade-Client-Secret")
+    refresh_token = request.headers.get("X-TastyTrade-Refresh-Token")
+    account_id = request.headers.get("X-TastyTrade-Account-ID")
+    
+    if client_secret and refresh_token:
+        # Credentials provided directly - use them (internal network)
+        return {
+            "type": "credentials",
+            "client_secret": client_secret,
+            "refresh_token": refresh_token,
+            "account_id": account_id,
+            "api_key": account_id or "credentials"
+        }
+    
+    # Fall back to API key authentication (legacy/external network)
     if not api_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing API key. Provide X-API-Key header."
+            detail="Missing credentials. Provide X-TastyTrade-Client-Secret, X-TastyTrade-Refresh-Token headers, or X-API-Key header."
         )
     
-    if api_key not in api_key_credentials:
+    return {
+        "type": "api_key",
+        "api_key": api_key
+    }
+
+
+async def verify_api_key(
+    request: Request,
+    api_key: str = Depends(API_KEY_HEADER)
+) -> str:
+    """
+    Verify API key from header OR credentials from headers.
+    For internal network: accepts credentials directly (X-TastyTrade-Client-Secret, X-TastyTrade-Refresh-Token).
+    For external network: uses API key authentication (legacy).
+    
+    Returns an identifier string (account_id for credentials, api_key for API key auth).
+    """
+    global supabase_client, kiosk_api_key_cache
+    
+    # Check if credentials are provided directly (preferred for internal network - no API key needed)
+    client_secret = request.headers.get("X-TastyTrade-Client-Secret")
+    refresh_token = request.headers.get("X-TastyTrade-Refresh-Token")
+    
+    if client_secret and refresh_token:
+        # Credentials provided directly - return account_id as identifier
+        account_id = request.headers.get("X-TastyTrade-Account-ID") or "credentials"
+        logger.info(f"Using credentials-based authentication (account_id: {account_id})")
+        return account_id
+    
+    # Fall back to API key authentication (legacy/external network)
+    if not api_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Invalid API key. No credentials configured for this key."
+            detail="Missing credentials. Provide X-TastyTrade-Client-Secret, X-TastyTrade-Refresh-Token headers, or X-API-Key header."
         )
     
-    return api_key
+    # Check if paper trading mode is enabled (skip Supabase validation)
+    paper_mode = is_sandbox_mode()
+    
+    # Get client IP for validation
+    client_ip = get_client_ip(request)
+    
+    # Log all IP-related headers for debugging
+    forwarded_for = request.headers.get("X-Forwarded-For", "not set")
+    real_ip = request.headers.get("X-Real-IP", "not set")
+    logger.info(
+        f"🔍 Validating API key {api_key[:8]}... | "
+        f"Paper Mode: {paper_mode} | "
+        f"Client IP: {client_ip} | "
+        f"X-Forwarded-For: {forwarded_for} | "
+        f"X-Real-IP: {real_ip} | "
+        f"request.client.host: {request.client.host if request.client else 'None'}"
+    )
+    
+    # In paper mode, skip Supabase validation and use local credentials directly
+    if paper_mode:
+        logger.info(f"📝 Paper trading mode enabled - skipping Supabase validation for API key {api_key[:8]}...")
+        # Fall through to local credentials check
+    
+    # First, try Supabase (for kiosk devices) - only if not in paper mode
+    elif supabase_client:
+        try:
+            # Always validate against Supabase first (to catch revocations)
+            # This ensures revoked keys are immediately rejected even if cached
+            kiosk_info = await supabase_client.validate_kiosk_api_key(api_key, client_ip=client_ip)
+            if kiosk_info:
+                # Update cache with fresh validation result (only if IP validation passed)
+                kiosk_api_key_cache[api_key] = kiosk_info
+                logger.info(
+                    f"✅ Validated kiosk API key for device {kiosk_info.get('device_identifier')} "
+                    f"with IP: {client_ip}"
+                )
+                return api_key
+            else:
+                # Key is invalid, revoked, or IP mismatch - clear from cache if present
+                if api_key in kiosk_api_key_cache:
+                    logger.info(f"API key {api_key[:8]}... is invalid, revoked, or IP mismatch, removing from cache")
+                    kiosk_api_key_cache.pop(api_key, None)
+                    # Also clear any associated sessions
+                    api_key_sessions.pop(api_key, None)
+                # Check if it's likely an IP mismatch (client IP was provided but validation failed)
+                if client_ip and client_ip != "unknown":
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail=f"IP address mismatch. Client IP: {client_ip} does not match the configured device IP. Please contact administrator."
+                    )
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid or revoked API key"
+                )
+        except HTTPException:
+            # Re-raise HTTP exceptions (like invalid key)
+            raise
+        except Exception as e:
+            logger.warning(f"Failed to validate API key against Supabase: {e}")
+            # If database check fails, check cache as fallback (for resilience)
+            # But only if IP validation is not required (device has no tailscale_ip)
+            if api_key in kiosk_api_key_cache:
+                cached_info = kiosk_api_key_cache[api_key]
+                # Only use cache if we can't validate IP (device might not have tailscale_ip)
+                logger.warning(f"Database validation failed but found cached credentials for {api_key[:8]}..., using cache (IP validation skipped)")
+                return api_key
+            # Fall through to local credentials check
+    
+    # Fall back to local credentials (for backward compatibility)
+    if api_key in api_key_credentials:
+        return api_key
+    
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=f"Invalid API key. No credentials configured for this key."
+    )
 
 
 # Reuse helper functions from server.py
@@ -442,11 +663,63 @@ api_key_tab_conversations: dict[tuple[str, str], list[ChatMessage]] = {}
 _current_model_identifier: str | None = os.getenv("MODEL_IDENTIFIER", "anthropic:claude-3-5-haiku-20241022")
 
 
-def get_api_key_context(api_key: str) -> ServerContext:
-    """Get or create ServerContext for an API key with lazy initialization."""
-    global api_key_sessions
+def get_api_key_context(api_key: str, client_secret: str | None = None, refresh_token: str | None = None) -> ServerContext:
+    """
+    Get or create ServerContext for an API key or credentials with lazy initialization.
+    Supports both kiosk API keys (from Supabase), local API keys, and direct credentials.
     
-    # Check if context already exists
+    Args:
+        api_key: API key identifier (or "credentials" for credential-based auth)
+        client_secret: Optional client secret for credential-based auth
+        refresh_token: Optional refresh token for credential-based auth
+    """
+    global api_key_sessions, kiosk_api_key_cache
+    
+    # If credentials provided directly, use them
+    if client_secret and refresh_token:
+        # Create a cache key for credentials-based sessions
+        cred_key = f"creds_{client_secret[:8]}"
+        if cred_key in api_key_sessions:
+            context = api_key_sessions[cred_key]
+            session = context.session
+            
+            # Refresh if expired
+            time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
+            if time_until_expiry < 5:
+                logger.info(f"Session expiring in {time_until_expiry:.0f}s for credentials, refreshing...")
+                try:
+                    session.refresh()
+                    logger.info(f"Session refreshed, new expiration: {session.session_expiration}")
+                except Exception as refresh_err:
+                    error_msg = str(refresh_err)
+                    if "invalid_grant" in error_msg or "Grant revoked" in error_msg:
+                        api_key_sessions.pop(cred_key, None)
+                        raise HTTPException(
+                            status_code=401,
+                            detail=f"TastyTrade refresh token is invalid or revoked. Error: {error_msg}"
+                        ) from refresh_err
+                    else:
+                        raise
+            return context
+        
+        # Create new session from credentials
+        try:
+            session = create_session(client_secret, refresh_token)
+            accounts = Account.get(session)
+            logger.info(f"Successfully authenticated with credentials (sandbox={is_sandbox_mode()}). Found {len(accounts)} account(s).")
+            
+            context = ServerContext(session=session, accounts=accounts)
+            api_key_sessions[cred_key] = context
+            return context
+        except Exception as e:
+            logger.error(f"Failed to authenticate with credentials: {e}")
+            raise handle_tastytrade_auth_error(
+                e,
+                "credentials",
+                "Invalid credentials. Please check TASTYTRADE_CLIENT_SECRET and TASTYTRADE_REFRESH_TOKEN."
+            )
+    
+    # Check if context already exists (API key-based)
     if api_key in api_key_sessions:
         context = api_key_sessions[api_key]
         session = context.session
@@ -473,51 +746,112 @@ def get_api_key_context(api_key: str) -> ServerContext:
         
         return context
     
-    # Create new context if credentials exist
+    # Try to get credentials from kiosk cache (Supabase)
+    if api_key in kiosk_api_key_cache:
+        kiosk_info = kiosk_api_key_cache[api_key]
+        client_secret = kiosk_info['client_secret']
+        refresh_token = kiosk_info['refresh_token']
+        account_id = kiosk_info.get('account_id')
+        
+        try:
+            session = create_session(client_secret, refresh_token)
+            accounts = Account.get(session)
+            logger.info(f"Successfully authenticated kiosk API key {api_key[:8]}... with Tastytrade (sandbox={is_sandbox_mode()}). Found {len(accounts)} account(s).")
+            
+            # Filter to the specific account_id if provided
+            if account_id:
+                try:
+                    account = select_account(accounts, account_id)
+                    accounts = [account]
+                    logger.info(f"Using account {account_id} for kiosk device {kiosk_info.get('device_identifier')}")
+                except ValueError:
+                    logger.warning(f"Account {account_id} not found, using first available account")
+            
+            context = ServerContext(session=session, accounts=accounts)
+            api_key_sessions[api_key] = context
+            return context
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Failed to authenticate kiosk API key {api_key[:8]}... with Tastytrade: {e}")
+            raise handle_tastytrade_auth_error(
+                e,
+                api_key,
+                "Please contact administrator to update broker connection credentials."
+            )
+    
+    # Fall back to local credentials (for backward compatibility)
     if api_key not in api_key_credentials:
         raise HTTPException(
             status_code=500,
             detail=f"No credentials configured for API key {api_key[:8]}..."
         )
     
-    client_secret, refresh_token = api_key_credentials[api_key]
+    # Local credentials are stored as tuples: (client_secret, refresh_token)
+    creds = api_key_credentials[api_key]
+    try:
+        client_secret, refresh_token = unpack_credentials(creds)
+    except (ValueError, TypeError) as e:
+        logger.error(f"Invalid credential format for API key {api_key[:8]}...: {type(creds)} - {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Invalid credential format for API key {api_key[:8]}..."
+        ) from e
     
     try:
-        session = Session(client_secret, refresh_token)
+        session = create_session(client_secret, refresh_token)
         accounts = Account.get(session)
-        logger.info(f"Successfully authenticated API key {api_key[:8]}... with Tastytrade. Found {len(accounts)} account(s).")
+        logger.info(f"Successfully authenticated API key {api_key[:8]}... with Tastytrade (sandbox={is_sandbox_mode()}). Found {len(accounts)} account(s).")
         
         context = ServerContext(session=session, accounts=accounts)
         api_key_sessions[api_key] = context
         return context
+    except HTTPException:
+        raise
     except Exception as e:
-        error_msg = str(e)
         logger.error(f"Failed to authenticate API key {api_key[:8]}... with Tastytrade: {e}")
-        
-        # Check for specific error types
-        if "invalid_grant" in error_msg or "Grant revoked" in error_msg:
-            raise HTTPException(
-                status_code=401,
-                detail=f"TastyTrade refresh token is invalid or revoked. Please update your credentials using POST /api/v1/credentials. "
-                       f"To get a new refresh token, visit https://my.tastytrade.com/app.html#/manage/api-access/oauth-applications "
-                       f"and create a new Personal OAuth Grant. Error: {error_msg}"
-            ) from e
-        else:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to authenticate with Tastytrade: {error_msg}"
-            ) from e
+        raise handle_tastytrade_auth_error(
+            e,
+            api_key,
+            "Please update your credentials using POST /api/v1/credentials. "
+            "To get a new refresh token, visit https://my.tastytrade.com/app.html#/manage/api-access/oauth-applications "
+            "and create a new Personal OAuth Grant."
+        )
 
 
 def get_account_context(api_key: str, account_id: str | None) -> tuple[Session, Account]:
-    """Get session and account for a given API key and account ID."""
-    if not account_id:
-        raise HTTPException(
-            status_code=400,
-            detail="account_id is required. Provide it as a query parameter."
-        )
+    """
+    Get session and account for a given API key and account ID.
+    For kiosk API keys, account_id is auto-determined from broker connection.
+    """
+    global kiosk_api_key_cache
     
     context = get_api_key_context(api_key)
+    
+    # For kiosk API keys, account_id is already determined from broker connection
+    # If account_id is not provided, use the first account (or the one from kiosk info)
+    if not account_id:
+        # Check if this is a kiosk API key with a specific account
+        if api_key in kiosk_api_key_cache:
+            kiosk_info = kiosk_api_key_cache[api_key]
+            account_id = kiosk_info.get('account_id')
+            if account_id:
+                # Find the matching account
+                account = next((acc for acc in context.accounts if acc.account_number == account_id), None)
+                if account:
+                    logger.debug(f"Using account {account_id} from kiosk broker connection")
+                    return context.session, account
+        
+        # Use first available account
+        if context.accounts:
+            account = context.accounts[0]
+            logger.debug(f"No account_id provided, using default account: {account.account_number}")
+            return context.session, account
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="No accounts found for this API key"
+            )
     
     # Find the specified account
     account = next((acc for acc in context.accounts if acc.account_number == account_id), None)
@@ -773,32 +1107,36 @@ def get_claude_agent(api_key: str, account_id: str | None = None) -> Agent:
     
     try:
         # Create MCP server connection with credentials for this API key
-        client_secret, refresh_token = api_key_credentials[api_key]
+        # Handle different credential formats
+        creds = api_key_credentials[api_key]
+        try:
+            client_secret, refresh_token = unpack_credentials(creds)
+        except (ValueError, TypeError) as e:
+            logger.error(f"Invalid credential format for API key {api_key[:8]}...: {type(creds)} - {e}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Invalid credential format for API key {api_key[:8]}..."
+            ) from e
         
         # Validate credentials before creating MCP server
         try:
-            test_session = Session(client_secret, refresh_token)
+            test_session = create_session(client_secret, refresh_token)
             test_accounts = Account.get(test_session)
-            logger.info(f"Credentials validated for API key {api_key[:8]}... Found {len(test_accounts)} account(s)")
+            logger.info(f"Credentials validated for API key {api_key[:8]}... (sandbox={is_sandbox_mode()}) Found {len(test_accounts)} account(s)")
+        except HTTPException:
+            raise
         except Exception as auth_error:
-            error_msg = str(auth_error)
-            if "invalid_grant" in error_msg or "Grant revoked" in error_msg:
-                logger.error(f"TastyTrade credentials revoked or invalid for API key {api_key[:8]}...")
-                raise HTTPException(
-                    status_code=401,
-                    detail=f"TastyTrade credentials are invalid or revoked. Please update your credentials using POST /api/v1/credentials. Error: {error_msg}"
-                ) from auth_error
-            else:
-                logger.error(f"Failed to validate TastyTrade credentials for API key {api_key[:8]}...: {auth_error}")
-                raise HTTPException(
-                    status_code=500,
-                    detail=f"Failed to authenticate with TastyTrade: {auth_error}"
-                ) from auth_error
+            logger.error(f"Failed to validate TastyTrade credentials for API key {api_key[:8]}...: {auth_error}")
+            raise handle_tastytrade_auth_error(
+                auth_error,
+                api_key,
+                "Please update your credentials using POST /api/v1/credentials."
+            )
         
         env = dict(os.environ)
-        env["TASTYTRADE_CLIENT_SECRET"] = client_secret
-        env["TASTYTRADE_REFRESH_TOKEN"] = refresh_token
-        env["ANTHROPIC_API_KEY"] = claude_api_key
+        env["TASTYTRADE_CLIENT_SECRET"] = str(client_secret)
+        env["TASTYTRADE_REFRESH_TOKEN"] = str(refresh_token)
+        env["ANTHROPIC_API_KEY"] = str(claude_api_key)
         
         # Set account_id in environment if provided
         if account_id:
@@ -836,7 +1174,7 @@ def get_claude_agent(api_key: str, account_id: str | None = None) -> Agent:
         ) from e
 
 
-def create_mcp_context(session: Session, account: Account) -> Context:
+def create_mcp_context(session: Session, account: Account) -> Context[Any, Any, Any]:  # type: ignore[type-arg]
     """Create a mock MCP Context for calling MCP tools from HTTP server."""
     # Create a mock request context with lifespan_context
     class MockRequestContext:
@@ -849,7 +1187,7 @@ def create_mcp_context(session: Session, account: Account) -> Context:
             mcp_server_context = MCPServerContext(session=session, account=account)
             self.request_context = MockRequestContext(mcp_server_context)
     
-    return MockContext(session, account)
+    return MockContext(session, account)  # type: ignore[return-value]
 
 
 async def keep_sessions_alive():
@@ -908,7 +1246,7 @@ async def keep_sessions_alive():
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Manages Tastytrade credential loading and session lifecycle."""
-    global api_key_credentials, api_key_sessions, api_key_agents, api_key_settings, api_key_tab_conversations, _current_model_identifier, credentials_db
+    global api_key_credentials, api_key_sessions, api_key_agents, api_key_settings, api_key_tab_conversations, _current_model_identifier, credentials_db, supabase_client
     
     # Initialize logging
     from tasty_agent.logging_config import initialize_tasty_agent_loggers
@@ -919,6 +1257,20 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     project_root = Path(__file__).parent.parent
     db_path = get_db_path(project_root)
     credentials_db = CredentialsDB(db_path)
+    
+    # Initialize Supabase client for kiosk API key validation
+    try:
+        database_url = os.getenv("DATABASE_URL")
+        if database_url:
+            supabase_client = SupabaseClient(database_url)
+            await supabase_client.connect()
+            logger.info("Supabase client initialized for kiosk API key validation")
+        else:
+            logger.warning("DATABASE_URL not set, kiosk API key validation via Supabase will be disabled")
+            supabase_client = None
+    except Exception as e:
+        logger.error(f"Failed to initialize Supabase client: {e}")
+        supabase_client = None
     
     # Load credentials at startup (from database and environment variables)
     api_key_credentials = load_credentials()
@@ -954,6 +1306,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await keep_alive_task
     except asyncio.CancelledError:
         pass
+    if supabase_client:
+        await supabase_client.close()
     api_key_sessions.clear()
     api_key_credentials.clear()
     api_key_agents.clear()
@@ -962,11 +1316,44 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 async def get_session_and_account(
+    request: Request,
     api_key: str = Depends(verify_api_key),
     account_id: str | None = Query(None, description="TastyTrade account ID (optional, uses default if not provided)")
 ) -> tuple[Session, Account]:
-    """Dependency to get session and account for an API key and account ID."""
-    # If account_id not provided, get default account
+    """
+    Dependency to get session and account.
+    Supports credentials-based auth (internal network) or API key auth (legacy).
+    """
+    # Check if credentials are provided directly in headers (internal network - no API key needed)
+    client_secret = request.headers.get("X-TastyTrade-Client-Secret")
+    refresh_token = request.headers.get("X-TastyTrade-Refresh-Token")
+    header_account_id = request.headers.get("X-TastyTrade-Account-ID")
+    
+    if client_secret and refresh_token:
+        # Use credentials directly (internal Docker network)
+        context = get_api_key_context(api_key, client_secret, refresh_token)
+        
+        # Use account_id from header, query param, or first available
+        target_account_id = header_account_id or account_id
+        if target_account_id:
+            try:
+                account = select_account(context.accounts, target_account_id)
+                logger.info(f"Using account {target_account_id} from credentials")
+                return context.session, account
+            except ValueError:
+                logger.warning(f"Account {target_account_id} not found, using first available")
+        
+        if context.accounts:
+            account = context.accounts[0]
+            logger.debug(f"No account_id provided, using default account: {account.account_number}")
+            return context.session, account
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="No accounts found for provided credentials"
+            )
+    
+    # Fall back to API key authentication (legacy/external network)
     if not account_id:
         context = get_api_key_context(api_key)
         if context.accounts:
@@ -1014,12 +1401,36 @@ app = FastAPI(
 )
 
 # CORS middleware for kiosk access
+# Explicitly list headers to ensure preflight requests work correctly
+# Some browsers don't accept "*" for allow_headers in preflight responses
+# Note: When allow_credentials=True, browsers don't allow allow_origins=["*"]
+# So we need to either disable credentials or specify explicit origins
+cors_origins = os.getenv("CORS_ORIGINS", "*")
+if cors_origins == "*":
+    cors_origins_list = ["*"]
+    # When using wildcard origins, disable credentials to avoid browser restrictions
+    allow_creds = False
+else:
+    cors_origins_list = [origin.strip() for origin in cors_origins.split(",") if origin.strip()]
+    # When using explicit origins, we can enable credentials
+    allow_creds = True
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=cors_origins_list,
+    allow_credentials=allow_creds,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization",
+        "X-API-Key",
+        "x-api-key",  # Lowercase variant
+        "api-key",
+        "X-Requested-With",
+        "Accept",
+        "Origin",
+    ],
+    expose_headers=["*"],
 )
 
 
@@ -1485,11 +1896,11 @@ async def place_stop_loss_order(
         )
         stop_leg = instrument.build_leg(Decimal(str(leg.quantity)), order_action)
         
-        # Build stop order
-        stop_order = NewOrder(
-            order_type=OrderType.STOP,
-            time_in_force=OrderTimeInForce.DAY,
+        # Build stop order using build_new_order to properly handle stop_price
+        stop_order = build_new_order(
+            order_type='Stop',
             legs=[stop_leg],
+            time_in_force='Day',
             stop_price=Decimal(str(stop_price))
         )
         
@@ -1503,12 +1914,13 @@ async def place_stop_loss_order(
         
         result = await account.a_place_order(session, stop_order, dry_run=dry_run)
         
-        # Check if order was rejected
-        if hasattr(result, 'status') and result.status in ['rejected', 'canceled']:
-            logger.error(f"Stop-loss order rejected for {leg.symbol}: {getattr(result, 'message', 'Unknown reason')}")
+        # Check if order was rejected - check model_dump() for status
+        result_dict = result.model_dump() if hasattr(result, 'model_dump') else {}
+        if isinstance(result_dict, dict) and result_dict.get('status') in ['rejected', 'canceled']:
+            logger.error(f"Stop-loss order rejected for {leg.symbol}: {result_dict.get('message', 'Unknown reason')}")
             return None
         
-        return result.model_dump()
+        return result_dict if isinstance(result_dict, dict) else result.model_dump()
     except Exception as e:
         logger.error(f"Failed to place stop-loss order for {leg.symbol}: {e}", exc_info=True)
         import traceback
@@ -1584,8 +1996,8 @@ async def get_quotes(
             result = await agent.run(prompt)
         
         # Extract the table result from Claude's response
-        table_result = result.output if hasattr(result, 'output') else (result.data if isinstance(result.data, str) else str(result.data))
-        claude_analysis = result.output if hasattr(result, 'output') else None
+        table_result = result.output if hasattr(result, 'output') and result.output is not None else (getattr(result, 'data', None) if hasattr(result, 'data') else str(result))
+        claude_analysis = result.output if hasattr(result, 'output') and result.output is not None else None
         
         # Also get raw quotes for structured response
         session = get_valid_session(api_key)
@@ -1640,7 +2052,7 @@ async def get_greeks(
         result = await agent.run(prompt)
         
         # Extract the table result from Claude's response
-        table_result = result.data if isinstance(result.data, str) else str(result.data)
+        table_result = result.output if hasattr(result, 'output') and result.output is not None else str(result)
         
         # Also get raw Greeks for structured response
         session = get_valid_session(api_key)
@@ -1650,7 +2062,7 @@ async def get_greeks(
         return {
             "greeks": [g.model_dump() for g in greeks],
             "table": table_result,
-            "claude_analysis": result.data if hasattr(result, 'data') else None
+            "claude_analysis": result.output if hasattr(result, 'output') and result.output is not None else None
         }
     except HTTPException:
         raise
@@ -1677,7 +2089,7 @@ async def get_market_metrics(
         result = await agent.run(prompt)
         
         # Extract the table result from Claude's response
-        table_result = result.data if isinstance(result.data, str) else str(result.data)
+        table_result = result.output if hasattr(result, 'output') and result.output is not None else str(result)
         
         # Also get raw metrics for structured response
         session = get_valid_session(api_key)
@@ -1686,7 +2098,7 @@ async def get_market_metrics(
         return {
             "metrics": [m.model_dump() for m in metrics],
             "table": table_result,
-            "claude_analysis": result.data if hasattr(result, 'data') else None
+            "claude_analysis": result.output if hasattr(result, 'output') and result.output is not None else None
         }
     except HTTPException:
         raise
@@ -1743,8 +2155,8 @@ async def market_status(
             prompt = f"Analyze the current market status for {exchanges_str} exchanges. Provide insights about trading opportunities and market conditions."
             claude_result = await agent.run(prompt)
             # Add Claude analysis to response if available
-            if hasattr(claude_result, 'data'):
-                results.append({"claude_analysis": claude_result.data})
+            if hasattr(claude_result, 'output') and claude_result.output is not None:
+                results.append({"claude_analysis": claude_result.output})
         except Exception as e:
             logger.warning(f"Claude analysis failed for market-status: {e}")
             # Continue without Claude analysis
@@ -1788,7 +2200,7 @@ async def search_symbols(
         result = await agent.run(prompt)
         
         # Extract the table result from Claude's response
-        table_result = result.data if isinstance(result.data, str) else str(result.data)
+        table_result = result.output if hasattr(result, 'output') and result.output is not None else str(result)
         
         # Also get raw results for structured response
         session = get_valid_session(api_key)
@@ -1798,7 +2210,7 @@ async def search_symbols(
         return {
             "results": [r.model_dump() for r in results],
             "table": table_result,
-            "claude_analysis": result.data if hasattr(result, 'data') else None
+            "claude_analysis": result.output if hasattr(result, 'output') and result.output is not None else None
         }
     except HTTPException:
         raise
@@ -2235,12 +2647,12 @@ async def place_order(
         
         # Extract order ID from result
         entry_order_id = None
-        if hasattr(entry_result, 'id'):
-            entry_order_id = entry_result.id
-        elif isinstance(entry_order_data, dict) and 'id' in entry_order_data:
-            entry_order_id = entry_order_data['id']
-        elif isinstance(entry_order_data, dict) and 'order_id' in entry_order_data:
-            entry_order_id = entry_order_data['order_id']
+        if isinstance(entry_order_data, dict):
+            entry_order_id = entry_order_data.get('id') or entry_order_data.get('order_id')
+        elif hasattr(entry_result, 'model_dump'):
+            result_dict = entry_result.model_dump()
+            if isinstance(result_dict, dict):
+                entry_order_id = result_dict.get('id') or result_dict.get('order_id')
         
         if not entry_order_id:
             logger.warning("Could not extract order ID from entry order result, skipping stop-loss placement")
@@ -2422,7 +2834,7 @@ async def get_watchlists(
             
             return {
                 "watchlists": watchlists,
-                "claude_analysis": claude_result.data if hasattr(claude_result, 'data') else str(claude_result)
+                "claude_analysis": claude_result.output if hasattr(claude_result, 'output') and claude_result.output is not None else str(claude_result)
             }
         except Exception as e:
             logger.warning(f"Claude analysis failed for watchlists: {e}")
@@ -2778,10 +3190,59 @@ def _serialize_error(error: Exception) -> dict[str, Any]:
     
     # Add additional context for HTTP exceptions
     if isinstance(error, HTTPException):
-        error_response["status_code"] = error.status_code
+        error_response["status_code"] = str(error.status_code)
         error_response["detail"] = str(error.detail)
     
     return error_response
+
+
+def format_message_with_images(text: str, images: list[str] | None) -> str | list[str | BinaryContent]:
+    """
+    Format message content with images for pydantic-ai Agent.
+    Returns either a string (text only) or a list containing text and BinaryContent objects (text + images).
+    
+    Args:
+        text: The text message content
+        images: Optional list of base64-encoded images (may include data URI prefix)
+    
+    Returns:
+        str if no images, or list[str, BinaryContent, ...] if images are present
+    """
+    if not images or len(images) == 0:
+        return text
+    
+    # Build content list: text first, then images as BinaryContent objects
+    content_items: list[str | BinaryContent] = [text]
+    
+    for image_data in images:
+        # Extract base64 data and media type
+        # Format: "data:image/png;base64,{base64_data}" or just "{base64_data}"
+        if image_data.startswith("data:image/"):
+            # Extract media type and base64 data
+            parts = image_data.split(",", 1)
+            if len(parts) == 2:
+                # Extract media type from "data:image/png;base64"
+                media_type_part = parts[0].split(":")[1]  # "image/png;base64"
+                media_type = media_type_part.split(";")[0]  # "image/png"
+                base64_data = parts[1]
+            else:
+                # Fallback if format is unexpected
+                media_type = "image/png"
+                base64_data = image_data
+        else:
+            # Assume PNG if no prefix
+            media_type = "image/png"
+            base64_data = image_data
+        
+        # Decode base64 to binary data
+        try:
+            binary_data = base64.b64decode(base64_data)
+            content_items.append(BinaryContent(data=binary_data, media_type=media_type))
+        except Exception as e:
+            logger.warning(f"Failed to decode base64 image data: {e}. Skipping image.")
+            continue
+    
+    return content_items
 
 
 @app.post("/api/v1/chat/stream", include_in_schema=True)
@@ -2847,17 +3308,15 @@ async def chat_stream(
                 symbol_context = f"Current symbol context: {current_symbol}\n\n"
                 user_message = symbol_context + user_message
             
-            # Prepare message content with images if provided
-            message_content = user_message
+            # Format message content with images if provided
+            message_content = format_message_with_images(user_message, request.images)
             if request.images:
                 image_count = len(request.images)
                 logger.info(f"Processing chat request with {image_count} image(s)")
-                # Include image references in the message
-                # The images are base64-encoded and will be processed by the agent
-                image_refs = "\n".join([f"[Image {i+1} attached (base64)]" for i in range(image_count)])
-                message_content = f"{user_message}\n\nAttached {image_count} image(s)."
             
-            logger.info(f"Starting streaming Claude agent run for message: {message_content[:100]}...")
+            # Log message preview (handle both string and list formats)
+            message_preview = message_content if isinstance(message_content, str) else f"{user_message[:50]}... (with {len(request.images or [])} image(s))"
+            logger.info(f"Starting streaming Claude agent run for message: {message_preview[:100]}...")
             
             # Send initial "thinking" event for immediate feedback
             yield f"data: {json.dumps({'type': 'status', 'content': 'Processing request...'})}\n\n"
@@ -2867,10 +3326,7 @@ async def chat_stream(
                     # Send "analyzing" status
                     yield f"data: {json.dumps({'type': 'status', 'content': 'Analyzing market data and preparing response...'})}\n\n"
                     
-                    # Run the agent with message
-                    # Note: pydantic-ai's agent.run() accepts a prompt string
-                    # Images can be included in the message content if the model supports it
-                    # For now, we'll pass the message and let the agent handle it
+                    # Run the agent with message (supports both string and list with BinaryContent)
                     start_time = asyncio.get_event_loop().time()
                     result = await asyncio.wait_for(
                         agent.run(message_content),
@@ -2883,16 +3339,15 @@ async def chat_stream(
                     response_text = None
                     if hasattr(result, 'output') and result.output is not None:
                         response_text = str(result.output)
-                    elif hasattr(result, 'data') and result.data is not None:
-                        response_text = str(result.data)
                     elif hasattr(result, 'all_messages'):
                         # Try to extract from messages
                         messages = result.all_messages() if callable(result.all_messages) else result.all_messages
                         if messages:
                             # Get the last assistant message
                             for msg in reversed(messages):
-                                if hasattr(msg, 'content'):
-                                    response_text = str(msg.content)
+                                content = getattr(msg, 'content', None)
+                                if content is not None:
+                                    response_text = str(content)
                                     break
                     
                     if not response_text:
@@ -3038,23 +3493,25 @@ async def chat(
             symbol_context = f"Current symbol context: {current_symbol}\n\n"
             user_message = symbol_context + user_message
         
-        # Handle images if provided
+        # Format message content with images if provided
+        message_content = format_message_with_images(user_message, request.images)
         if request.images:
             image_count = len(request.images)
             logger.info(f"Processing chat request with {image_count} image(s)")
-            user_message = f"{user_message}\n\nAttached {image_count} image(s)."
         
         # Run Claude agent with timeout
         # Note: We use async with to ensure proper cleanup, but the agent is cached per API key
         # so the MCP server connection is reused across requests
         import asyncio
-        logger.info(f"Starting Claude agent run for message: {user_message[:100]}...")
+        # Log message preview (handle both string and list formats)
+        message_preview = message_content if isinstance(message_content, str) else f"{user_message[:50]}... (with {len(request.images or [])} image(s))"
+        logger.info(f"Starting Claude agent run for message: {message_preview[:100]}...")
         start_time = asyncio.get_event_loop().time()
         
         try:
             async with agent:
                 result = await asyncio.wait_for(
-                    agent.run(user_message),
+                    agent.run(message_content),
                     timeout=90.0  # 90 second timeout for complex queries like option chains
                 )
             elapsed = asyncio.get_event_loop().time() - start_time
@@ -3072,16 +3529,15 @@ async def chat(
         response_text = None
         if hasattr(result, 'output') and result.output is not None:
             response_text = str(result.output)
-        elif hasattr(result, 'data') and result.data is not None:
-            response_text = str(result.data)
         elif hasattr(result, 'all_messages'):
             # Try to extract from messages
             messages = result.all_messages() if callable(result.all_messages) else result.all_messages
             if messages:
                 # Get the last assistant message
                 for msg in reversed(messages):
-                    if hasattr(msg, 'content'):
-                        response_text = str(msg.content)
+                    content = getattr(msg, 'content', None)
+                    if content is not None:
+                        response_text = str(content)
                         break
         
         if not response_text:
@@ -3486,4 +3942,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

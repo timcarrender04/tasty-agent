@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/docs/CURRENT_ERRORS_ANALYSIS.md
 # Current Errors Analysis & Fixes
 
 ## Issues Identified
@@ -99,6 +100,7 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
 # 3. Check logs for place_order errors
 docker logs tasty-agent-http | grep "place_order"
 ```
+
 
 
 

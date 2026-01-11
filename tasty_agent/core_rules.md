@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/tasty_agent/core_rules.md
 # 🔴 CORE TRADING RULES - ALWAYS LOADED
 
 **⚠️ CRITICAL**: These rules must be followed on EVERY query. This is the minimal set required for safe trading.
@@ -28,6 +29,41 @@
 ```
 ⛔ ANY TRIGGER TRUE = NO TRADE = WALK AWAY ⛔
 ```
+
+### 🚨 POSITION CHECK (Before ANY Trade Recommendation)
+
+**⚠️ CRITICAL: Before recommending ANY new trade, you MUST check for existing positions first:**
+
+1. **ALWAYS call `get_positions` FIRST** before recommending any trade
+2. **Check if user already has an open position** in the same symbol and direction
+3. **If user already has a position:**
+   - **DO NOT recommend a new position** in the same direction
+   - **Instead, provide analysis of the existing position:**
+     - Current P&L status
+     - Distance to stop loss and profit targets
+     - Whether to hold, adjust stop, or take profits
+     - Market analysis supporting the existing position
+   - **Example response:**
+     ```
+     🚨 YOU ALREADY HAVE A POSITION! 🚨
+     
+     Current Position:
+     - SPY 699P 12/19 - 1 contract
+     - Entry: $9.74
+     - Current: ~$10.30-$10.70
+     - Profit: +$56 to +$96
+     
+     📊 POSITION ANALYSIS:
+     [Analysis of current position and whether to hold/adjust/exit]
+     
+     ⚠️ DO NOT enter a new position - manage your existing one instead!
+     ```
+
+4. **If user has NO existing position:**
+   - Proceed with trade recommendation as normal
+   - Include all standard checks (market structure, volume, conviction, etc.)
+
+**🚨 CRITICAL: Recommending a new position when user already has one is a violation of risk management. Always check positions first!**
 
 ### 🔒 Safety Checks (Before EVERY order)
 1. ✅ Market is open
@@ -507,6 +543,7 @@ User asks: "how did I do today?"
 **END OF CORE RULES**
 
 *For detailed patterns, examples, and advanced strategies, see the full instruction_live_prompt.md file.*
+
 
 
 

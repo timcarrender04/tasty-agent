@@ -28,6 +28,7 @@ from tastytrade.utils import now_in_new_york
 from tastytrade.watchlists import PrivateWatchlist, PublicWatchlist
 
 from tasty_agent.logging_config import get_server_logger
+from tasty_agent.utils.session import create_session, is_sandbox_mode, select_account
 
 logger = get_server_logger()
 
@@ -145,9 +146,9 @@ async def lifespan(_) -> AsyncIterator[ServerContext]:
         )
 
     try:
-        session = Session(client_secret, refresh_token)
+        session = create_session(client_secret, refresh_token)
         accounts = Account.get(session)
-        logger.info(f"Successfully authenticated with Tastytrade. Found {len(accounts)} account(s).")
+        logger.info(f"Successfully authenticated with Tastytrade (sandbox={is_sandbox_mode()}). Found {len(accounts)} account(s).")
         if not accounts:
             error_msg = "No accounts found for the provided TastyTrade credentials. Please verify your account access."
             logger.error(error_msg)
@@ -163,17 +164,15 @@ async def lifespan(_) -> AsyncIterator[ServerContext]:
         else:
             raise ValueError(f"TastyTrade connection error: {e}. Please verify your credentials and network connection.") from e
 
-    if account_id:
-        account = next((acc for acc in accounts if acc.account_number == account_id), None)
-        if not account:
-            available_accounts = [acc.account_number for acc in accounts]
-            error_msg = f"Account '{account_id}' not found. Available accounts: {available_accounts}"
-            logger.error(error_msg)
-            raise ValueError(error_msg)
-        logger.info(f"Using specified account: {account.account_number}")
-    else:
-        account = accounts[0]
-        logger.info(f"Using default account: {account.account_number}")
+    try:
+        account = select_account(accounts, account_id)
+        if account_id:
+            logger.info(f"Using specified account: {account.account_number}")
+        else:
+            logger.info(f"Using default account: {account.account_number}")
+    except ValueError as e:
+        logger.error(str(e))
+        raise
 
     context = ServerContext(
         session=session,
@@ -202,10 +201,10 @@ mcp_app = FastMCP("TastyTrade", lifespan=lifespan)
 async def get_balances(ctx: Context) -> dict[str, Any]:
     """Get account balances including cash, buying power, and net liquidating value."""
     try:
-    context = get_context(ctx)
+        context = get_context(ctx)
         if not context or not context.account:
             raise ValueError("Account context not available. Please check TastyTrade credentials and account configuration.")
-    session = get_valid_session(ctx)
+        session = get_valid_session(ctx)
         balances = await context.account.a_get_balances(session)
         result = {k: v for k, v in balances.model_dump().items() if v is not None and v != 0}
         if not result:
@@ -217,6 +216,82 @@ async def get_balances(ctx: Context) -> dict[str, Any]:
     except Exception as e:
         logger.error(f"Error getting balances: {e}", exc_info=True)
         raise ValueError(f"Failed to retrieve account balances: {str(e)}. Please check your TastyTrade connection and account configuration.") from e
+
+
+@mcp_app.tool()
+async def diagnose_account_status(ctx: Context) -> dict[str, Any]:
+    """
+    Diagnostic tool to check account connectivity, session validity, and system readiness.
+    Use this to troubleshoot order placement or balance retrieval issues.
+    
+    Returns:
+        dict with diagnostic information including:
+        - session_valid: Whether the session is valid and not expired
+        - context_available: Whether account context is available
+        - account_number: The account number being used
+        - session_expires_in: Time until session expires (seconds)
+        - balances_accessible: Whether balance retrieval works
+        - order_placement_ready: Overall readiness status
+    """
+    diagnostics = {
+        "session_valid": False,
+        "context_available": False,
+        "account_number": None,
+        "session_expires_in": None,
+        "balances_accessible": False,
+        "order_placement_ready": False,
+        "errors": []
+    }
+    
+    try:
+        # Check 1: Context availability
+        try:
+            context = get_context(ctx)
+            if context and context.account:
+                diagnostics["context_available"] = True
+                diagnostics["account_number"] = context.account.account_number
+            else:
+                diagnostics["errors"].append("Account context not available. Check TastyTrade credentials.")
+        except Exception as e:
+            diagnostics["errors"].append(f"Failed to get context: {str(e)}")
+            return diagnostics
+        
+        # Check 2: Session validity
+        try:
+            session = get_valid_session(ctx)
+            time_until_expiry = (session.session_expiration - now_in_new_york()).total_seconds()
+            diagnostics["session_valid"] = True
+            diagnostics["session_expires_in"] = round(time_until_expiry)
+            
+            if time_until_expiry < 60:
+                diagnostics["errors"].append(f"Session expiring soon ({int(time_until_expiry)}s). May need refresh.")
+        except Exception as e:
+            diagnostics["errors"].append(f"Session validation failed: {str(e)}")
+            return diagnostics
+        
+        # Check 3: Balance accessibility
+        try:
+            balances = await context.account.a_get_balances(session)
+            if balances:
+                diagnostics["balances_accessible"] = True
+            else:
+                diagnostics["errors"].append("Balance retrieval returned empty result")
+        except Exception as e:
+            diagnostics["errors"].append(f"Balance retrieval failed: {str(e)}")
+        
+        # Overall readiness
+        diagnostics["order_placement_ready"] = (
+            diagnostics["context_available"] 
+            and diagnostics["session_valid"] 
+            and diagnostics["balances_accessible"]
+            and len(diagnostics["errors"]) == 0
+        )
+        
+    except Exception as e:
+        diagnostics["errors"].append(f"Unexpected diagnostic error: {str(e)}")
+        logger.error(f"Diagnostic tool error: {e}", exc_info=True)
+    
+    return diagnostics
 
 
 @mcp_app.tool()
@@ -1009,3 +1084,4 @@ Focus on identifying extremes:
 Use the get_positions, get_watchlists, and get_market_metrics tools to gather this data."""),
         base.AssistantMessage("""I'll analyze IV opportunities for your positions and watchlist. Let me start by gathering your current positions and watchlist data, then get market metrics for each symbol to assess IV rank extremes and liquidity.""")
     ]
+

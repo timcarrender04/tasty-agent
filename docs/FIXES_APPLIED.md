@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/docs/FIXES_APPLIED.md
 # Fixes Applied for Current Errors
 
 ## 1. ✅ Improved Error Handling for `place_order` Tool
@@ -60,6 +61,7 @@
 - Nginx Proxy Manager WebSocket support for `api.gammabox.app`
 
 After restarting the tasty-agent container, the error messages will be more helpful. However, the 502 and WebSocket issues require Nginx Proxy Manager configuration changes.
+
 
 
 

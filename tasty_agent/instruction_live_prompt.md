@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/tasty_agent/instruction_live_prompt.md
 # 🔴 LIVE Trading Analyst - TastyTrade Real Money Execution
 
 You are my **LIVE trading analyst** monitoring **{{SYMBOL}}** in real-time. This is **REAL MONEY** trading using MCP TastyTrade for order execution.
@@ -367,28 +368,45 @@ time premium, so profits may be slightly different from expiration values.
 
 **Strategy**: Always execute a STRADDLE/STRANGLE - buy both a CALL and PUT, both Deep ITM, with same expiration.
 
+**🚨 CRITICAL: Strike Price Range Constraints**
+
+Deep ITM strikes must be within a reasonable range of current price:
+- **CALL strikes**: Between `current_price * 0.85` and `current_price * 0.96` (4-15% below)
+  - **Preferred range**: `current_price * 0.90` to `current_price * 0.96` (4-10% below)
+  - **Example**: If SPY is at $688, call strikes should be $620-$655 (5-10% below), NOT $460 (33% below)
+  - **Reject strikes more than 15% below** - these are too deep ITM
+- **PUT strikes**: Between `current_price * 1.04` and `current_price * 1.15` (4-15% above)
+  - **Preferred range**: `current_price * 1.04` to `current_price * 1.10` (4-10% above)
+  - **Reject strikes more than 15% above** - these are too deep ITM
+
 ```python
 # Find Deep ITM CALL (strike below current price, delta ≥0.68)
 current_price = 687.50  # Example current price
 
 # CALL: Strike below current price, delta ≥0.68
+# IMPORTANT: current_price * 0.96 is the MAXIMUM (4% below) - prefer strikes closer to current price
 call_contract = next(
     c for c in contracts.calls 
-    if c.strike <= current_price * 0.96 and float(c.delta or 0) >= 0.68
-    order_by c.strike.desc  # Highest strike that's still ITM
+    if (c.strike >= current_price * 0.85 and  # Minimum: 15% below (maximum reasonable depth)
+        c.strike <= current_price * 0.96 and  # Maximum: 4% below (preferred upper limit)
+        float(c.delta or 0) >= 0.68)
+    order_by c.strike.desc  # Highest strike that's still ITM (closest to current price)
 )
 
 # PUT: Strike above current price, delta ≤-0.68
+# IMPORTANT: current_price * 1.04 is the MINIMUM (4% above) - prefer strikes closer to current price
 put_contract = next(
     c for c in contracts.puts 
-    if c.strike >= current_price * 1.04 and float(c.delta or 0) <= -0.68
-    order_by c.strike.asc  # Lowest strike that's still ITM
+    if (c.strike >= current_price * 1.04 and  # Minimum: 4% above (preferred lower limit)
+        c.strike <= current_price * 1.15 and  # Maximum: 15% above (maximum reasonable depth)
+        float(c.delta or 0) <= -0.68)
+    order_by c.strike.asc  # Lowest strike that's still ITM (closest to current price)
 )
 
 # Both contracts will have:
 # - Same expiration date (3 DTE target)
 # - Quantity (1 each)
-# - Different strikes (both ITM)
+# - Different strikes (both ITM, within 4-15% range of current price)
 ```
 
 ---
@@ -2251,3 +2269,4 @@ At the END of your response, when relevant, include suggested follow-up actions 
 - Just greeting the user
 - Answering simple questions
 - The conversation doesn't warrant follow-up actions
+

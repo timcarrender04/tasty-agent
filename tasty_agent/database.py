@@ -194,3 +194,4 @@ def get_db_path(project_root: Path) -> Path:
     """
     return project_root / "credentials.db"
 
+

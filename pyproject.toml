@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/pyproject.toml
 [project]
 name = "tasty-agent"
 dynamic = ["version"]
@@ -13,6 +14,8 @@ dependencies = [
     "aiocache>=0.12.2",
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
+    "bcrypt>=4.0.0",
+    "asyncpg>=0.29.0",
 ]
 authors = [{ name = "Ferdous", email = "ferdous@hey.com" }]
 keywords = ["tastytrade", "trading", "mcp", "model context protocol", "broker", "robinhood", "wallstreetbets"]
@@ -74,3 +77,4 @@ venv = "venv"
 asyncio_mode = "auto"
 testpaths = ["tests"]
 filterwarnings = ["ignore::DeprecationWarning"]
+

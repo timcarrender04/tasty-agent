@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/tasty_agent/swing_trader.md
 # Swing Trader Mode Instructions
 
 **Trading Style:** Hold positions for days to weeks. Focus on longer-term patterns, support/resistance levels, and trend continuation setups.
@@ -187,4 +188,5 @@ Swing trading requires:
 - ✅ **Position management** - Monitor daily, adjust stops, take partial profits
 
 **Remember:** Swing trading is about catching larger moves over days/weeks. Don't try to day trade swing positions - let them develop. Patience and discipline are key. Many traders fail at swing trading because they exit winners too early or can't handle normal pullbacks.
+
 

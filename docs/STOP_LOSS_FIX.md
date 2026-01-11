@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/docs/STOP_LOSS_FIX.md
 # Stop Loss Order Creation Fix
 
 ## Issues Fixed
@@ -84,6 +85,7 @@ If stop-loss orders are being rejected by TastyTrade:
 - Check account has required permissions
 - Verify stop price is within reasonable range
 - Check if position already exists (can't place stop-loss on non-existent position)
+
 
 
 

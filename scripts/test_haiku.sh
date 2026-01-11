@@ -1,3 +1,4 @@
+++ b/backend_server/tasty-agent/scripts/test_haiku.sh
 #!/bin/bash
 
 # Test script to verify Claude Haiku 4.5 is working
@@ -48,5 +49,6 @@ echo ""
 echo "To check logs for model identifier:"
 echo "  docker-compose logs http-server | grep -i 'model\|haiku\|claude'"
 echo ""
+
 
 

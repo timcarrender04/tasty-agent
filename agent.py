@@ -26,3 +26,4 @@ def create_tastytrader_agent() -> Agent:
     except Exception as e:
         logger.error(f"Failed to create TastyTrader agent: {e}")
         raise
+
